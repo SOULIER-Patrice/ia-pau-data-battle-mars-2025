@@ -1,0 +1,11 @@
+# Environnement virtuel
+venv/
+.venv/
+
+# Fichiers de configuration
+# config.yml
+
+# Cache
+__pycache__/
+*.pyc
+.pytest_cache/
