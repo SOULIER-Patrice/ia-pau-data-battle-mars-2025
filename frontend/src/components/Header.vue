@@ -1,23 +1,13 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-<script setup lang="ts">
-import { useAuthStore } from '@/stores/authStore'
-
-const { login, logout, keycloak, user } = useAuthStore()
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <header>
-    <router-link to="/" class="title">Corpauration</router-link>
+    <router-link to="/" class="title">IA PAu Data Battle 2025</router-link>
     <nav>
       <router-link to="/">Événements</router-link>
       <router-link to="/about">À propos</router-link>
     </nav>
-
-    <button v-if="!keycloak.authenticated" @click="() => login({})">Se connecter</button>
-    <div v-else>
-      <span>{{ `${user?.firstName} ${user?.lastName}` }}</span>
-      <button @click="() => logout({})">Se déconnecter</button>
-    </div>
   </header>
 </template>
 
