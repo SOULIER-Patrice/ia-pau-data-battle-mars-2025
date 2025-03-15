@@ -18,7 +18,7 @@ tags_metadata = [
 ]
 
 app = FastAPI(
-    title="Horus Manager",
+    title="IA Pau Databattle 2025",
     openapi_tags=tags_metadata
 )
 
