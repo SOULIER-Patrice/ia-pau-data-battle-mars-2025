@@ -2,6 +2,8 @@
 // Components
 import LoginForm from '@/components/Forms/LoginForm.vue'
 import RegiterForm from '@/components/Forms/RegiterForm.vue'
+import SvgIcon from '@jamescoyle/vue-icon'
+import { mdiArrowLeft } from '@mdi/js'
 
 import router from '@/router'
 
@@ -40,44 +42,68 @@ const register = async (args: any) => {
 
 <template>
   <div class="login-view">
-    <h1 v-if="isLogin">LOG IN</h1>
-    <h1 v-else>SIGN UP</h1>
-    <div class="buttons">
-      <ActiveButton
-        text="Login"
-        color="black"
-        bg-color="transparent"
-        active-color="var(--secondary-text-color)"
-        active-bg-color="var(--primary-color)"
-        :style="{
-          border: isLogin ? '' : 'none',
-          borderRadius: '0 5px 5px 0',
-        }"
-        :isActive="isLogin"
-        @click="toggleLogin"
-      />
-      <ActiveButton
-        text="Signup"
-        color="black"
-        bg-color="transparent"
-        active-color="var(--secondary-text-color)"
-        active-bg-color="var(--primary-color)"
-        :style="{
-          border: isRegister ? '' : 'none',
-          borderRadius: '5px 0 0 5px',
-        }"
-        :isActive="isRegister"
-        @click="toggleRegister"
-      />
+    <SvgIcon
+      type="mdi"
+      :path="mdiArrowLeft"
+      :size="24"
+      class="back-arrow"
+      @click="router.push('/')"
+    />
+    <div class="left">
+      <h1 v-if="isLogin">LOG IN</h1>
+      <h1 v-else>SIGN UP</h1>
+      <div class="buttons">
+        <ActiveButton
+          text="Login"
+          color="black"
+          bg-color="transparent"
+          active-color="var(--secondary-text-color)"
+          active-bg-color="var(--primary-color)"
+          :style="{
+            border: isLogin ? '' : 'none',
+            borderRadius: '0 5px 5px 0',
+          }"
+          :isActive="isLogin"
+          @click="toggleLogin"
+        />
+        <ActiveButton
+          text="Signup"
+          color="black"
+          bg-color="transparent"
+          active-color="var(--secondary-text-color)"
+          active-bg-color="var(--primary-color)"
+          :style="{
+            border: isRegister ? '' : 'none',
+            borderRadius: '5px 0 0 5px',
+          }"
+          :isActive="isRegister"
+          @click="toggleRegister"
+        />
+      </div>
+      <LoginForm v-if="isLogin" @login="login" />
+      <RegiterForm v-else @register="register" />
     </div>
-
-    <LoginForm v-if="isLogin" @login="login" />
-    <RegiterForm v-else @register="register" />
+    <div class="right">
+      <h1>IA PAU DATA BATTLE 2025</h1>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .login-view {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+.back-arrow {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+
+.left {
   h1 {
     font-size: 24px;
     font-weight: bold;
@@ -85,10 +111,11 @@ const register = async (args: any) => {
     margin-bottom: 10px;
   }
 
-  margin-top: 50px;
+  margin-top: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 50%;
 
   .buttons {
     display: flex;
@@ -100,6 +127,21 @@ const register = async (args: any) => {
       width: 100px;
       font-weight: bold;
     }
+  }
+}
+
+.right {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(153.69deg, #588157 0%, #3d5a3e 71.11%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
   }
 }
 </style>
