@@ -5,7 +5,9 @@ import RegiterForm from '@/components/Forms/RegiterForm.vue'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiArrowLeft } from '@mdi/js'
 
-import router from '@/router'
+// Router
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 // Stores
 import { useAuthStore } from '@/stores/authStore'
@@ -55,10 +57,6 @@ const register = async (args: any) => {
       <div class="buttons">
         <ActiveButton
           text="Login"
-          color="black"
-          bg-color="transparent"
-          active-color="var(--secondary-text-color)"
-          active-bg-color="var(--primary-color)"
           :style="{
             border: isLogin ? '' : 'none',
             borderRadius: '0 5px 5px 0',
@@ -68,10 +66,6 @@ const register = async (args: any) => {
         />
         <ActiveButton
           text="Signup"
-          color="black"
-          bg-color="transparent"
-          active-color="var(--secondary-text-color)"
-          active-bg-color="var(--primary-color)"
           :style="{
             border: isRegister ? '' : 'none',
             borderRadius: '5px 0 0 5px',
@@ -94,6 +88,7 @@ const register = async (args: any) => {
   display: flex;
   justify-content: center;
   height: 100vh;
+  background-color: #f4f3f3;
 }
 
 .back-arrow {

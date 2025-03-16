@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const props = defineProps<{
-  text: string
-  color: string
-  bgColor: string
-}>()
+defineProps({
+  text: String,
+  color: String,
+  bgColor: String,
+})
 
 const emit = defineEmits(['click'])
 
@@ -13,11 +13,7 @@ const onClick = () => {
 </script>
 
 <template>
-  <button
-    @click="onClick"
-    class="button"
-    :style="{ color: props.color, backgroundColor: props.bgColor }"
-  >
+  <button @click="onClick" class="button" :style="{ color: color, backgroundColor: bgColor }">
     {{ text }}
   </button>
 </template>

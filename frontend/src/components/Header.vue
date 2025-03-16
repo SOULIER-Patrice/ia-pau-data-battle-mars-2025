@@ -2,6 +2,14 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/authStore'
 import { computed } from 'vue'
+import LinkActiveButton from './Buttons/LinkActiveButton.vue'
+import BasicButton from './Buttons/BasicButton.vue'
+
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
 const authStore = useAuthStore()
 const user = computed(() => authStore.user)
@@ -9,21 +17,25 @@ const user = computed(() => authStore.user)
 const logout = () => {
   authStore.logout()
 }
+
+const activeTab = computed(() => {
+  return route.path
+})
 </script>
 
 <template>
   <header>
-    <router-link to="/" class="title">IA PAu Data Battle 2025</router-link>
+    <router-link to="/" class="title">IA Pau Data Battle 2025</router-link>
     <nav>
-      <router-link to="/about">About</router-link>
+      <LinkActiveButton text="Home" :isActive="activeTab === '/'" to="/" />
+      <LinkActiveButton text="About" :isActive="activeTab === '/about'" to="/about" />
     </nav>
-    <div>
+    <div class="auth">
       <div v-if="user">
-        <span>{{ user.first_name }}</span>
-        <button @click="logout">Logout</button>
+        <BasicButton text="Logout" @click="logout" />
       </div>
       <div v-else>
-        <router-link to="/login">Login</router-link>
+        <BasicButton text="Login" @click="router.push('/login')" />
       </div>
     </div>
   </header>
@@ -32,9 +44,32 @@ const logout = () => {
 <style lang="scss" scoped>
 header {
   display: flex;
-  justify-content: center;
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: #f4f3f3;
+  align-items: center;
+
+  nav {
+    margin-right: 20px;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  .auth {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+
+    button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: var(--primary-color);
+      color: white;
+    }
+  }
 }
 
 .title {
@@ -42,5 +77,6 @@ header {
   font-weight: bold;
   text-decoration: none;
   color: var(--primary-text-color);
+  margin-right: 30px;
 }
 </style>

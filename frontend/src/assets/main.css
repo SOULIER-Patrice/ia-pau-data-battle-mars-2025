@@ -8,7 +8,7 @@
   --info-color: #17a2b8;
   --warning-color: #ffc107;
   --danger-color: #dc3545;
-  --light-color: #f8f9fa;
+  --light-color: #dbd8cf;
   --dark-color: #343a40;
 
   --primary-text-color: #212529;
@@ -22,6 +22,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
   color: var(--primary-text-color);
+  background-color: var(--light-color);
 }
 
 h1 {

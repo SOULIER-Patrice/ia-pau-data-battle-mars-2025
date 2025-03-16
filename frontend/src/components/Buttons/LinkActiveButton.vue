@@ -1,6 +1,9 @@
 <script setup lang="ts">
-// Components
-import BasicButton from '@/components/Buttons/BasicButton.vue'
+// Componenents
+import ActiveButton from './ActiveButton.vue'
+
+// Router
+import router from '@/router'
 
 // Props
 defineProps({
@@ -22,25 +25,22 @@ defineProps({
     default: 'var(--primary-color)',
   },
   isActive: Boolean,
+  to: {
+    type: String,
+    required: true,
+  },
 })
-
-const emit = defineEmits(['click'])
-
-const onClick = () => {
-  emit('click')
-}
 </script>
 
 <template>
-  <BasicButton
-    @click="onClick"
+  <ActiveButton
     :text="text"
     :color="color"
-    :bg-color="bgColor"
-    :style="{
-      color: isActive ? activeColor : color,
-      backgroundColor: isActive ? activeBgColor : bgColor,
-    }"
+    :bgColor="bgColor"
+    :activeColor="activeColor"
+    :activeBgColor="activeBgColor"
+    :isActive="isActive"
+    @click="router.push(to)"
   />
 </template>
 
