@@ -3,7 +3,7 @@
 
 <template>
   <footer>
-    <h1>Footer</h1>
+    <p>© 2025 - Les 4 Quarts</p>
   </footer>
 </template>
 
@@ -11,7 +11,9 @@
 footer {
   display: flex;
   justify-content: center;
-  padding: 20px;
-  background-color: #f0f0f0;
+  padding: 0px;
+  background-color: transparent;
+  color: var(--primary-text-color);
+  font-size: 14px;
 }
 </style>

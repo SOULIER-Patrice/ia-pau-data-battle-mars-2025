@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+// Components
+import InputField from '../Fields/InputField.vue'
+import BasicButton from '../Buttons/BasicButton.vue'
+
 const username = ref('')
 const password = ref('')
 
@@ -13,16 +17,39 @@ const handleSubmit = () => {
 
 <template>
   <form @submit.prevent="handleSubmit">
-    <div>
-      <label for="username">Username</label>
-      <input id="username" v-model="username" type="text" required />
+    <InputField v-model="username" label="Email" placeholder="john.doe@example.com" />
+    <div class="password">
+      <InputField v-model="password" label="Password" type="password" />
+      <a href="#">Forgot password ?</a>
     </div>
-    <div>
-      <label for="password">Password</label>
-      <input id="password" v-model="password" type="password" required />
-    </div>
-    <button type="submit">Login</button>
+    <BasicButton
+      text="Login"
+      color="var(--secondary-text-color)"
+      bg-color="var(--primary-color)"
+      type="submit"
+    />
   </form>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 300px;
+  margin-top: 30px;
+
+  button {
+    width: 100px;
+    align-self: flex-end;
+    font-weight: bold;
+  }
+
+  .password {
+    a {
+      font-size: 12px;
+      color: var(--primary-text-color);
+    }
+  }
+}
+</style>
