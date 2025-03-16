@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
+import { computed } from 'vue'
+
+const route = useRoute()
+const isLoginRoute = computed(() => route.path === '/login')
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" v-if="!isLoginRoute">
     <Header />
     <div class="page">
       <main>
@@ -14,6 +18,7 @@ import Footer from './components/Footer.vue'
     </div>
     <Footer />
   </div>
+  <RouterView v-else />
 </template>
 
 <style lang="scss" scoped>

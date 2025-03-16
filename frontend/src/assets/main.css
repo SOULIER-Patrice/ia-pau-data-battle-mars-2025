@@ -2,17 +2,27 @@
 
 /* Variables */
 :root {
-  --primary-color: #007bff;
-  --secondary-color: #6c757d;
+  --primary-color: #3d5a3e;
+  --secondary-color: #588157;
   --success-color: #28a745;
   --info-color: #17a2b8;
   --warning-color: #ffc107;
   --danger-color: #dc3545;
-  --light-color: #f8f9fa;
+  --light-color: #dbd8cf;
   --dark-color: #343a40;
 
   --primary-text-color: #212529;
-  --secondary-text-color: #495057;
+  --secondary-text-color: #ffffff;
+  --danger-text-color: #500f15;
+}
+
+/* Global */
+body {
+  font-family: 'Konkhmer Sleokchher', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--primary-text-color);
+  background-color: var(--light-color);
 }
 
 h1 {
