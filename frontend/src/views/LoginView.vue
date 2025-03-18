@@ -100,7 +100,7 @@ const register = async (args: any) => {
 
 .left {
   h1 {
-    font-size: 24px;
+    font-size: 64px;
     font-weight: bold;
     color: var(--primary-text-color);
     margin-bottom: 10px;
@@ -134,7 +134,7 @@ const register = async (args: any) => {
   align-items: center;
 
   h1 {
-    font-size: 40px;
+    font-size: 64px;
     font-weight: bold;
     color: white;
   }

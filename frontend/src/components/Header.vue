@@ -1,9 +1,13 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/authStore'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+
+// Components
 import LinkActiveButton from './Buttons/LinkActiveButton.vue'
 import BasicButton from './Buttons/BasicButton.vue'
+import SvgIcon from '@jamescoyle/vue-icon'
+import { mdiAccountCircleOutline } from '@mdi/js'
 
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -21,6 +25,11 @@ const logout = () => {
 const activeTab = computed(() => {
   return route.path
 })
+
+const isExpanded = ref(false)
+const toggleExpanded = () => {
+  isExpanded.value = !isExpanded.value
+}
 </script>
 
 <template>
@@ -32,7 +41,25 @@ const activeTab = computed(() => {
     </nav>
     <div class="auth">
       <div v-if="user">
-        <BasicButton text="Logout" @click="logout" />
+        <SvgIcon
+          type="mdi"
+          :path="mdiAccountCircleOutline"
+          :size="32"
+          color="black"
+          @click="toggleExpanded"
+          class="profile-icon"
+        />
+        <div class="extended-panel" v-if="isExpanded">
+          <div class="title">
+            <h2>Profile</h2>
+          </div>
+          <div class="body">
+            <nav>
+              <router-link to="/profile" @click="toggleExpanded">Settings</router-link>
+            </nav>
+            <BasicButton text="Logout" @click="logout" />
+          </div>
+        </div>
       </div>
       <div v-else>
         <BasicButton text="Login" @click="router.push('/login')" />
@@ -58,6 +85,7 @@ header {
 
   .auth {
     margin-left: auto;
+    margin-right: 35px;
     display: flex;
     align-items: center;
 
@@ -69,6 +97,58 @@ header {
       background-color: var(--primary-color);
       color: white;
     }
+
+    .extended-panel {
+      position: absolute;
+      width: 120px;
+      top: 60px;
+      right: 10px;
+      background-color: #f4f3f3;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1000;
+      overflow: hidden;
+
+      .title {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        background-color: var(--primary-color);
+        color: white;
+        margin-right: 0;
+        padding: 5px 0;
+
+        h2 {
+          font-family: 'Konkhmer Sleokchher';
+          font-size: 18px;
+        }
+      }
+
+      .body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 10px 0;
+
+        nav {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          padding: 5px 0;
+          margin-bottom: 5px;
+
+          a {
+            text-decoration: none;
+            color: var(--primary-text-color);
+          }
+        }
+      }
+    }
   }
 }
 
@@ -78,5 +158,9 @@ header {
   text-decoration: none;
   color: var(--primary-text-color);
   margin-right: 30px;
+}
+
+.profile-icon {
+  cursor: pointer;
 }
 </style>

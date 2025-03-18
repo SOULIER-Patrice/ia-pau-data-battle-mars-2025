@@ -26,6 +26,12 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
+      path: '/profile',
+      name: 'profile',
+      beforeEnter: authRequired,
+      component: () => import('../views/ProfileView.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting

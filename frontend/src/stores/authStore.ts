@@ -79,6 +79,31 @@ export const useAuthStore = defineStore('auth', {
                 throw error;
             }
         },
+        async updateUser(id: string, first_name: string, last_name: string, email: string) {
+            try {
+                const response = await fetch(`${base_api_url}/users/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${this.token?.access_token}`
+                    },
+                    body: JSON.stringify({
+                        first_name: first_name,
+                        last_name: last_name,
+                        email: email
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update user');
+                }
+
+                await this.fetchUser();
+            } catch (error) {
+                console.error('Failed to update user:', error);
+                throw error;
+            }
+        },
 
         logout() {
             this.user = null;

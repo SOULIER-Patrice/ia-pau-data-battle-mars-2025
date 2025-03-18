@@ -44,11 +44,11 @@ const handleSubmit = () => {
     {{ error }}
   </ErrorBox>
   <form @submit.prevent="handleSubmit">
+    <InputField v-model="firstName" label="First Name" placeholder="John" />
+    <InputField v-model="lastName" label="Last Name" placeholder="Doe" />
     <InputField v-model="email" label="Email" placeholder="john.doe@example.com" />
     <InputField v-model="password" label="Password" type="password" />
     <InputField v-model="confirmPassword" label="Confirm Password" type="password" />
-    <InputField v-model="firstName" label="First Name" placeholder="John" />
-    <InputField v-model="lastName" label="Last Name" placeholder="Doe" />
     <BasicButton
       text="Signup"
       color="var(--secondary-text-color)"

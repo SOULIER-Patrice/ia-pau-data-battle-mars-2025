@@ -38,6 +38,7 @@ div {
     padding: 5px;
     border: 2px solid black;
     border-radius: 7px;
+    background-color: transparent;
   }
 }
 </style>

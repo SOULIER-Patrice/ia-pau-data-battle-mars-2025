@@ -96,9 +96,8 @@ def grant_admin(user_id: UUID) -> UserOutput:
     if not user:
         return None
 
-    user.roles.append("admin")
-    modify_count = user_repository.update_user(
-        user_id, user.model_dump(by_alias=True))
+    user_repository.grant_role_to_user(user_id, 'admin')
+    user.roles.append('admin')
 
     return user
 

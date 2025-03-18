@@ -55,11 +55,29 @@ def update_user(user_id: UUID, user: dict):
     cursor.execute(
         """
         UPDATE users
-        SET email = %s, first_name = %s, last_name = %s, roles = %s, hashed_password = %s
+        SET email = %s, first_name = %s, last_name = %s
         WHERE id = %s
         """,
         (user['email'], user['first_name'], user['last_name'],
-         user['roles'], user['hashed_password'], user_id)
+         user_id)
+    )
+    conn.commit()
+    modified_count = cursor.rowcount
+    cursor.close()
+    conn.close()
+    return modified_count
+
+
+def grand_role_to_user(user_id: UUID, role: str):
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor.execute(
+        """
+        UPDATE users
+        SET roles = array_append(roles, %s)
+        WHERE id = %s
+        """,
+        (role, user_id)
     )
     conn.commit()
     modified_count = cursor.rowcount
