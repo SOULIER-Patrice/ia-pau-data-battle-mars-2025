@@ -12,10 +12,8 @@ const user = computed(() => authStore.user)
 </script>
 
 <template>
-  <div>
-    <NoLoginHomeView v-if="!user" />
-    <LoginHomeView v-else />
-  </div>
+  <NoLoginHomeView v-if="!user" />
+  <LoginHomeView v-else />
 </template>
 
 <style lang="scss" scoped></style>

@@ -29,6 +29,12 @@ const isLoginRoute = computed(() => route.path === '/login')
 }
 
 .page {
+  display: flex;
   flex: 1;
+
+  main {
+    display: flex;
+    flex: 1;
+  }
 }
 </style>
