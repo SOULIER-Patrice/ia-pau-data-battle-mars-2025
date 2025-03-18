@@ -32,6 +32,13 @@ const router = createRouter({
       component: () => import('../views/ProfileView.vue')
     },
     {
+      path: '/practice',
+      name: 'practice',
+      beforeEnter: authRequired,
+      component: () => import('../views/PracticesViews/SelectModeView.vue'),
+      children: []
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting

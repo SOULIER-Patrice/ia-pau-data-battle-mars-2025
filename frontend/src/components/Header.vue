@@ -37,6 +37,7 @@ const toggleExpanded = () => {
     <router-link to="/" class="title">IA Pau Data Battle 2025</router-link>
     <nav>
       <LinkActiveButton text="Home" :isActive="activeTab === '/'" to="/" />
+      <LinkActiveButton text="Practice" :isActive="activeTab === '/practice'" to="/practice" />
       <LinkActiveButton text="About" :isActive="activeTab === '/about'" to="/about" />
     </nav>
     <div class="auth">
