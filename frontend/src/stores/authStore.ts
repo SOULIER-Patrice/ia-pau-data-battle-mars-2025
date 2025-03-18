@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('auth', {
         token: null as Token | null
     }),
     actions: {
-        async login(username: string, password: string) {
+        async login(username: string, password: string, redirect = '/') {
             try {
                 // Request token
                 const tokenResponse = await fetch(`${base_api_url}/auth/token`, {
@@ -47,14 +47,14 @@ export const useAuthStore = defineStore('auth', {
 
                 const userData: User = await userResponse.json();
                 this.user = userData;
-                router.push('/');
+                router.push(redirect);
             } catch (error) {
                 console.error('Login failed:', error);
                 throw error;
             }
         },
 
-        async register(email: string, password: string, firstName: string, lastName: string) {
+        async register(email: string, password: string, firstName: string, lastName: string, redirect = '/') {
             try {
                 const response = await fetch(`${base_api_url}/auth/register`, {
                     method: 'POST',
@@ -73,7 +73,7 @@ export const useAuthStore = defineStore('auth', {
                     throw new Error('Failed to register');
                 }
 
-                await this.login(email, password);
+                await this.login(email, password, redirect);
             } catch (error) {
                 console.error('Registration failed:', error);
                 throw error;

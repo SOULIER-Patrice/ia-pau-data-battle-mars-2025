@@ -8,7 +8,7 @@ const authRequired = (to: any, from: any, next: any) => {
   if (authStore.token) {
     next()
   } else {
-    next({ name: 'login' })
+    next({ name: 'login', query: { redirect: to.fullPath } })
   }
 }
 

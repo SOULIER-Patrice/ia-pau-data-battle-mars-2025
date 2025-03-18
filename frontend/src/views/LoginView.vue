@@ -34,7 +34,8 @@ const toggleRegister = () => {
 }
 
 const login = async (args: any) => {
-  await authStore.login(args.username, args.password)
+  const redirect = router.currentRoute.value.query.redirect as string
+  await authStore.login(args.username, args.password, redirect)
 }
 
 const register = async (args: any) => {
