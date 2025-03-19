@@ -6,59 +6,52 @@ from bs4 import BeautifulSoup
 from utils import save_as_csv
 
 
-def convert_gl_value(gl_value):
+def convert_gl_value(gl_string):
     """
-    Converts a value like GLA_CI_1 to a format like EPC Guidelines PartAChapI(1), 
-    or GLI_1 to EPC Guidelines GeneralPart(1), or GLA_CI to EPC Guidelines PartAChapI without numbers.
+    Converts GL strings to EPC Guidelines format.
     
-    Args:
-        gl_value (str): The value to convert, such as "GLA_CI", "GLA_CI_1" or "GLI_1".
-    
-    Returns:
-        str: The value converted to the format "EPC Guidelines PartAChapI" or "EPC Guidelines PartAChapI(1)".
+    Examples:
+    "GLA_CI" -> "EPC Guidelines PartAChapI"
+    "GLA_CI_1" -> "EPC Guidelines PartAChapI(1)"
+    "GLI_1" -> "EPC Guidelines GeneralPart(1)"
+    "GLB_CIV_1_7" -> "EPC Guidelines PartBChapIV(1)(7)"
+    "GLH_CX_1" -> "EPC Guidelines PartHChapX(1)"
     """
-    # Check for GLI pattern (GeneralPart)
-    if gl_value.startswith("GLI"):
-        match = re.match(r"GLI_?((?:\d+_?)+)?", gl_value)
-        if match:
-            numbers = match.group(1)  # "1", "4_1_3_1" (etc.) or None if no numbers
-            
-            if numbers:
-                # Split the numbers by underscores and format them in parentheses
-                number_list = numbers.split('_')
-                formatted_numbers = ''.join(f"({num})" for num in number_list)
-                return f"EPC Guidelines GeneralPart{formatted_numbers}"
-            else:
-                return "EPC Guidelines GeneralPart"
+    # Split the components by "_"
+    parts = gl_string.split("_")
     
-    # Handle the other cases (GLA_CI, GLA_CII, etc.)
-    match = re.match(r"GLA_C([A-Z]+)_?((?:\d+_?)+)?", gl_value)
+    # Check the basic format
+    if not parts[0].startswith("GL") or len(parts[0]) < 3:
+        return "Invalid format"
     
-    if match:
-        part = match.group(1)  # "I", "II" (etc.)
-        numbers = match.group(2)  # "1", "4_1_3_1" (etc.) or None if no numbers
-        
-        # Mapping for part names (like "I" → "PartAChapI", "II" → "PartAChapII")
-        part_map = {
-            "I": "PartAChapI",
-            "II": "PartAChapII",
-            # You can extend this map if there are more parts
-        }
-        
-        # Get the part name (Chapter)
-        part_name = part_map.get(part, f"PartAChap{part}")
-        
-        if numbers:
-            # Split the numbers by underscores and format them in parentheses
-            number_list = numbers.split('_')
-            formatted_numbers = ''.join(f"({num})" for num in number_list)
-            # Format and return the result string with numbers
-            return f"EPC Guidelines {part_name}{formatted_numbers}"
-        else:
-            # Return the result without numbers
-            return f"EPC Guidelines {part_name}"
+    # Extract the letter after GL
+    part_letter = parts[0][2]
+    
+    # Initialize the result
+    result = "EPC Guidelines "
+    
+    # Process different cases
+    if part_letter == "I":
+        # Special case for the general part (GLI)
+        result += "GeneralPart"
+        # Add sub-parts if present
+        if len(parts) > 1:
+            result += f"({parts[1]})"
     else:
-        raise ValueError(f"The format of '{gl_value}' is incorrect.")
+        # For other parts with chapters
+        result += f"Part{part_letter}Chap"
+        if len(parts) > 1 and parts[1].startswith("C"):
+            # Add the chapter number
+            result += parts[1][1:]
+            # Add remaining sub-parts
+            for i in range(2, len(parts)):
+                result += f"({parts[i]})"
+        else:
+            # If no specific chapter or unexpected format
+            for i in range(1, len(parts)):
+                result += f"({parts[i]})"
+    
+    return result
 
 
 def parse_epc_guidelines(url):
