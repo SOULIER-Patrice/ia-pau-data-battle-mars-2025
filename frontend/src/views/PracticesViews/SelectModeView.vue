@@ -7,16 +7,12 @@ import BasicCard from '@/components/Cards/BasicCard.vue'
   <div class="select-mode-view">
     <h1>Which way to practice ?</h1>
     <div class="cards">
-      <BasicCard
-        title="Multiple-responses"
-        buttonText="Choose this option"
-        link="/practices/choose"
-      >
+      <BasicCard title="Multiple-responses" buttonText="Choose this option" link="/practice/quiz">
         <div class="select-mode-view__content">
           <p>This category consists to choose one answer between different responses.</p>
         </div>
       </BasicCard>
-      <BasicCard title="Free response" buttonText="Choose this option" link="/practices/random">
+      <BasicCard title="Free response" buttonText="Choose this option" link="/practice/chat">
         <div class="select-mode-view__content">
           <p>This category consists to write your own answer.</p>
         </div>

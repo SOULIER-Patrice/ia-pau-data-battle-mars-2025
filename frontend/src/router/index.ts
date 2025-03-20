@@ -35,8 +35,13 @@ const router = createRouter({
       path: '/practice',
       name: 'practice',
       beforeEnter: authRequired,
-      component: () => import('../views/PracticesViews/SelectModeView.vue'),
-      children: []
+      component: () => import('../views/PracticesViews/SelectModeView.vue')
+    },
+    {
+      path: '/practice/chat',
+      name: 'chat',
+      beforeEnter: authRequired, // Si nécessaire
+      component: () => import('../views/PracticesViews/ChatView.vue')
     },
     {
       path: '/about',
