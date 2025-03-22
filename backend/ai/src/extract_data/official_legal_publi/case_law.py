@@ -16,73 +16,55 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(),  # Output to console
-        logging.FileHandler('case_law_guidelines_scraper.log')  # Output to a log file
+        logging.FileHandler('logs/case_laws_scraper.log')  # Output to a log file
     ]
 )
 logger = logging.getLogger(__name__)
 
 
-class ClReferenceConverter:
-    """Gère la conversion des identifiants CLR en références lisibles au format Case Law."""
+class CLRReferenceConverter:
+    """Handles conversion of CLR-prefixed IDs to human-readable Case Laws references."""
     
     @staticmethod
-    def convert(cl_string: str) -> str:
+    def convert(clr_string: str) -> str:
         """
-        Convertit une chaîne CLR en référence Case Law.
-
-        Exemples:
-            CLR_VII_2        -> "Case Law VII, 2"
-            CLR_VI_1         -> "Case Law VI, 1"
-            CLR_I_A_1        -> "Case Law I-a, 1"
-            CLR_I_B_2_1_2    -> "Case Law I-b, 2.1.2"
-
-        Args:
-            cl_string: Référence CLR à convertir.
-
-        Returns:
-            Référence Case Law formatée.
-        """
-        # Découper la chaîne sur le séparateur "_"
-        parts = cl_string.split("_")
+        Converts CLR strings to Case Laws format.
         
-        # Vérifier le format de base : doit contenir au moins ["CLR", section, numéro(s)]
-        if len(parts) < 3 or parts[0] != "CLR":
+        Args:
+            clr_string: CLR reference string to convert
+            
+        Returns:
+            Formatted Case Laws reference
+        """
+        # Split the components by "_"
+        parts = clr_string.split("_")
+        
+        # Check the basic format
+        if not parts[0].startswith("CLR") or len(parts[0]) < 3:
             return "Invalid format"
         
-        # La première partie (après "CLR") est la section en chiffres romains
-        section = parts[1]
+        # Initialize the result
+        roman = parts[1]
+        result = f"Case Law {roman}"
         
-        # Initialisation pour la sous-section éventuelle et index de départ pour les numéros
-        sub_section = ""
-        numbers_start_index = 2
-        
-        # Si le troisième élément est une lettre (par exemple "A" ou "B"), c'est la sous-section
-        if len(parts) >= 4 and parts[2].isalpha() and len(parts[2]) == 1:
-            sub_section = parts[2].lower()  # convertir en minuscule pour correspondre au format "I-a"
-            numbers_start_index = 3
-        
-        # Construire la référence de base
-        result = f"Case Law {section}"
-        if sub_section:
-            result += f"-{sub_section}"
-        
-        # Si des parties numériques supplémentaires existent, les joindre avec des points
-        if len(parts) > numbers_start_index:
-            numbers = parts[numbers_start_index:]
-            result += ", " + ".".join(numbers)
+        # Append numerical parts
+        if len(parts) > 1:
+            numbers = parts[2:]
+            if numbers:
+                result += ", " + ".".join(numbers)
         
         return result
     
 
-class CaseLawParser:
-    """Handles the parsing of EPC Guidelines web pages."""
+class CaseLawsParser:
+    """Handles the parsing of Case Laws web pages."""
     
     def __init__(self, base_url: str):
         """
         Initialize the parser with a base URL.
         
         Args:
-            base_url: The base URL for EPC guidelines
+            base_url: The base URL for Case Laws
         """
         self.base_url = base_url
         self.session = requests.Session()
@@ -93,9 +75,9 @@ class CaseLawParser:
     
     def parse_page(self, url: str) -> List[Dict[str, str]]:
         """
-        Extract information from EPC Guidelines on a webpage.
+        Extract information from Case Laws on a webpage.
         
-        For each ID starting with 'GL...', extracts:
+        For each ID starting with 'CLR...', extracts:
         - The ID as a reference (converted to human-readable format)
         - The content of the corresponding <p> tags
         - The section title from the 'h1' tag with class 'h2'
@@ -122,7 +104,7 @@ class CaseLawParser:
                 if reference and reference.startswith('CLR'):
                     # Extract all non-deleted paragraphs
                     content = self._extract_content(epolegal_div, section_title)
-                    readable_ref = ClReferenceConverter.convert(reference)
+                    readable_ref = CLRReferenceConverter.convert(reference)
                     results.append({
                         'ref': readable_ref, 
                         'url': url, 
@@ -196,25 +178,25 @@ class CaseLawParser:
             return False
 
 
-
-class CaseLawExplorer:
-    """Explores the hierarchy of Case Law URLs."""
+class CaseLawsExplorer:
+    """Explores the hierarchy of Case Laws URLs."""
     
     def __init__(self, base_url: str):
         """
         Initialize the explorer with a base URL.
         
         Args:
-            base_url: Base URL for the Case law.
+            base_url: Base URL for the Case Laws
         """
         self.base_url = base_url
-        self.parser = CaseLawParser(base_url)
-
-        self.letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+        self.parser = CaseLawsParser(base_url)
+        # Letters and Roman numerals used in Case Law structure
+        self.romans = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii']
+        self.letters = ['', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
                         'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
                         'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
                         'y', 'z']
-        self.romans = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii']
+
     
     def build_url(self, letter: str, roman: str, path: List[int] = None) -> str:
         """
@@ -233,16 +215,12 @@ class CaseLawExplorer:
                 return f"{self.base_url}_{roman}_{letter}.html"
             else:
                 return f"{self.base_url}_{roman}.html"
-
-
+                
         hierarchical_part = "_".join(map(str, path))
-
         if letter:
             return f"{self.base_url}_{roman}_{letter}_{hierarchical_part}.html"
         else:
             return f"{self.base_url}_{roman}_{hierarchical_part}.html"
-        
-
     
     def explore_hierarchy(self, letter: str, roman: str, path: List[int], 
                           results: List[Dict[str, str]]):
@@ -259,12 +237,12 @@ class CaseLawExplorer:
         
         if self.parser.url_exists(url):
             # Read content and add it
-            guidelines = self.parser.parse_page(url)
-            if guidelines:
-                results.extend(guidelines)
+            case_laws = self.parser.parse_page(url)
+            if case_laws:
+                results.extend(case_laws)
                 logger.info(f'Processed: {url}')
             else:
-                logger.info(f"No guidelines found on {url}")
+                logger.info(f"No case_laws found on {url}")
         
             # Try to explore deeper (add a '1' to the path)
             self.explore_hierarchy(letter, roman, path + [1], results)
@@ -273,44 +251,40 @@ class CaseLawExplorer:
             if path:
                 next_path = path[:-1] + [path[-1] + 1]
                 self.explore_hierarchy(letter, roman, next_path, results)
-
     
-    def get_all_guidelines(self) -> List[Dict[str, str]]:
+    def get_all_case_laws(self) -> List[Dict[str, str]]:
         """
-        Explore all possible URLs and collect guidelines.
+        Explore all possible URLs and collect case_laws.
         
         Returns:
             List of dictionaries with reference, URL, and content
         """
-        all_guidelines = []
-        
-        # Get foreword
-        logger.info("Exploring foreword section...")
-        self.explore_hierarchy('foreword', '', [1], all_guidelines)
+        all_case_laws = []
         
         # Explore all letter and Roman numeral combinations
-        for letter in self.letters:
-            logger.info(f"Exploring part {letter.upper()}...")
-            for roman in self.romans:
-                self.explore_hierarchy(letter, roman, [], all_guidelines)
+        for roman in self.romans:
+            logger.info(f"Exploring part {roman.upper()}...")
+            for letter in self.letters:
+                self.explore_hierarchy(letter, roman, [], all_case_laws)
         
-        logger.info(f"Found {len(all_guidelines)} guidelines in total.")
-        return all_guidelines
+        logger.info(f"Found {len(all_case_laws)} case_laws in total.")
+        return all_case_laws
+
 
 
 if __name__ == '__main__':
-    base_url = 'https://www.epo.org/en/legal/case-law/2022'
+    base_url = 'https://www.epo.org/en/legal/case-law/2022/clr'
     
-    logger.info("Starting EPC Guidelines scraper...")
+    logger.info("Starting Case Law scraper...")
     
-    explorer = CaseLawExplorer(base_url)
-    epc_guidelines = explorer.get_all_guidelines()
+    explorer = CaseLawsExplorer(base_url)
+    case_laws = explorer.get_all_case_laws()
     
     # Ensure output directory exists
-    output_path = Path('../../outputs/EPC_guidelines.csv')
+    output_path = Path('../../../outputs/case_laws.csv')
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
-    logger.info(f"Saving {len(epc_guidelines)} guidelines to CSV...")
-    save_as_csv(epc_guidelines, output_path)
+    logger.info(f"Saving {len(case_laws)} case law to CSV...")
+    save_as_csv(case_laws, output_path)
     
-    logger.info("EPC Guidelines processing complete.")
+    logger.info("Case Laws processing complete.")
