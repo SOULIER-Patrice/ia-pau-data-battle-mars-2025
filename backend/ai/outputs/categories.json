@@ -1,0 +1,184 @@
+{
+    "Filing requirements and formalities": {
+        "Minimum requirements for a filing date": {
+            "Scope": "assessing the mandatory elements (e.g., description, claims) and their submission modes",
+            "sentences": "What documents are required on the filing date for the epo to accord a filing date? How is the filing date affected if claims are missing initially? If no reference to any drawing is included, can missing drawings be submitted later without a change in the filing date?"
+        },
+        "Filing methods and locations": {
+            "Scope": "addressing allowed filing modes (fax, online, physical) and relevant epo sites.",
+            "sentences": "Which epo offices can receive an ep application filed via fax? How do the rules differ for filing with the epo vs. National patent offices?"
+        },
+        "Formality examination": {
+            "Scope": "checking if formal requirements (payment of fees, form usage, etc.) Are met.",
+            "sentences": "What happens if the request for grant (form 1001) is not correctly completed? What is the procedure if the formalities officer notes a missing inventor designation?"
+        }
+    },
+    "Priority claims and right of priority": {
+        "Substantive requirements for priority": {
+            "Scope": "validity criteria, same invention requirement, earliest date, and partial priorities.",
+            "sentences": "What conditions must be fulfilled for a valid priority claim from an earlier application? Does the priority application need to disclose every feature claimed in the subsequent filing?"
+        },
+        "Time limits and restoration": {
+            "Scope": "one-year priority period, procedures for requesting restoration, conditions for success.",
+            "sentences": "How is the 12-month priority period calculated when it ends on a weekend? What evidence must be provided to restore priority under rule 26bis.3 pct?"
+        },
+        "Multiple priorities and partial priority": {
+            "Scope": "handling claims that rely on more than one earlier application.",
+            "sentences": "Can a single claim contain subject-matter from two different priority dates?How to split claims into portions entitled to partial priority?"
+        }
+    },
+    "Divisional applications": {
+        "Filing requirements": {
+            "Scope": "when a parent must still be pending, language options, and timing.",
+            "sentences": "By what date must a divisional be filed if the parent is due to grant?Can a divisional be filed in a different language than its parent?"
+        },
+        "Subject-matter and scope": {
+            "Scope": "compliance with article 76 epc, no added subject-matter, and ensuring unity.",
+            "sentences": "How is added subject-matter assessed in a divisional relative to the parent’s original disclosure?Can a divisional cover an invention that was excluded from the parent’s search due to lack of unity?"
+        },
+        "Formality examination": {
+            "Scope": "payment of filing fees, renewal fees, examination fees, and other relevant costs.",
+            "sentences": "When are renewal fees due for a divisional application compared to its parent? Is any reduction possible for the filing or examination fee of a divisional?"
+        }
+    },
+    "Fees, payment methods, and time limits": {
+        "Types and calculation of fees": {
+            "Scope": "understanding different fee types (filing, search, examination, renewal, claims).",
+            "sentences": "How are excess claims fees calculated if claims are amended during examination? When must the search fee be paid if the epo acts as isa under the pct?"
+        },
+        "Payment mechanisms": {
+            "Scope": "automatic debit orders, bank transfers, credit cards, and fee payment via third parties.",
+            "sentences": "How does an automatic debit order work and what happens if the deposit account lacks funds? Can multiple applicants share a single deposit account for fee payment?"
+        },
+        "Fee deadlines and late payment consequences": {
+            "Scope": "additional fees, surcharges, and further processing if deadlines are missed.",
+            "sentences": "What surcharge applies if renewal fees are not paid by the due date? How can an applicant avoid loss of rights if a fee payment is overlooked?"
+        }
+    },
+    "Languages and translations": {
+        "Language of filing and procedural language": {
+            "Scope": "filing in non-epo official languages, subsequent translation deadlines, language-based fee reductio s.",
+            "sentences": "How long after filing must a translation be submitted if the application was filed in italian?Which official language of the epo becomes the language of proceedings if multiple languages are used?"
+        },
+        "Translation requirements on grant or other stages": {
+            "Scope": "claim translations under rule 71(3) epc, translation for validation in national phases.",
+            "sentences": "What is required if the text intended for grant is not in the applicant’s preferred official language? Does the applicant need to file translations in all contracting states after grant?"
+        },
+        "Effects of language on costs and procedural rights": {
+            "Scope": "fee reductions for certain languages, language-based rights of small entities or universities.",
+            "sentences": "What reduction in examination fees applies for a university filing in an official language of an epc contracting state? Can an applicant who filed in spanish benefit from a fee reduction?"
+        }
+    },
+    "Procedural remedies and legal effect": {
+        "Further processing (rule 135 epc)": {
+            "Scope": "available for missed deadlines in examination or other proceedings, scope of remedy, exceptions.",
+            "sentences": "For which official time limits is further processing not available? How must an applicant request further processing after failing to respond to an examination report?"
+        },
+        "Re-establishment of rights (article 122 epc)": {
+            "Scope": "conditions (all due care), time limit for requesting, and required evidence.",
+            "sentences": "What steps demonstrate “all due care” to justify re-establishment? When does the two-month time limit for re-establishment start running if an applicant misses a final deadline?"
+        },
+        "Loss of rights and remedies": {
+            "Scope": "notices of loss of rights, deemed withdrawals, subsequent procedural options.",
+            "sentences": "When is a communication under rule 112(1) epc issued, and how to react? Is an appeal possible against a deemed withdrawal?"
+        }
+    },
+    "Pct procedure and entry into the european phase": {
+        "International filing and search": {
+            "Scope": "filing at receiving offices, international search by epo or other isas, invited corrections.",
+            "sentences": "Which receiving office can a us applicant choose when filing a pct application? What happens if the applicant fails to pay the international filing fee within the deadline?"
+        },
+        "Preliminary examination and amendments": {
+            "Scope": "filing a demand, timing for article 34 amendments, unity objections at iper stage.",
+            "sentences": "When must the demand for international preliminary examination be filed at the epo as ipea? How are amendments under article 34 pct handled differently from article 19 pct amendments?"
+        },
+        "European phase entry and requirements": {
+            "Scope": "minimum actions to enter ep phase (translations, fees, etc.), optional actions (requesting examination).",
+            "sentences": "What are the minimum requirements to validly enter the european phase under articles 22/39 pct? Is an additional search fee always required in the ep phase if the epo was the isa?"
+        }
+    },
+    "Examination, amendments, and grant": {
+        "Examination procedure and communications": {
+            "Scope": "responding to article 94(3) communications, telephone consultations with examiners, time limit extensions.",
+            "sentences": "What are the applicant’s options upon receiving an objection regarding lack of clarity under article 84? Is an in-person hearing possible before the examining division issues a final decision?"
+        },
+        "Claim amendments and article 123 epc": {
+            "Scope": "no added subject-matter, no broadening after grant, clarity considerations.",
+            "sentences": "How is an amendment evaluated for compliance with article 123(2)? When is it permissible to delete features from the original independent claim?"
+        },
+        "Grant stage (rule 71(3) epc) and post-grant publication": {
+            "Scope": "paying the fee for grant and publishing, submitting claim translations, final text for publication.",
+            "sentences": "What steps must be completed before the decision to grant is issued? What happens if errors are found in the druckexemplar after paying the grant fee?"
+        }
+    },
+    "Opposition and appeals": {
+        "Grounds for opposition (article 100 epc)": {
+            "Scope": "novelty, inventive step, subject-matter not patentable, insufficiency of disclosure, extension beyond original filing.",
+            "sentences": "Can an opponent rely on lack of clarity under article 84 epc as a ground for opposition? Is lack of unity a valid ground for opposition?"
+        },
+        "Opposition procedure and admissibility": {
+            "Scope": "formal requirements (time limits, opponent identity), partial opposition, withdrawal of opposition.",
+            "sentences": "Is it possible to oppose only one independent claim of a granted patent? How does the epo handle late-filed documents in opposition?"
+        },
+        "Appeal proceedings": {
+            "Scope": "grounds of appeal, fresh evidence, remittal, boards’ powers, and procedures.",
+            "sentences": "Can a new ground for opposition be introduced during appeal without the patentee’s consent? What is the composition of a board of appeal deciding a patent case?"
+        }
+    },
+    "Substantive patent law: novelty and inventive step": {
+        "Novelty analysis": {
+            "Scope": "defining prior art, comparing features, selection inventions, disclaimers.",
+            "sentences": "How is novelty assessed against a document that discloses a range overlapping the claimed range? Does prior use by the applicant themselves destroy novelty?"
+        },
+        "Inventive step analysis": {
+            "Scope": "closest prior art selection, objective technical problem, and problem-solution approach.",
+            "sentences": "Can a known alternative material render the claim obvious if it provides no improved result? How does the examiner establish a lack of inventive step if the solution is an obvious combination of known teachings?"
+        },
+        "Special forms of claims (e.g., medical use)": {
+            "Scope": "swiss-type, article 54(5) epc second medical use claims, allowable claim wording.",
+            "sentences": "What is the difference between swiss-type claims and epc 2000 medical use claims? How is novelty established for a second or further medical use?"
+        }
+    },
+    "Entitlement and transfers": {
+        "Entitlement disputes (article 61 EPC)": {
+            "Scope": "disputes over who owns the right to a european patent application or patent.",
+            "sentences": "How can proceedings be stayed if entitlement proceedings are initiated before a national court? What is the effect on the ongoing examination of a pending entitlement dispute?"
+        },
+        "Transfers and assignments": {
+            "Scope": "formalities for registering changes in ownership, partial transfers, and licensing.",
+            "sentences": "Which documents are needed to record a transfer of rights in the european patent register? Does a partial assignment allow different co-owners in different designated states?"
+        },
+        "Procedural consequences": {
+            "Scope": "impact on deadlines, actions that can/cannot be taken by a transferee before registration.",
+            "sentences": "At what point can the transferee begin prosecuting the application in their own name? Is there a fee for recording a transfer at the epo?"
+        }
+    },
+    "Biotech and sequence listings": {
+        "Sequence listing filing and format": {
+            "Scope": "mandatory wipo standard, electronic submission, late furnishing fees.",
+            "sentences": "What are the consequences if a sequence listing is not filed upon request? In what format must the sequence listing be provided under wipo standard st.25 or st.26?"
+        },
+        "Added subject-matter in biotech claims": {
+            "Scope": "ensuring that no new sequences or mutations are introduced beyond the original disclosure.",
+            "sentences": "How is compliance with article 123(2) epc checked for nucleotide and amino acid sequences?"
+        },
+        "Specific patentability exceptions in biotech": {
+            "Scope": "exclusions (plant/animal varieties, essentially biological processes), rule 28 epc.",
+            "sentences": "What biotech inventions are explicitly excluded from patentability under the epc? Does the epc allow gene editing claims for plants?"
+        }
+    },
+    "Unity of invention": {
+        "Unity of invention": {
+            "Scope": "criteria for single general inventive concept, partial search where unity is lacking.",
+            "sentences": "How does the epo handle multiple independent claims that appear unrelated? Can the epo invite payment of additional search fees for non-unified claims during ep examination?"
+        },
+        "Unity in pct applications": {
+            "Scope": "international phase unity criteria, additional fees for multiple inventions, protest procedure.",
+            "sentences": "What steps can an applicant take if the isa invites payment of additional search fees? Is it possible to pursue unsearched inventions in a later european divisional?"
+        },
+        "Strategies for overcoming lack of unity": {
+            "Scope": "amendments, selecting one invention to proceed with, potential divisional filings.",
+            "sentences": "Which claims should be retained if the applicant pays no additional search fees? How does an applicant choose the invention providing the strongest prospect of allowance?"
+        }
+    }
+}
