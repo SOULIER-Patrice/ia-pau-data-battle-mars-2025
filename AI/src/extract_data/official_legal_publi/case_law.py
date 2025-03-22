@@ -16,66 +16,65 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(),  # Output to console
-        logging.FileHandler('epc_guidelines_scraper.log')  # Output to a log file
+        logging.FileHandler('case_law_guidelines_scraper.log')  # Output to a log file
     ]
 )
 logger = logging.getLogger(__name__)
 
 
-class GlReferenceConverter:
-    """Handles conversion of GL-prefixed IDs to human-readable EPC Guidelines references."""
+class ClReferenceConverter:
+    """Gère la conversion des identifiants CLR en références lisibles au format Case Law."""
     
     @staticmethod
-    def convert(gl_string: str) -> str:
+    def convert(cl_string: str) -> str:
         """
-        Converts GL strings to EPC Guidelines format.
-        
+        Convertit une chaîne CLR en référence Case Law.
+
+        Exemples:
+            CLR_VII_2        -> "Case Law VII, 2"
+            CLR_VI_1         -> "Case Law VI, 1"
+            CLR_I_A_1        -> "Case Law I-a, 1"
+            CLR_I_B_2_1_2    -> "Case Law I-b, 2.1.2"
+
         Args:
-            gl_string: GL reference string to convert
-            
+            cl_string: Référence CLR à convertir.
+
         Returns:
-            Formatted EPC Guidelines reference
+            Référence Case Law formatée.
         """
-        # Mapping special cases
-        part_mapping = {
-            "GLI": "GeneralPart",
-        }
+        # Découper la chaîne sur le séparateur "_"
+        parts = cl_string.split("_")
         
-        # Split the components by "_"
-        parts = gl_string.split("_")
-        
-        # Check the basic format
-        if not parts[0].startswith("GL") or len(parts[0]) < 3:
+        # Vérifier le format de base : doit contenir au moins ["CLR", section, numéro(s)]
+        if len(parts) < 3 or parts[0] != "CLR":
             return "Invalid format"
         
-        # Extract part code (e.g., "GLA", "GLB", "GLI")
-        part_code = parts[0]
+        # La première partie (après "CLR") est la section en chiffres romains
+        section = parts[1]
         
-        # Initialize the result
-        result = "Guidelines for Examination in the EPO, "
+        # Initialisation pour la sous-section éventuelle et index de départ pour les numéros
+        sub_section = ""
+        numbers_start_index = 2
         
-        if part_code in part_mapping:
-            # Special case for GeneralPart
-            result += part_mapping[part_code]
-        else:
-            # Standard case: extract section letter and format accordingly
-            section_letter = part_code[2]  # e.g., 'A' in GLA
-            result += f"{section_letter}-"
-            if len(parts) > 1 and parts[1].startswith("C"):
-                result += parts[1][1:]  # Extract chapter number
-            else:
-                result = result.rstrip("-")  # Remove trailing dash if no chapter
+        # Si le troisième élément est une lettre (par exemple "A" ou "B"), c'est la sous-section
+        if len(parts) >= 4 and parts[2].isalpha() and len(parts[2]) == 1:
+            sub_section = parts[2].lower()  # convertir en minuscule pour correspondre au format "I-a"
+            numbers_start_index = 3
         
-        # Append numerical parts
-        if len(parts) > 1:
-            numbers = parts[1:] if not parts[1].startswith("C") else parts[2:]
-            if numbers:
-                result += ", " + ".".join(numbers)
+        # Construire la référence de base
+        result = f"Case Law {section}"
+        if sub_section:
+            result += f"-{sub_section}"
+        
+        # Si des parties numériques supplémentaires existent, les joindre avec des points
+        if len(parts) > numbers_start_index:
+            numbers = parts[numbers_start_index:]
+            result += ", " + ".".join(numbers)
         
         return result
     
 
-class GuidelinesParser:
+class CaseLawParser:
     """Handles the parsing of EPC Guidelines web pages."""
     
     def __init__(self, base_url: str):
@@ -120,10 +119,10 @@ class GuidelinesParser:
             # Process each legal content div
             for epolegal_div in soup.find_all('div', class_='epolegal-content'):
                 reference = epolegal_div.get('id')
-                if reference and reference.startswith('GL'):
+                if reference and reference.startswith('CLR'):
                     # Extract all non-deleted paragraphs
                     content = self._extract_content(epolegal_div, section_title)
-                    readable_ref = GlReferenceConverter.convert(reference)
+                    readable_ref = ClReferenceConverter.convert(reference)
                     results.append({
                         'ref': readable_ref, 
                         'url': url, 
@@ -197,22 +196,25 @@ class GuidelinesParser:
             return False
 
 
-class GuidelinesExplorer:
-    """Explores the hierarchy of EPC Guidelines URLs."""
+
+class CaseLawExplorer:
+    """Explores the hierarchy of Case Law URLs."""
     
     def __init__(self, base_url: str):
         """
         Initialize the explorer with a base URL.
         
         Args:
-            base_url: Base URL for the EPC guidelines
+            base_url: Base URL for the Case law.
         """
         self.base_url = base_url
-        self.parser = GuidelinesParser(base_url)
-        # Letters and Roman numerals used in EPC guidelines structure
-        self.letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-        self.romans = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 
-                       'ix', 'x', 'xi', 'xii', 'xiii', 'xiv', 'xv']
+        self.parser = CaseLawParser(base_url)
+
+        self.letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+                        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+                        'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+                        'y', 'z']
+        self.romans = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii']
     
     def build_url(self, letter: str, roman: str, path: List[int] = None) -> str:
         """
@@ -227,16 +229,20 @@ class GuidelinesExplorer:
             Complete URL
         """
         if not path:
-            if roman:
-                return f"{self.base_url}{letter}_{roman}.html"
+            if letter:
+                return f"{self.base_url}_{roman}_{letter}.html"
             else:
-                return f"{self.base_url}{letter}.html"
-                
+                return f"{self.base_url}_{roman}.html"
+
+
         hierarchical_part = "_".join(map(str, path))
-        if roman:
-            return f"{self.base_url}{letter}_{roman}_{hierarchical_part}.html"
+
+        if letter:
+            return f"{self.base_url}_{roman}_{letter}_{hierarchical_part}.html"
         else:
-            return f"{self.base_url}{letter}_{hierarchical_part}.html"
+            return f"{self.base_url}_{roman}_{hierarchical_part}.html"
+        
+
     
     def explore_hierarchy(self, letter: str, roman: str, path: List[int], 
                           results: List[Dict[str, str]]):
@@ -267,6 +273,7 @@ class GuidelinesExplorer:
             if path:
                 next_path = path[:-1] + [path[-1] + 1]
                 self.explore_hierarchy(letter, roman, next_path, results)
+
     
     def get_all_guidelines(self) -> List[Dict[str, str]]:
         """
@@ -279,7 +286,7 @@ class GuidelinesExplorer:
         
         # Get foreword
         logger.info("Exploring foreword section...")
-        self.explore_hierarchy('foreword', '', [], all_guidelines)
+        self.explore_hierarchy('foreword', '', [1], all_guidelines)
         
         # Explore all letter and Roman numeral combinations
         for letter in self.letters:
@@ -291,13 +298,12 @@ class GuidelinesExplorer:
         return all_guidelines
 
 
-
 if __name__ == '__main__':
-    base_url = 'https://www.epo.org/en/legal/guidelines-epc/2024/'
+    base_url = 'https://www.epo.org/en/legal/case-law/2022'
     
     logger.info("Starting EPC Guidelines scraper...")
     
-    explorer = GuidelinesExplorer(base_url)
+    explorer = CaseLawExplorer(base_url)
     epc_guidelines = explorer.get_all_guidelines()
     
     # Ensure output directory exists

@@ -12,7 +12,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("epc_scraper.log"),  # Save logs to this file
+        logging.FileHandler("logs/epc_scraper.log"),  # Save logs to this file
         logging.StreamHandler()  # Also output to console
     ]
 )
@@ -202,7 +202,7 @@ if __name__ == '__main__':
     
     epc_content = get_epc_content(article_range, rule_range, fee_range)
     
-    output_path = Path('../../outputs/EPC.csv')
+    output_path = Path('../../../outputs/EPC.csv')
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     save_as_csv(epc_content, output_path)
