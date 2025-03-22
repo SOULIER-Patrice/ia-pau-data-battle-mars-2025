@@ -34,7 +34,7 @@
         },
         "Subject-matter and scope": {
             "Scope": "compliance with article 76 epc, no added subject-matter, and ensuring unity.",
-            "sentences": "How is added subject-matter assessed in a divisional relative to the parent’s original disclosure?Can a divisional cover an invention that was excluded from the parent’s search due to lack of unity?"
+            "sentences": "How is added subject-matter assessed in a divisional relative to the parent's original disclosure?Can a divisional cover an invention that was excluded from the parent's search due to lack of unity?"
         },
         "Formality examination": {
             "Scope": "payment of filing fees, renewal fees, examination fees, and other relevant costs.",
@@ -62,7 +62,7 @@
         },
         "Translation requirements on grant or other stages": {
             "Scope": "claim translations under rule 71(3) epc, translation for validation in national phases.",
-            "sentences": "What is required if the text intended for grant is not in the applicant’s preferred official language? Does the applicant need to file translations in all contracting states after grant?"
+            "sentences": "What is required if the text intended for grant is not in the applicant's preferred official language? Does the applicant need to file translations in all contracting states after grant?"
         },
         "Effects of language on costs and procedural rights": {
             "Scope": "fee reductions for certain languages, language-based rights of small entities or universities.",
@@ -100,7 +100,7 @@
     "Examination, amendments, and grant": {
         "Examination procedure and communications": {
             "Scope": "responding to article 94(3) communications, telephone consultations with examiners, time limit extensions.",
-            "sentences": "What are the applicant’s options upon receiving an objection regarding lack of clarity under article 84? Is an in-person hearing possible before the examining division issues a final decision?"
+            "sentences": "What are the applicant's options upon receiving an objection regarding lack of clarity under article 84? Is an in-person hearing possible before the examining division issues a final decision?"
         },
         "Claim amendments and article 123 epc": {
             "Scope": "no added subject-matter, no broadening after grant, clarity considerations.",
@@ -121,8 +121,8 @@
             "sentences": "Is it possible to oppose only one independent claim of a granted patent? How does the epo handle late-filed documents in opposition?"
         },
         "Appeal proceedings": {
-            "Scope": "grounds of appeal, fresh evidence, remittal, boards’ powers, and procedures.",
-            "sentences": "Can a new ground for opposition be introduced during appeal without the patentee’s consent? What is the composition of a board of appeal deciding a patent case?"
+            "Scope": "grounds of appeal, fresh evidence, remittal, boards' powers, and procedures.",
+            "sentences": "Can a new ground for opposition be introduced during appeal without the patentee's consent? What is the composition of a board of appeal deciding a patent case?"
         }
     },
     "Substantive patent law: novelty and inventive step": {
