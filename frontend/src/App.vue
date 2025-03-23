@@ -10,7 +10,7 @@ const isLoginRoute = computed(() => route.path === '/login')
 
 <template>
   <div class="container" v-if="!isLoginRoute">
-    <Header />
+    <Header class="header" />
     <div class="page">
       <main>
         <RouterView />
@@ -28,7 +28,19 @@ const isLoginRoute = computed(() => route.path === '/login')
   min-height: 100vh;
 }
 
+.header {
+  position: fixed;
+  width: 100%;
+}
+
 .page {
+  margin-top: 79px;
+  display: flex;
   flex: 1;
+
+  main {
+    display: flex;
+    flex: 1;
+  }
 }
 </style>
