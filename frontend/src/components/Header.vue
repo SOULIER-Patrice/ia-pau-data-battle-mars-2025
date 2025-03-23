@@ -77,6 +77,8 @@ header {
   align-items: center;
 
   nav {
+    display: flex;
+
     margin-right: 20px;
 
     button {
