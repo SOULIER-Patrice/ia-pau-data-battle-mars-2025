@@ -8,7 +8,7 @@ const authRequired = (to: any, from: any, next: any) => {
   if (authStore.token) {
     next()
   } else {
-    next({ name: 'login' })
+    next({ name: 'login', query: { redirect: to.fullPath } })
   }
 }
 
@@ -24,6 +24,24 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      beforeEnter: authRequired,
+      component: () => import('../views/ProfileView.vue')
+    },
+    {
+      path: '/practice',
+      name: 'practice',
+      beforeEnter: authRequired,
+      component: () => import('../views/PracticesViews/SelectModeView.vue')
+    },
+    {
+      path: '/practice/chat',
+      name: 'chat',
+      beforeEnter: authRequired, // Si nécessaire
+      component: () => import('../views/PracticesViews/ChatView.vue')
     },
     {
       path: '/about',
