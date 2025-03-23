@@ -18,7 +18,7 @@
         ]
     },
     "3": {
-        "question": "On 10 October 2024, an applicant files a request for entry into the European phase, together with a debit order, according to which the filing fee, the designation fee, the examination fee and the renewal fee for the third year are to be debited from the applicant’s deposit account. It is specified that the debit order is to be executed on 18 October 2024. On the evening of 10 October 2024, the applicant notices that the renewal fee is not yet due and should not be debited from the deposit account. What is the latest point in time for revoking the order to debit the renewal fee in Central Fee Payment (CFP)?",
+        "question": "On 10 October 2024, an applicant files a request for entry into the European phase, together with a debit order, according to which the filing fee, the designation fee, the examination fee and the renewal fee for the third year are to be debited from the applicant's deposit account. It is specified that the debit order is to be executed on 18 October 2024. On the evening of 10 October 2024, the applicant notices that the renewal fee is not yet due and should not be debited from the deposit account. What is the latest point in time for revoking the order to debit the renewal fee in Central Fee Payment (CFP)?",
         "options": [
             "A. 10 October 2024",
             "B. 17 October 2024",
@@ -92,10 +92,10 @@
     "11": {
         "question": "Which functionalities or services can be accessed directly from MyEPO Portfolio?",
         "options": [
-            "A. A shared area with examiners, European Patent Register, filing via the EPO’s online filing software eOLF",
+            "A. A shared area with examiners, European Patent Register, filing via the EPO's online filing software eOLF",
             "B. Mailbox, a shared area with examiners, replying to a communication under Article  94(3) EPC",
             "C. Mailbox, patent search via publication server, a shared area with examiners",
-            "D. Filing via the EPO’s Online Filing 2.0, patent search via publication server, Mailbox"
+            "D. Filing via the EPO's Online Filing 2.0, patent search via publication server, Mailbox"
         ]
     },
     "12": {

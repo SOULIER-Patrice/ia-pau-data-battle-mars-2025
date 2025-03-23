@@ -4,8 +4,8 @@
         "options": [
             "A.  The communication is deemed to be delivered on 17 December 2022",
             "B. The time limit for replying to the communication expires on 17 April 2023",
-            "C.  Further processing for replying to the communication can be validly requested on 19 June 2023 at the latest",
-            "D.  An extension of the time limit for filing the reply can be validly requested on 14 April 2023"
+            "C.  Further processing for replying to the communication can be validly requested on 19 June 2023 at the latest",
+            "D.  An extension of the time limit for filing the reply can be validly requested on 14 April 2023"
         ]
     },
     "2": {
@@ -45,7 +45,7 @@
         ]
     },
     "6": {
-        "question": "The European Patent Office as receiving Office for an international patent application invites the applicant to provide a missing abstract within a period of two months. The invitation is dated 2 December 2022 and is received by the applicant on 12 December 2022. The date of receipt stamped on the communication by the mail service provides evidence of the receipt date. What is the final date for responding to the invitation?",
+        "question": "The European Patent Office as receiving Office for an international patent application invites the applicant to provide a missing abstract within a period of two months. The invitation is dated 2 December 2022 and is received by the applicant on 12 December 2022. The date of receipt stamped on the communication by the mail service provides evidence of the receipt date. What is the final date for responding to the invitation?",
         "options": [
             "A. 2 February 2023",
             "B. 13 February 2023",
@@ -54,7 +54,7 @@
         ]
     },
     "7": {
-        "question": "An international patent application was filed on 17 February 2022 claiming priority from a European patent application filed on 17 February 2021. The international search report together with the written opinion was transmitted to the applicant on 10 June 2022.   What is the last day for filing a demand for international preliminary examination?",
+        "question": "An international patent application was filed on 17 February 2022 claiming priority from a European patent application filed on 17 February 2021. The international search report together with the written opinion was transmitted to the applicant on 10 June 2022.   What is the last day for filing a demand for international preliminary examination?",
         "options": [
             "A. 17 December 2022",
             "B. 19 December 2022",
@@ -129,7 +129,7 @@
         "question": "On 27 October 2022 you filed European patent application EP -A claiming priority from FR -A filed on 29 October 2021. Your intention was that both applications would have the same content. On 3 November 2022, however, you noticed that page 3 of the description and claims 7 -12 are missing in EP -A. The fees have not been paid yet.  Which statement is correct?",
         "options": [
             "A. If the EPO notes that page 3 of the description and claims 7 -12 are missing, it will invite you to file these missing parts within a time limit of two months",
-            "B. You may of your own volition file page 3 of the description at any time up to 2 January 2023 without the application being re -dated",
+            "B. You may of your own volition file page 3 of the description at any time up to 2 January 2023 without the application being re -dated",
             "C. If the subject -matter of claims 7 -12 is also present in the description, you may add claims 7 -12 at any time",
             "D. The best solution is to withdraw EP -A and refile it, claiming priority from FR -A"
         ]
