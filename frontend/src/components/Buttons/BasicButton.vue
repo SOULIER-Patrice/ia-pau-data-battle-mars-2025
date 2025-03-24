@@ -9,6 +9,10 @@ defineProps({
     type: String,
     required: false,
   },
+  iconSize: {
+    type: Number,
+    default: 24,
+  },
 })
 
 const emit = defineEmits(['click'])
@@ -20,7 +24,14 @@ const onClick = () => {
 
 <template>
   <button @click="onClick" class="button" :style="{ color: color, backgroundColor: bgColor }">
-    <SvgIcon v-if="icon" type="mdi" :path="icon" :style="{ color: color }" class="icon" />
+    <SvgIcon
+      v-if="icon"
+      type="mdi"
+      :path="icon"
+      :size="iconSize"
+      :style="{ color: color }"
+      class="icon"
+    />
     {{ text }}
   </button>
 </template>
