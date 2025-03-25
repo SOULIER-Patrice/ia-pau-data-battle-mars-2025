@@ -74,6 +74,7 @@ header {
   display: flex;
   padding: 20px;
   background-color: #f4f3f3;
+  z-index: 1002;
   align-items: center;
 
   nav {
@@ -88,7 +89,7 @@ header {
 
   .auth {
     margin-left: auto;
-    margin-right: 35px;
+    margin-right: 75px;
     display: flex;
     align-items: center;
 
@@ -105,13 +106,13 @@ header {
       position: absolute;
       width: 120px;
       top: 60px;
-      right: 10px;
+      right: 50px;
       background-color: #f4f3f3;
       border-radius: 5px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      z-index: 1000;
+      z-index: 1005;
       overflow: hidden;
 
       .title {
