@@ -1,14 +1,13 @@
 <script setup lang="ts">
 // Components
-import LinkActiveButton from '../Buttons/LinkActiveButton.vue'
+import BasicButton from '../Buttons/BasicButton.vue'
+
+// Emits
+defineEmits(['click'])
 
 // Props
 defineProps({
   title: {
-    type: String,
-    required: false,
-  },
-  link: {
     type: String,
     required: false,
   },
@@ -27,13 +26,12 @@ defineProps({
     </div>
     <slot></slot>
     <div class="button-container">
-      <LinkActiveButton
-        v-if="link"
-        :to="link"
+      <BasicButton
         :text="buttonText"
         class="button"
         color="var(--secondary-text-color)"
         bg-color="var(--primary-color)"
+        @click="$emit('click')"
       />
     </div>
   </div>
