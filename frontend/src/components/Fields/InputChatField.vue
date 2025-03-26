@@ -10,6 +10,11 @@ defineProps({
     required: false,
     default: '',
   },
+  isMessages: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 })
 
 const model = defineModel<string>()
@@ -18,7 +23,7 @@ const isFocused = ref(false)
 </script>
 
 <template>
-  <div :class="{ focused: isFocused }">
+  <div :class="{ focused: isFocused || isMessages }">
     <SvgIcon type="mdi" :path="mdiPencil" />
     <textarea
       v-model="model"

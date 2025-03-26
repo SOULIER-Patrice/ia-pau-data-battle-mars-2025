@@ -2,10 +2,20 @@
 import { RouterView, useRoute } from 'vue-router'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const route = useRoute()
 const isLoginRoute = computed(() => route.path === '/login')
+const componentKey = ref(Date.now())
+
+// Watch for route changes and reload the component
+watch(
+  () => route,
+  () => {
+    componentKey.value = Date.now()
+  },
+  { deep: true }, // Surveille les changements profonds
+)
 </script>
 
 <template>
@@ -13,7 +23,7 @@ const isLoginRoute = computed(() => route.path === '/login')
     <Header class="header" />
     <div class="page">
       <main>
-        <RouterView />
+        <RouterView :key="componentKey" />
       </main>
     </div>
     <Footer />

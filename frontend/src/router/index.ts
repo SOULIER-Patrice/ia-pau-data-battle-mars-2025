@@ -47,7 +47,7 @@ const router = createRouter({
       path: '/practice/quiz',
       name: 'quiz',
       beforeEnter: authRequired,
-      component: () => import('../views/PracticesViews/QuizView.vue')
+      component: () => import('../views/PracticesViews/ChatView.vue')
     },
     {
       path: '/about',

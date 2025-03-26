@@ -1,24 +1,62 @@
 <script setup lang="ts">
-// Components
+import { ref, computed, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import SidePannel from '@/components/SidePannel.vue'
 import BasicButton from '@/components/Buttons/BasicButton.vue'
 import InputChatField from '@/components/Fields/InputChatField.vue'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiMenu, mdiTagOutline } from '@mdi/js'
 
-import { computed, ref } from 'vue'
-
+const route = useRoute()
 const isOpen = ref(true)
+const chatVisible = ref(false)
+const showResults = ref(false)
+const selectedAnswers = ref<string[]>([])
 
 const togglePanel = () => {
   isOpen.value = !isOpen.value
 }
 
+const toggleSubmit = () => {
+  checkAnswers()
+  chatVisible.value = true
+}
+
+const checkAnswers = () => {
+  showResults.value = true
+}
+
 const categories = computed(() => ['Category 1', 'Category 2', 'Category 3'])
+const question = 'Question ?'
+const answers = ['Choice 1', 'Choice 2', 'Choice 3', 'Choice 4']
+const correctAnswer = 'Choice 1'
+const messages = [
+  'Hello',
+  'Hi',
+  'How are you?',
+  "I'm good",
+  'What are you doing?',
+  "I'm working",
+  'Ok',
+  'Bye',
+  'Goodbye',
+  'Hello',
+  'Hi',
+  'How are you?',
+  "I'm good",
+  'What are you doing?',
+  "I'm working",
+  'Ok',
+  'Bye',
+  'Goodbye',
+]
+
+// Determine if the current view is a quiz or chat based on the route
+const isQuiz = computed(() => route.name === 'quiz')
 </script>
 
 <template>
-  <div class="chat-view">
+  <div class="chat-quiz-view">
     <SvgIcon type="mdi" :path="mdiMenu" @click="togglePanel" class="menu-button" />
     <SidePannel :isOpen="isOpen" />
     <div :class="['floating-header', { 'is-open': isOpen }]">
@@ -33,25 +71,62 @@ const categories = computed(() => ['Category 1', 'Category 2', 'Category 3'])
         color="var(--secondary-text-color)"
       />
     </div>
+
     <div :class="['chat-container', { 'is-open': isOpen }]">
-      <h1>Question ?</h1>
-      <div class="chat">
-        <div class="message">Hello</div>
-        <div class="message">Hi</div>
-        <div class="message">How are you?</div>
-        <div class="message">I'm good</div>
-        <div class="message">What are you doing?</div>
-        <div class="message">I'm working</div>
-        <div class="message">Ok</div>
-        <div class="message">Bye</div>
+      <div class="scroll">
+        <h1>{{ question }}</h1>
+
+        <!-- Quiz Section -->
+        <div v-if="isQuiz" class="answers">
+          <div
+            v-for="(answer, index) in answers"
+            :key="index"
+            :class="{
+              'correct-answer': showResults && answer === correctAnswer,
+              'wrong-answer':
+                showResults && answer !== correctAnswer && selectedAnswers.includes(answer),
+            }"
+          >
+            <input
+              type="checkbox"
+              :id="'answer-' + index"
+              :value="answer"
+              v-model="selectedAnswers"
+              :disabled="showResults"
+            />
+            <label :for="'answer-' + index">{{ answer }}</label>
+          </div>
+          <BasicButton
+            v-if="!showResults"
+            text="Submit"
+            bgColor="var(--primary-color)"
+            color="var(--secondary-text-color)"
+            @click="toggleSubmit"
+            class="submit-button"
+          />
+        </div>
+
+        <!-- Chat Section -->
+        <div v-if="!isQuiz || chatVisible" class="chat">
+          <div class="message" v-for="(message, index) in messages" :key="index">
+            {{ message }}
+          </div>
+        </div>
       </div>
-      <InputChatField placeholder="Type a message..." />
+
+      <!-- Input Field for Chat -->
+      <InputChatField
+        v-if="!isQuiz || chatVisible"
+        placeholder="Type a message..."
+        class="inputChat"
+        :is-messages="messages.length > 0"
+      />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.chat-view {
+.chat-quiz-view {
   display: flex;
   width: 100%;
 
@@ -102,6 +177,7 @@ const categories = computed(() => ['Category 1', 'Category 2', 'Category 3'])
     flex-direction: column;
     align-items: center;
     width: 100%;
+    height: calc(100vh - 180px);
     margin-top: 70px;
     margin-bottom: 10px;
     transition:
@@ -109,7 +185,17 @@ const categories = computed(() => ['Category 1', 'Category 2', 'Category 3'])
       width 0.3s ease-in-out;
     z-index: 1000;
 
+    .scroll {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+
     h1 {
+      text-align: center;
       font-size: 32px;
     }
 
@@ -119,16 +205,63 @@ const categories = computed(() => ['Category 1', 'Category 2', 'Category 3'])
     }
 
     .chat {
-      padding: 10px;
-      overflow-y: auto;
-      height: calc(100% - 50px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 450px;
+      margin: 10px 0;
     }
 
     .message {
       padding: 10px;
       margin: 5px;
       border-radius: 5px;
+      width: calc(100% - 30px);
       background-color: #f1f1f1;
+    }
+  }
+
+  .answers {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    input[type='checkbox'] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid black;
+      border-radius: 50%;
+      margin-right: 10px;
+      cursor: pointer;
+      transition:
+        background-color 0.3s,
+        border-color 0.3s;
+
+      &:checked {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+
+      &:hover {
+        border-color: var(--secondary-color);
+      }
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+
+      &.correct-answer {
+        color: green;
+        font-weight: bold;
+      }
+
+      &.wrong-answer {
+        color: red;
+        text-decoration: line-through;
+      }
     }
   }
 }
