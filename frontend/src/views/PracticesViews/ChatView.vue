@@ -226,6 +226,11 @@ const isQuiz = computed(() => route.name === 'quiz')
     flex-direction: column;
     align-items: flex-start;
 
+    .submit-button {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
     input[type='checkbox'] {
       appearance: none;
       width: 20px;

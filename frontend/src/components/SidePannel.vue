@@ -122,7 +122,7 @@ const books = [
   left: -300px; /* Hidden by default */
   width: 290px;
   height: 100%;
-  background-color: #fff;
+  background-color: #f4f3f3;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
   transform: translateX(0);
