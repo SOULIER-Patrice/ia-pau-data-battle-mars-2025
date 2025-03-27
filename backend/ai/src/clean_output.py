@@ -1,7 +1,7 @@
 import re
 import json
 from ollama import chat
-from config.config import load_ai_config
+from config.config import model
 
 
 def validate_json_format_mcq(llm_output, type):
@@ -59,7 +59,6 @@ def call_formatting_llm_mcq(llm_output, type):
     Returns:
     dict: A valid JSON object containing the question and options.
     """
-    model, _ =  load_ai_config()
     if type == 'question':
         system_prompt = """You are an AI specialized in converting multiple-choice legal questions into JSON format.
         Ensure the output strictly follows this structure:

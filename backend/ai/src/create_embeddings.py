@@ -18,9 +18,6 @@ import json
 import glob
 
 
-
-
-
 def create_classification_embeddings(model_name, categories_path, output_dir):
     tokenizer_classification = AutoTokenizer.from_pretrained(model_name)
     model_classification = AutoModel.from_pretrained(model_name)
@@ -148,32 +145,34 @@ def create_rag_embeddings(model_name, markdown_separators, data_dir, output_dir,
         docs_processed, embedding_model, distance_strategy=DistanceStrategy.COSINE
     )
     # Save embeddings
-    knowledge_vector_database.save_local(f"{output_dir}/rag_embeddings_{model_name.split("/")[-1]}")
+    knowledge_vector_database.save_local(f"{output_dir}/rag_embeddings_{model_name.replace('/', '_')}")
 
 
 
 if __name__ == "__main__":
     import os
-    MODEL_NAME_CLASSIFICATION = "nlpaueb/bert-base-uncased-eurlex"
-    
-    categories_path = os.path.abspath('./outputs/categories.json')
-    output_dir = os.path.abspath('./embeddings')
+    from config.config import model_classification, model_rag
+
+    categories_path = os.path.abspath('ai/outputs/categories.json')
+    output_dir = os.path.abspath('ai/embeddings')
     print(categories_path)
     print(output_dir)
-    create_classification_embeddings(MODEL_NAME_CLASSIFICATION, categories_path, output_dir)
+    
+    create_classification_embeddings(model_classification, categories_path, output_dir)
 
 
-    MARKDOWN_SEPARATORS = [
+    markdown_separators = [
     "\n\n",
     "\n",
     ".",
     " ",
     "",
     ]
-    MODEL_NAME_RAG_EMBEDDING = "thenlper/gte-small"
+    
 
-    data_dir = os.path.abspath('./outputs')
-    output_dir = os.path.abspath('./embeddings')
+    data_dir = os.path.abspath('ai/outputs')
+    output_dir = os.path.abspath('ai/embeddings')
     print(categories_path)
     print(output_dir)
-    create_rag_embeddings(MODEL_NAME_RAG_EMBEDDING, MARKDOWN_SEPARATORS, data_dir, output_dir, device="cuda")
+
+    create_rag_embeddings(model_rag, markdown_separators, data_dir, output_dir, device="cuda")

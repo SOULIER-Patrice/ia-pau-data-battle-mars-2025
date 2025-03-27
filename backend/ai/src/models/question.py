@@ -2,7 +2,7 @@ from ai.src.get_context import get_context
 from ai.src.clean_output import clean_generate_mcq_output
 from langchain_community.vectorstores import FAISS
 from ollama import chat
-from config.config import load_ai_config
+from config.config import model, max_output_tokens
 
 
 def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
@@ -16,7 +16,6 @@ def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
     question (dict): {'question': '...',
                       'options': ['A ....', 'B ...', ...]}
     """
-    model, max_output_tokens =  load_ai_config()
     # Retrieve context
     retrieved_docs = get_context(questions, 3, knowledge_vector_db)
     context = "\nExtracted documents:\n"
@@ -79,7 +78,6 @@ def generate_open(questions : str, knowledge_vector_db: FAISS) -> str:
     Returns:
     question (str): The new question.
     """
-    model, max_output_tokens =  load_ai_config()
     # Retrieve context
     retrieved_docs = get_context(questions, 5, knowledge_vector_db)
     context = "\nExtracted documents:\n"
