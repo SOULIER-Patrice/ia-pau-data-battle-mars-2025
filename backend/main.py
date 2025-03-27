@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
+from ai.src.models.utils_temp import load_rag_embeddings  # Import de la fonction
 import config.config as config
 
 from api.resources import (
@@ -8,6 +10,17 @@ from api.resources import (
     user_resource,
     book_resource,
 )
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """ Gère le chargement et la libération des embeddings """
+    print("🚀 Chargement des embeddings RAG...")
+    app.state.knowledge_vector_db = load_rag_embeddings()  # Chargement unique
+    print(app.state.knowledge_vector_db)
+    yield  # L'application tourne ici
+    print("🛑 Libération des ressources...")
+    app.state.knowledge_vector_db = None  # Nettoyage en mémoire
+
 
 tags_metadata = [
     {
@@ -23,7 +36,8 @@ tags_metadata = [
 
 app = FastAPI(
     title="IA Pau Databattle 2025",
-    openapi_tags=tags_metadata
+    openapi_tags=tags_metadata,
+    lifespan=lifespan
 )
 
 origins = [

@@ -1,104 +1,337 @@
+
 # question, options
-def generate_mcq_answer(question_mcq):
-    return {'Answer': 'Answer B.', 'Justification': 'Explanation: According to the Guidelines for Examination in the EPO, amendments can be made both in the international and European phases of a patent application, provided they are consistent with the original filing date. In this case, since no priority is claimed and the applicant files an international application that enters the European phase 19 months after the filing date, the application would enter the national phase and thus be subject to EPO examination rules. - **Option A** states that amendments can only be made in the international phase, which is incorrect because the Guidelines specifically mention that amendments are allowed during both the international and European phases. - **Option C** suggests no amendments can be made until after receiving the search report. This is incorrect as the Guidelines allow for certain types of amendments to be made before the search report has been issued.- **Option D** claims that amendments can be made at any time before the grant of the patent, which is also inaccurate because amendments must meet specific admissibility and allowability criteria, especially regarding what was originally disclosed in the application as filed (Art. 123(2)) and not extending protection conferred by a granted patent (Art. 123(3)).The correct statement is B, indicating that amendments can be made both during the international phase and when the application enters the European phase, provided they comply with certain conditions outlined in Art. 123(2) and Art. 123(3).'}
+def generate_mcq_answer(question_mcq: str) -> dict:
+    """
+    Generates an answer for a MCQ question.
 
-def generate_open_answer(question_open):
-    res = """
-    Answer:
- 
+    Parameters:
+    question_mcq (str): The input question_mcq for which an answer is needed.
 
-    Based on the information provided in the Guidelines for Examination in the EPO:
+    Returns:
+    answer (str): The generated response from the AI with the context used.
+    """
 
-    1. **Languages for Filing:**
-    - According to Rule 6(3) of the Guidelines, an application filed in a non-official language (such as Japanese) will be accepted by the EPO, and the applicant will have to provide a translation into one of the official languages within the specified timeframe.
+    # Convert the question in string, in case the question is a json.
+    question_mcq = str(question_mcq)
+
+    # Retrieve context
+    retrieved_docs = get_context(question_mcq, k=5)
+    context = "\nExtracted documents:\n"
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(retrieved_docs)])
+    context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
+
+    # Build prompt
+    SYSTEM_PROMPT = f"""
+    You are an AI specialized in answering legal multiple-choice questions based on provided legal texts.
+    ### Instructions:
+    - When given a multiple-choice legal question, provide the correct answer followed by an explanation.
+    - Your answer should begin with the correct choice (e.g., "Answer A").
+    - After that, explain why this choice is correct based on the provided legal context.
+    - Then, explain why the other choices (B, C, D) are incorrect, using relevant legal reasoning from the context.
+    - Use the legal context provided to back up your reasoning.
+    - Make sure to clearly distinguish between the correct answer and the incorrect ones.
+    """
+
+    user_prompt = f"""
+    ### Context:
+    {context}
+
+    ### Legal Question:
+    {question_mcq}
+
+    Answer the question by:
+    1. Starting with the correct answer (e.g., "Answer A").
+    2. Explaining why this choice is correct according to the provided legal text.
+    3. Explaining why the other options (B, C, D) are incorrect based on the legal context.
+    """
+
+    # Initial attempt to get the answer
+    attempt_count = 0
+    max_attempts = 10  # Limit number of attempts to prevent infinite loops
+
+    while attempt_count < max_attempts:
+        answer_mcq = chat(model=MODEL,
+                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+                                      {"role":"user","content":user_prompt}],
+                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            )
+
+        # Put answer in correct json format
+        try:
+            cleaned_answer_mcq = clean_generate_mcq_output(answer_mcq['message']['content'], type='answer')
+            # Add context to Justification
+            cleaned_answer_mcq['Justification'] += f'\n\nSources:\n{context_sources}'
+            return cleaned_answer_mcq  # If valid, return it
+        except ValueError:
+            attempt_count += 1  # Increment attempt count
+            print(f"Attempt {attempt_count} failed. Retrying...")
     
-    2. **Translation Submission Deadline:**
-    - The translation must be submitted within two months from the filing date of the application according to Rule 6(1). Since the Japanese application was filed on March 15, 2023, the deadline for submitting a translation would be May 14, 2023.
+    # If all attempts fail, raise an exception or return None
+    raise ValueError("Failed to generate a valid MCQ after multiple attempts.")
 
-    3. **Consequences of Failing to File Translation:**
-    - If the translation is not provided by the specified deadline and Rule 58 is invoked, the application may be deemed withdrawn according to Art. 14(2) as per Rule 6(1). This can be seen from the relevant text in A-VII, 1.1:
-        - "If the translation has not been filed, the EPO will invite the applicant to rectify this deficiency underRule 58 within two months in accordance with the procedure explained inA-III, 16."
-    - Further, if the application is deemed withdrawn due to non-compliance, Rule 112(1) dictates that the EPO will notify the applicant of this loss of rights.
-        - "The EPO will then notify the applicant of this loss of rights according toRule 112(1)."
 
-    The above points are derived directly from the provided guidelines and rules. Therefore, it is crucial for the Japanese company to ensure compliance with these deadlines to avoid any potential loss of rights associated with their European patent application.
-
-    Sources:
-    Source: Guidelines for Examination in the EPO, A-X, 9.2.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_9_2_1.html
-    Source: Guidelines for Examination in the EPO, A-VII, 2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_vii_2.html
-    Source: Guidelines for Examination in the EPO, A-VII, 1.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_vii_1_1.html
-    Source: Guidelines for Examination in the EPO, A-III, 14, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_14.html
-    Source: Guidelines for Examination in the EPO, A-III, 6.8, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_8.html
-
+def generate_open_answer(question_open: str) -> str:
     """
-    return res
+    Generates an answer to a given open question.
 
-def generate_feedback(question, correct_answer, user_answer):
-    res = """
-    ### Feedback on User's Answer:
+    Parameters:
+    question (str): The input question for which an answer is needed.
 
-    #### a) Languages for Filing:
-    The user's response is partially correct. The Japanese company can use Japanese as the language of filing, but this must be accompanied by translations into one of the EPO’s official languages (German, English, or French). According to Rule 159(1)(a) and (b) of the European Patent Convention (EPC), a translation into German, English, or French must be filed upon entry into the European phase. However, the user did not specify this requirement.
-
-    #### b) Translation Submission:
-    The user's response is correct but incomplete. According to Rule 159(1)(a) EPC and A-VII, 1.2 of the Guidelines for Examination in the EPO, a translation into German, English, or French must be filed upon entry into the European phase (which would typically occur within 6 months from the filing date).
-
-    #### c) Consequences of Non-Compliance:
-    The user's response is correct but not fully detailed. According to Rule 58(2), if the translation has not been filed by the deadline, the EPO will invite the applicant to rectify this deficiency under Rule 58 within two months in accordance with A-III, 16 (explanations on how to rectify deficiencies). If the deficiency is not rectified within that period, Rule 112(1) provides that the EPO will notify the applicant of the loss of rights.
-
-    ### Corrected and Detailed Answers:
-
-    #### a) Languages for Filing:
-    **Languages that can be used:**
-    - The Japanese company can file its European patent application in Japanese.
-    - However, this must be accompanied by translations into one of the EPO's official languages (German, English, or French).
-
-    **Legal Context and Sources:**
-    - **Rule 159(1)(a) EPC:** "The language of the proceedings shall be the language of the original application in the case of a European patent application filed in a language other than an official language."
-    - **Rule 159(2)(b) EPC:** "A translation into one of the official languages of the EPO (German, English or French) must be submitted upon entry into the European phase."
-
-    #### b) Translation Submission:
-    **When to submit the translation:**
-    - The translation into German, English, or French must be filed upon entry into the European phase. This is typically within 6 months from the filing date.
-    ...
-    Source: Guidelines for Examination in the EPO, A-X, 9.2.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_9_2_1.html
-    Source: 2022_MOCK_solution_open.json, Url: N/A
-    Source: Guidelines for Examination in the EPO, B-III, 3.3.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/b_iii_3_3_2.html
-    Source: Guidelines for Examination in the EPO, E-IX, 2.3.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_ix_2_3_2.html
+    Returns:
+    answer (str): The generated response from the AI with the context used.
     """
-    return res
 
-def chat_with_ai(history_open, user_message_open):
-    res = """
-    Hello! It sounds like you're interested in understanding more about claims that define an invention by reference to another entity through use. Let's break this down step-by-step using some examples from the Guidelines for Examination in the EPO.
 
-    ### Definition by Reference to Another Entity
+    # Retrieve context
+    retrieved_docs = get_context(question_open)
+    context = "\nExtracted documents:\n"
+    context += "".join([f'Content: {doc.page_content}\nSource: {doc.metadata['ref']}\n' for i, doc in enumerate(retrieved_docs)])
+    context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
 
-    In a situation where a claim is directed towards a physical entity (like a cylinder head), but its definition depends on features related to another entity that it's used with, you need to be clear about what exactly your invention encompasses. For instance:
 
-    - **Claim Example:** "A cylinder head for an engine."
+    # Build prompt
+    SYSTEM_PROMPT = f"""You are an AI specialized in answering open-ended legal questions based on provided legal texts. Your task is to generate a detailed, accurate, and well-reasoned answer to the given question using the provided legal texts. Every answer must be supported by specific legal sources from the context provided.
+    ### Instructions:
+    1. **Answer Generation**:
+    - Provide a clear, well-explained answer to the user's legal question.
+    - The answer must strictly be based on the provided legal texts. Do not include any additional information not supported by the given texts.
+    - For each part of the answer, explain how the relevant legal sources from the context support your reasoning.
+    
+    2. **Source Citation**:
+    - After each point in the answer, cite the specific legal text(s) that were used to form that part of the answer.
+    - Cite articles, sections, or specific clauses of the law, clearly linking them to the answer.
+    
+    3. **Explanation of Relevance**:
+    - For each source used, provide a brief explanation of why that particular legal text is relevant to the question and how it supports the answer.
+    
+    4. **Validity**:
+    - Your answer is only valid if it is directly supported by the legal texts provided in the context.
 
-    In this case, the cylinder head is being defined based on how it fits or functions within the context of an engine.
+    5. **Legal Terminology**:
+    - Use correct legal terminology and ensure clarity when referencing legal sources.
 
-    ### Interpreting the Claim
+    ### Example Answer Flow:
+    **Question**: "What conditions must be met for a contract to be voidable due to duress under the Civil Code?"
 
-    Now, let's look at how this claim might be interpreted by someone examining your patent application. The key points to consider are:
+    **Answer**:
+    - A contract may be voidable if one party was under duress, but this duress must be severe enough to impair the will of the affected party. According to Article 123 of the Civil Code, duress must be such that the affected party was left with no free choice in entering the contract.
+    - **Source**: Article 123 of the Civil Code states: "A contract may be voidable if it was entered into under duress, provided that the duress was so severe that it compromised the free will of the affected party."
+    - **Explanation of Relevance**: This article defines duress and explicitly ties the concept to the condition that it must be severe enough to affect free will. The wording "so severe" emphasizes that the severity of duress is a key factor in determining the validity of the contract.
 
-    1. **Independence of Entities:** 
-    - Since the cylinder head can often be produced and sold separately from the engine, it is typically treated as a standalone invention.
-    - This means that unless explicitly stated otherwise, the claim will not include the features of the engine itself.
+    **Question**: "Can a contract be voidable due to lack of consent?"
 
-    2. **Features Suitability:**
-    - The cylinder head must still meet specific requirements to function properly within the described engine (e.g., it needs to fit correctly and perform its intended purpose).
-    - However, these engine-specific features do not limit the scope of protection for the cylinder head per se; they merely ensure that it functions as intended when used in a particular engine design.
+    **Answer**:
+    - Yes, under the Civil Code, a contract may be voidable if one party lacked the capacity to give consent. This includes situations where the individual was unable to understand the nature of the contract. Article 123 of the Civil Code outlines that contracts entered into by individuals lacking the legal capacity to understand the terms are voidable.
+    - **Source**: Article 123 of the Civil Code states: "A contract is voidable when one party lacks the legal capacity to understand the terms of the agreement."
+    - **Explanation of Relevance**: This article provides the legal basis for the voidability of a contract when consent is impaired due to the lack of understanding, which directly addresses the question about lack of consent.
 
-    3. **Combination Claims:**
-    - If you want the features of the other entity (like an engine) to be considered part of the claimed invention, then your claim should explicitly state this.
-    - For instance, instead of saying "a cylinder head for an engine," you might write something like:
-    ...
-    Source: Guidelines for Examination in the EPO, A-VII, 1.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_vii_1_1.html
-    Source: Guidelines for Examination in the EPO, F-IV, 4.18, Url: https://www.epo.org/en/legal/guidelines-epc/2024/f_iv_4_18.html
-    Source: Guidelines for Examination in the EPO, F-IV, 4.16, Url: https://www.epo.org/en/legal/guidelines-epc/2024/f_iv_4_16.html
-    Source: Guidelines for Examination in the EPO, F-IV, 4.14, Url: https://www.epo.org/en/legal/guidelines-epc/2024/f_iv_4_14.html
+    ### Example Legal Texts:
+    - **Legal Text 1**: "A contract may be voidable if it was entered into under duress, provided that the duress was so severe that it compromised the free will of the affected party."
+    - **Legal Text 2**: "A contract is voidable when one party lacks the legal capacity to understand the terms of the agreement, as specified in Article 123 of the Civil Code."
     """
-    return res
+    
+    user_prompt = f"""### Legal Texts:
+    {context}
+
+    ### Question:
+    {question_open}
+
+    ### Answer:
+    Please provide a detailed, accurate answer to the question. 
+    1. Cite the relevant legal text(s) used in your answer.
+    2. For each citation, explain why that source is relevant to the answer and how it supports your reasoning.
+    3. Ensure your answer is strictly based on the legal texts provided. If the question cannot be answered using the available legal texts, state that explicitly.
+    4. Use correct legal terminology and ensure clarity when referencing the sources.
+    """
+
+    # Redact an answer
+    answer = chat(model=MODEL,
+                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+                                      {"role":"user","content":user_prompt}],
+                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            )
+
+
+    # Assemble answer and context_sources
+    final_answer = f'{answer['message']['content']}\n\nSources:{context_sources}'
+
+    return final_answer
+
+
+def generate_feedback(question: str, correct_answer: str, user_answer: str) -> str:
+    """
+    Generates an AI-generated feedback on the user_answer. 
+    The question and correct_answer were generated before. When we gave an question to an user,
+    we also take the correct_answer. So when the user answer, we can give all, question, correct_answer (the correct one), 
+    and user_answer to give a feedback to the user.
+
+    Parameters:
+    question (str): The question generated by AI.
+    correct_answer (str): The correct answer.
+    user_answer (str): The user answer.
+
+    Returns:
+    feedback (str): The correct answer and the explaination why the user is wrong including the context.
+    """
+
+    # Convert the question in string, in case the question is a json.
+    question = str(question)
+    correct_answer = str(correct_answer)
+
+    # Retrieve context
+    question_context = get_context(question, k=3)
+    correct_answer_context = get_context(correct_answer, k=3)
+    user_answer_context = get_context(user_answer, k=3)
+    # Combine all retrieved contexts
+    all_contexts = question_context + correct_answer_context + user_answer_context
+    context = "\nExtracted documents:\n"
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(all_contexts)])
+    context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
+
+    # Build prompt
+    SYSTEM_PROMPT = f"""You are an AI designed to provide feedback on legal answers, both for multiple-choice questions (MCQs) and open-ended responses. When a user answers a question, your task is to explain whether their answer is correct or incorrect, using the legal context and specific sources to support your feedback.
+    ### Instructions:
+    - If the user answers a multiple-choice question (MCQ):
+        1. Start by acknowledging the user's chosen answer.
+        2. If the user's answer is correct, explain why it is correct using the legal context and cite relevant legal sources.
+        3. If the user's answer is incorrect, explain why it is wrong, referencing specific legal articles or sections from the context.
+        4. Provide the correct answer and back it up with legal reasoning from the context.
+        5. If the user selected a partially correct answer, explain the distinction and provide clarification on what was missed.
+
+    - If the user answers an open-ended question:
+        1. Acknowledge the user's answer and assess its correctness.
+        2. If the answer is correct, explain why it is correct using relevant legal context and sources.
+        3. If the answer is incorrect or incomplete, explain where it went wrong, citing the legal context and relevant articles or sections.
+        4. Provide the correct explanation and elaborate on any nuances or details the user might have missed.
+        5. If the user is partially correct, explain what is correct and where they need to elaborate or correct their understanding.
+
+    ### Example Response for an MCQ:
+    User Answer: "Answer B."
+
+    If the answer is wrong:
+    - Start with: "Your answer, 'Answer B', is incorrect."
+    - Explain the error: "According to Article 123 of the Civil Code, the correct interpretation is..."
+    - Provide the correct answer: "The correct answer is 'Answer A' because..."
+    - Cite specific legal sources: "As stated in Article 45 of the Civil Code, the situation described aligns with..."
+
+    If the answer is partially correct:
+    - Start with: "Your answer, 'Answer B', is partially correct."
+    - Explain the partial correctness: "You correctly identified that the issue involves Article 123, but the application to the scenario is incomplete."
+    - Clarify the distinction: "The key point is that Article 123 applies in a different context. Therefore, the correct answer is 'Answer A.'"
+
+    ### Example Response for Open-Ended Questions:
+    User Answer: "The law allows the contract to be voided if it was signed under duress."
+
+    If the answer is wrong:
+    - Start with: "Your answer is incorrect."
+    - Explain the error: "While duress may lead to a contract being voidable, it is important to note that the law specifically requires that the duress must have been severe enough to affect the will of the person involved, as outlined in Article 123 of the Civil Code."
+    - Provide the correct explanation: "The contract can only be voided if it meets the specific conditions outlined in Article 123, which states that..."
+
+    If the answer is partially correct:
+    - Start with: "Your answer is partially correct."
+    - Explain the correct parts: "You are right that duress can impact the validity of a contract."
+    - Clarify the missed details: "However, the law also specifies that the duress must have been significant enough to prevent free consent. Therefore, the correct interpretation includes this additional detail."
+    """
+    
+    user_prompt = f"""### Context:
+    {context}
+    
+    ### Correct Answer:
+    {correct_answer}
+
+    ### User's Answer:
+    {user_answer}
+
+    ### Legal Question:
+    {question}
+
+    ### Instructions:
+    - Provide feedback on the user's answer (both for multiple-choice and open-ended responses).
+    - If it's an MCQ, explain why the answer is correct or incorrect, using legal context and citing relevant articles.
+    - If it's an open-ended response, assess whether the answer is correct or not, and explain using the legal context and articles.
+    - Provide the correct answer or explanation and back it up with legal sources from the context.
+    """
+
+    # Redact an answer
+    feedback = chat(model=MODEL,
+                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+                                      {"role":"user","content":user_prompt}],
+                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            )
+                    
+
+    # Assemble final answer
+    final_answer = f'{feedback['message']['content']}\n\nContext:{context_sources}'
+
+    return final_answer
+
+
+def chat_with_ai(history: str, user_message: str) -> str:
+    """
+    Based on the history of the conversation, initialy filled with question, user_answer, feedback.
+
+    Parameters:
+    history (str): Initialy the quesiton, user_answer, feedback. The history is filled with new messages.
+    user_message (str): New message from user.
+
+    Returns:
+    answer (str): The answer for the user_message, base on the context from history.
+    context_sources (str): The context used to answer with real link.
+    """
+
+
+    # Retrieve context
+    history_context = get_context(history, k=5)
+    user_message_context = get_context(user_message, k=3)
+    # Combine all retrieved contexts
+    all_contexts = history_context + user_message_context
+    context = "\nExtracted documents:\n"
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(all_contexts)])
+    context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
+
+    # Build prompt
+    SYSTEM_PROMPT = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
+
+    ### Instructions:
+    1. **Conversation History**: Refer to the conversation history as context for understanding the user's current question or doubt. Always base your responses on the conversation history and legal texts provided.
+    2. **Legal Context**: Use the legal context (texts, articles, or sections) provided to answer questions or clarify points. If needed, quote specific legal articles or reference them when explaining a concept.
+    3. **Discussion Flow**: Engage with the user in a conversational style. If they ask why their answer isn't correct, provide a detailed explanation using the legal context and reasoning.
+    4. **Interactive Exploration**: Encourage the user to ask follow-up questions or seek further clarification about specific parts of the legal text. Offer suggestions to explore the legal texts together and make sure to reference specific articles when necessary.
+    5. **Supportive Dialogue**: If the user's understanding of a legal concept or their answer is incorrect, explain where they went wrong and guide them towards the correct interpretation of the law. Use the legal context to back up your explanation.
+
+    ### Example Flow:
+    User: "I think the contract is voidable due to duress. Isn't that right?"
+    AI: "Let's take a look at the legal context. According to Article 123 of the Civil Code, a contract may be voidable if one party was under severe duress. However, for duress to be a valid reason to void the contract, it must meet specific criteria. Let me walk you through the exact conditions outlined in the law."
+
+    User: "But the text just mentions duress, doesn't it?"
+    AI: "Yes, the term 'duress' is mentioned, but it's crucial to understand that the law specifies the severity of duress required. For instance, Article 123 requires the duress to be 'so severe that it compromises the freedom of choice of the person involved.' This distinction is important. Let's dive deeper into what 'severe' means under the law."
+    """
+    
+    user_prompt = f"""### Conversation History:
+    {history}
+
+    ### Legal Context:
+    {context}
+
+    ### User's Question:
+    {user_message}
+
+    ### Instructions:
+    - Provide a conversational response based on the conversation history and the legal context.
+    - If the user has a misunderstanding or an incorrect answer, explain why it is wrong using the relevant legal text and guide them to the correct understanding.
+    - Encourage the user to ask more questions if they need further clarification on specific legal points or sections.
+    - Reference legal articles and sections as needed to back up your explanation.
+    - Keep the conversation open and interactive, so the user feels comfortable discussing and exploring the legal concepts.
+    """
+
+    # Redact an answer
+    answer = chat(model=MODEL,
+                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+                                      {"role":"user","content":user_prompt}],
+                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            )
+
+    # Assemble answer
+    final_answer = f'{answer['message']['content']}\n\nContext:\n{context_sources}'
+
+    return final_answer
