@@ -2,7 +2,7 @@ from ai.src.get_context import get_context
 from ai.src.clean_output import clean_generate_mcq_output
 from langchain_community.vectorstores import FAISS
 from ollama import chat
-from config.config import load_ai_config
+from config.config import model, max_output_tokens
 
 
 # question, options
@@ -16,7 +16,6 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     Returns:
     answer (str): The generated response from the AI with the context used.
     """
-    model, max_output_tokens =  load_ai_config()
     # Convert the question in string, in case the question is a json.
     question_mcq = str(question_mcq)
 
@@ -86,7 +85,6 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     Returns:
     answer (str): The generated response from the AI with the context used.
     """
-    model, max_output_tokens =  load_ai_config()
 
     # Retrieve context
     retrieved_docs = get_context(question_open, 5, knowledge_vector_db)
@@ -179,8 +177,6 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     Returns:
     feedback (str): The correct answer and the explaination why the user is wrong including the context.
     """
-
-    model, max_output_tokens =  load_ai_config()
 
     # Convert the question in string, in case the question is a json.
     question = str(question)
@@ -287,8 +283,6 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     context_sources (str): The context used to answer with real link.
     """
     
-    model, max_output_tokens =  load_ai_config()
-
     # Retrieve context
     history_context = get_context(history, 5, knowledge_vector_db)
     user_message_context = get_context(user_message, 3, knowledge_vector_db)

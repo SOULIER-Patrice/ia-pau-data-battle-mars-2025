@@ -1,12 +1,12 @@
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
+from config.config import model_rag
 
 # Embedding model
-def load_rag_embeddings(path="./ai/embeddings/rag_embeddings_thenlper_gte-small"):
-    EMBEDDING_MODEL_NAME = "thenlper/gte-small"
+def load_rag_embeddings(path=f'./ai/embeddings/rag_embeddings_{model_rag.replace('/', '_')}'):
 
     embedding_model = HuggingFaceEmbeddings(
-        model_name=EMBEDDING_MODEL_NAME,
+        model_name=model_rag,
         multi_process=True,
         model_kwargs={"device": "cpu"},  # replace 'cpu' by 'cuda' if you have Nvidia gpu
         encode_kwargs={"normalize_embeddings": True},  # Set `True` for cosine similarity
