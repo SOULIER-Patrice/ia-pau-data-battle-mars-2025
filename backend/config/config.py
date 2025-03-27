@@ -11,6 +11,7 @@ with open('config/config.yml', 'r') as file:
 print("Fichier de configuration chargé avec succès.")
 
 def get_ollama_client():
+    ollama_client.pull(config['ai']['model'])
     client = Client(
         config['ai']['host']
     )
