@@ -3,6 +3,10 @@ FROM node:18
 # Set working directory
 WORKDIR /app
 
+# Accept the VITE_BASE_API_URL as a build argument
+ARG VITE_BASE_API_URL
+ENV VITE_BASE_API_URL=${VITE_BASE_API_URL}
+
 # Copy application code
 COPY . ./
 

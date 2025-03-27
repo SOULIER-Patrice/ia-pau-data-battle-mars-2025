@@ -55,6 +55,8 @@ export const useAuthStore = defineStore('auth', {
         },
 
         async register(email: string, password: string, firstName: string, lastName: string, redirect = '/') {
+            console.log('Base API URL:', base_api_url);
+
             try {
                 const response = await fetch(`${base_api_url}/auth/register`, {
                     method: 'POST',
