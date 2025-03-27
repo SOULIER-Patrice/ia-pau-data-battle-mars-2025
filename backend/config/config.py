@@ -2,16 +2,19 @@ import yaml
 import psycopg2
 import psycopg2.extras
 
-print("Chargement du fichier de configuration...")
+# print("Chargement du fichier de configuration...")
 
 # Charger le fichier de configuration
 with open('config/config.yml', 'r') as file:
     config = yaml.safe_load(file)
 
-print("Fichier de configuration chargé avec succès.")
+# print("Fichier de configuration chargé avec succès.")
 
 # Connexion à la base de données
 
+def load_ai_config():
+    return config['ai']['model'], config['ai']['max_output_tokens']
+    
 
 def get_db_connection():
     psycopg2.extras.register_uuid()

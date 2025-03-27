@@ -1,7 +1,8 @@
 from uuid import UUID
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, Depends, HTTPException, status, FastAPI
 
 from pydantic import BaseModel
+from api.resources.state import app_state
 
 from api.dependancies import auth_required, allowed_roles, oauth2_scheme
 from api.exceptions import AlreadyExistsException
@@ -17,15 +18,17 @@ router = APIRouter(
 )
 
 
-@router.post("/create")
+@router.post("/create", response_model=PageOuput)
 async def create_book(book: BookForCreate, token: str = Depends(oauth2_scheme)) -> PageOuput:
     current_user = auth_service.get_current_user(token)
+
+    knowledge_vector_db = app_state.get("knowledge_vector_db")
 
     if current_user.id != book.user_id and "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
-    page = book_service.create_book(book)
+    page = book_service.create_book(book, knowledge_vector_db)
     if not page:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Page not found"
@@ -33,7 +36,7 @@ async def create_book(book: BookForCreate, token: str = Depends(oauth2_scheme)) 
     return page
 
 
-@router.get("/{user_id}")
+@router.get("/{user_id}", response_model=list[Book])
 async def get_books(user_id: UUID, token: str = Depends(oauth2_scheme)) -> list[Book]:
     current_user = auth_service.get_current_user(token)
 
@@ -48,7 +51,7 @@ async def get_books(user_id: UUID, token: str = Depends(oauth2_scheme)) -> list[
     return books
 
 
-@router.get("/{book_id}/{user_id}")
+@router.get("/{book_id}/{user_id}", response_model=Book)
 async def get_book(book_id: UUID, user_id: UUID,  token: str = Depends(oauth2_scheme)) -> Book:
     current_user = auth_service.get_current_user(token)
 
@@ -62,7 +65,7 @@ async def get_book(book_id: UUID, user_id: UUID,  token: str = Depends(oauth2_sc
     return book
 
 
-@router.get("/pages/{book_id}/{user_id}")
+@router.get("/pages/{book_id}/{user_id}", response_model=list[PageOuput])
 async def get_pages(book_id: UUID, user_id: UUID, token: str = Depends(oauth2_scheme)) -> list[PageOuput]:
     current_user = auth_service.get_current_user(token)
 
@@ -77,7 +80,7 @@ async def get_pages(book_id: UUID, user_id: UUID, token: str = Depends(oauth2_sc
     return pages
 
 
-@router.get("/page/{page_id}/{user_id}")
+@router.get("/page/{page_id}/{user_id}", response_model=PageOuput)
 async def get_page(page_id: UUID, user_id: UUID, token: str = Depends(oauth2_scheme)) -> PageOuput:
     current_user = auth_service.get_current_user(token)
 
@@ -92,19 +95,20 @@ async def get_page(page_id: UUID, user_id: UUID, token: str = Depends(oauth2_sch
     return page
 
 
-@router.put("/page/{book_id}/{user_id}")
+@router.put("/page/{book_id}/{user_id}", response_model=PageOuput)
 async def add_page(book_id: UUID, user_id: UUID, token: str = Depends(oauth2_scheme)) -> PageOuput:
     current_user = auth_service.get_current_user(token)
-
+    knowledge_vector_db = app_state.get("knowledge_vector_db")
     if current_user.id != user_id and "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
-    page = book_service.add_page(book_id)
+    page = book_service.add_page(book_id, knowledge_vector_db)
     if not page:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="pages not found")
     return page
+
 
 
 class MessageModel(BaseModel):
@@ -113,15 +117,19 @@ class MessageModel(BaseModel):
     user_id: UUID
 
 
-@router.post("/send_meessage")
+@router.post("/send_meessage", response_model=str)
 async def send_message(message: MessageModel, token: str = Depends(oauth2_scheme)) -> str:
+
     current_user = auth_service.get_current_user(token)
+    knowledge_vector_db = app_state.get("knowledge_vector_db")
 
     if current_user.id != message.user_id and "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
-    message, _ = book_service.send_message(message.page_id, message.message)
+
+    message, _ = book_service.send_message(message.page_id, message.message, knowledge_vector_db)
+
     if not message:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Page not found"
