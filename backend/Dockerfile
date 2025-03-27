@@ -1,17 +1,19 @@
-FROM python:3.12-slim
+FROM python:3.13
 
-# Alllow statements and log messages to immediately appear in the Knative logs
-ENV PYTHONUNBUFFERED True
-
-# Copy local code to the container image.
+# Set environment variables
 ENV APP_HOME /app
+
+# Set working directory
 WORKDIR $APP_HOME
+
+# Copy application code
 COPY . ./
 
-# Install production dependencies.
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 8080
+# Expose the backend port
+EXPOSE 8000
 
-# Run the web service on container startup.
-CMD exec fastapi run --port 8080
+# Run the backend
+CMD ["./entrypoint.sh"]

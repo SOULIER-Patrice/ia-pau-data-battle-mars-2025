@@ -88,6 +88,7 @@ const register = async (args: any) => {
 .login-view {
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 100vh;
   background-color: #f4f3f3;
 }
@@ -107,7 +108,6 @@ const register = async (args: any) => {
     margin-bottom: 10px;
   }
 
-  margin-top: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;

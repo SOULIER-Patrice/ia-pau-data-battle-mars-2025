@@ -1,6 +1,9 @@
 <script setup lang="ts">
 // Components
-import LinkActiveButton from '../Buttons/LinkActiveButton.vue'
+import BasicButton from '../Buttons/BasicButton.vue'
+
+// Emits
+defineEmits(['click'])
 
 // Props
 defineProps({
@@ -8,13 +11,14 @@ defineProps({
     type: String,
     required: false,
   },
-  link: {
-    type: String,
-    required: false,
-  },
   buttonText: {
     type: String,
     required: false,
+  },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 })
 </script>
@@ -27,13 +31,12 @@ defineProps({
     </div>
     <slot></slot>
     <div class="button-container">
-      <LinkActiveButton
-        v-if="link"
-        :to="link"
+      <BasicButton
         :text="buttonText"
-        class="button"
+        :class="[disabled ? 'button disabled' : 'button']"
         color="var(--secondary-text-color)"
-        bg-color="var(--primary-color)"
+        :bg-color="disabled ? '#999999' : 'var(--primary-color)'"
+        @click="$emit('click')"
       />
     </div>
   </div>
@@ -75,6 +78,10 @@ defineProps({
 
   .button {
     margin-top: 24px;
+
+    &.disabled {
+      cursor: not-allowed;
+    }
   }
 }
 </style>

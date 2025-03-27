@@ -13,6 +13,10 @@ defineProps({
     type: String,
     default: 'transparent',
   },
+  icon: {
+    type: String,
+    required: false,
+  },
   activeColor: {
     type: String,
     default: 'var(--secondary-text-color)',
@@ -37,6 +41,7 @@ const onClick = () => {
     :text="text"
     :color="color"
     :bg-color="bgColor"
+    :icon="icon"
     :style="{
       color: isActive ? activeColor : color,
       backgroundColor: isActive ? activeBgColor : bgColor,
