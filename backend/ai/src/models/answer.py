@@ -1,3 +1,4 @@
+from ai.src.models.utils_temp import get_context
 
 # question, options
 def generate_mcq_answer(question_mcq: str) -> dict:
