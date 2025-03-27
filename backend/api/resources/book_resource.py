@@ -121,7 +121,7 @@ async def send_message(message: MessageModel, token: str = Depends(oauth2_scheme
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
-    message, _ = book_service.send_message(message.page_id, message)
+    message, _ = book_service.send_message(message.page_id, message.message)
     if not message:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Page not found"
