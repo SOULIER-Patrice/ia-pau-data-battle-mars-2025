@@ -23,7 +23,6 @@ const handleSubmit = () => {
     errors.value.push('Invalid email!')
   }
 
-  console.log(password.value, confirmPassword.value)
   if (password.value !== confirmPassword.value) {
     errors.value.push('Passwords do not match!')
   }
