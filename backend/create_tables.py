@@ -3,9 +3,11 @@ import uuid
 import psycopg2.extras
 import json
 import os
+import numpy as np
 
 from api.services.auth_service import get_password_hash
 
+from ai.src.models.classification import get_category_question
 
 def create_tables():
     psycopg2.extras.register_uuid()
@@ -53,7 +55,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS qa (
             id UUID PRIMARY KEY,
             type VARCHAR(50) NOT NULL,
-            category VARCHAR(50) NOT NULL,
+            category VARCHAR(255) NOT NULL,
             question TEXT NOT NULL,
             answer TEXT NOT NULL,
             is_verified BOOLEAN DEFAULT FALSE
@@ -133,7 +135,7 @@ def create_admin_user():
     conn.close()
 
 
-def add_mcq_questions(question_dir):
+def add_mcq_questions(question_dir, category_embeddings):
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -170,6 +172,8 @@ def add_mcq_questions(question_dir):
             options = question_data["options"]
             justification = solution_data[qid]["Justification"]
 
+            input = f"{question} {options}"
+            category = get_category_question(input, category_embeddings)
             # Insérer la question dans la table qa
             cursor.execute(
                 """
@@ -177,7 +181,7 @@ def add_mcq_questions(question_dir):
                 VALUES (%s, %s, %s, %s, %s, %s)
                 RETURNING id
                 """,
-                (str(uuid.uuid4()), "MCQ", "Category", question, answer, False)
+                (str(uuid.uuid4()), "MCQ", category, question, answer, True)
             )
             qa_id = cursor.fetchone()[0]
 
@@ -199,7 +203,7 @@ def add_mcq_questions(question_dir):
 
 
 
-def add_questions_open(question_dir):
+def add_questions_open(question_dir, category_embeddings):
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -234,13 +238,15 @@ def add_questions_open(question_dir):
             question = question_data.strip()
             answer = solution_data[qid].strip()
             # Insérer la question dans la table qa
+            input = f"{question}"
+            category = get_category_question(input, category_embeddings)
             cursor.execute(
                 """
                 INSERT INTO qa (id, type, category, question, answer, is_verified)
                 VALUES (%s, %s, %s, %s, %s, %s)
                 RETURNING id
                 """,
-                (str(uuid.uuid4()), "MCQ", "Category", question, answer, False)
+                (str(uuid.uuid4()), "OPEN", category, question, answer, True)
             )
     # Commit et fermeture de la connexion
     conn.commit()
@@ -255,6 +261,9 @@ if __name__ == "__main__":
     create_tables()
     # create_admin_user()
     question_dir = os.path.abspath('./ai/outputs')
-    add_mcq_questions(question_dir)
-    add_questions_open(question_dir)
+
+    category_embeddings = np.load('./ai/embeddings/categories_bert-base-uncased-eurlex.npy', allow_pickle=True).item()
+
+    add_mcq_questions(question_dir, category_embeddings)
+    add_questions_open(question_dir, category_embeddings)
     print("Tables créées avec succès et utilisateur administrateur ajouté.")

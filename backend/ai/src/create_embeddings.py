@@ -14,8 +14,6 @@ import pandas as pd
 import numpy as np 
 from tqdm import tqdm
 from typing import List
-
-
 import json
 import glob
 
@@ -61,6 +59,7 @@ def load_csv(data_dir):
         LangchainDocument(page_content=row["content"], metadata={"ref": row["ref"], "url": row["url"]})
         for _, row in tqdm(df.iterrows(), total=len(df))
     ]
+
 
 def load_exam_solutions(data_dir):
     # Load JSON with "solution" in their name
@@ -150,14 +149,6 @@ def create_rag_embeddings(model_name, markdown_separators, data_dir, output_dir,
     )
     # Save embeddings
     knowledge_vector_database.save_local(f"{output_dir}/rag_embeddings_{model_name.split("/")[-1]}")
-
-
-
-
-
-
-
-
 
 
 
