@@ -3,73 +3,62 @@ import router from '@/router'
 import type { Book } from '@/types/Book'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiNotebook, mdiFileDocumentOutline } from '@mdi/js'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+
+import { useAuthStore } from '@/stores/authStore'
+import type { Page } from '@/types/Page'
+const authStore = useAuthStore()
 
 defineProps({
   isOpen: Boolean,
 })
 
+const apiUrl = import.meta.env.VITE_BASE_API_URL
 const selectedBook = ref<Book | null>(null)
 
-const books = [
-  {
-    id: 'a67d1b1e-1b1e-4b1e-8b1e-1b1e1b1e1b1e',
-    title: 'Book 1',
-    type: 'quiz',
-    pages: [
-      {
-        id: 'a67d1b1e-1b1e-4b1e-8b1e-1b1e1b1e1b1d',
-        title: 'Page 1',
-      },
-      {
-        id: 'a67d1b1e-1b1e-4b1e-8b1e-1b1e2b1e1b1d',
-        title: 'Page 2',
-      },
-      {
-        id: 'a67d1b1e-1b1e-4b3e-8b1e-1b1e1b1e1b1d',
-        title: 'Page 3',
-      },
-    ],
-  },
-  {
-    id: 'a67d1b1e-1b1e-4b1e-8b1e-1b1e1b1e1b1f',
-    title: 'Book 2',
-    type: 'chat',
-    pages: [
-      {
-        id: 'a67d1b1e-1b1e-4b1e-8b1e-1b1e1b1e1b1d',
-        title: 'Page 1',
-      },
-      {
-        id: 'a67d1b1e-1b1e-4b1e-8b1e-1b1e2b1e1b1d',
-        title: 'Page 2',
-      },
-      {
-        id: 'a67d1b1e-1b1e-4b3e-8b1e-1b1e1b1e1b1d',
-        title: 'Page 3',
-      },
-    ],
-  },
-  {
-    id: 'a67d1b1e-1b1e-4b1e-8b1e-1b1e1b1e1b1a',
-    title: 'Book 3',
-    type: 'quiz',
-    pages: [
-      {
-        id: 'a67d1b1e-1b1e-4b1e-8b1e-1b1e1b1e1b1d',
-        title: 'Page 1',
-      },
-      {
-        id: 'a67d1b1e-1b1e-4b1e-8b1e-1b1e2b1e1b1d',
-        title: 'Page 2',
-      },
-      {
-        id: 'a67d1b1e-1b1e-4b3e-8b1e-1b1e1b1e1b1d',
-        title: 'Page 3',
-      },
-    ],
-  },
-]
+const books = ref<Book[]>([])
+
+const fetchBooks = async () => {
+  const userId = authStore.user?.id
+  if (!userId) return
+
+  fetch(`${apiUrl}/books/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${authStore.token?.access_token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      books.value = data
+    })
+    .catch((err) => console.error(err))
+}
+fetchBooks()
+
+const pages = ref<Page[]>([])
+
+const fetchPages = async (bookId: string) => {
+  const userId = authStore.user?.id
+  if (!userId) return
+
+  fetch(`${apiUrl}/books/pages/${bookId}/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${authStore.token?.access_token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      pages.value = data
+    })
+    .catch((err) => console.error(err))
+}
+
+watch(selectedBook, (book) => {
+  pages.value = []
+  if (book) {
+    fetchPages(book.id)
+  }
+})
 </script>
 
 <template>
@@ -98,7 +87,7 @@ const books = [
       <div v-else>
         <div
           v-if="selectedBook"
-          v-for="page in selectedBook.pages || []"
+          v-for="page in pages || []"
           :key="page.title"
           @click="router.push(`/practice/${selectedBook.type}?page=${page.id}`)"
           class="item"

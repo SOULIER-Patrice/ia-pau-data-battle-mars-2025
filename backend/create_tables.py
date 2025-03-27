@@ -9,11 +9,12 @@ from api.services.auth_service import get_password_hash
 
 from ai.src.models.classification import get_category_question
 
+
 def create_tables():
     psycopg2.extras.register_uuid()
     conn = get_db_connection()
     cursor = conn.cursor()
-    
+
     # Supprimer les tables existantes sauf la table Users
     cursor.execute("DROP TABLE IF EXISTS qa_mcq CASCADE")
     cursor.execute("DROP TABLE IF EXISTS qa CASCADE")
@@ -144,8 +145,10 @@ def add_mcq_questions(question_dir, category_embeddings):
         raise FileNotFoundError(f"Le dossier {question_dir} n'existe pas")
 
     # Récupération des fichiers MCQ et solutions
-    mcq_files = sorted([f for f in os.listdir(question_dir) if f.endswith("_mcq.json")])
-    solution_files = sorted([f for f in os.listdir(question_dir) if f.endswith("_mcq_solution.json")])
+    mcq_files = sorted([f for f in os.listdir(
+        question_dir) if f.endswith("_mcq.json")])
+    solution_files = sorted([f for f in os.listdir(
+        question_dir) if f.endswith("_mcq_solution.json")])
     # Parcours des fichiers MCQ et ajout à la base de données
     for i in range(len(mcq_files)):
 
@@ -153,13 +156,11 @@ def add_mcq_questions(question_dir, category_embeddings):
         solution_file = solution_files[i]
 
         mcq_path = os.path.join(question_dir, mcq_file)
-        solution_path = os.path.join(question_dir, solution_file) 
-        
+        solution_path = os.path.join(question_dir, solution_file)
 
         with open(mcq_path, 'r', encoding='utf-8') as f:
             mcq_data = json.load(f)
 
-        
         with open(solution_path, 'r', encoding='utf-8') as f:
             solution_data = json.load(f)
 
@@ -185,7 +186,6 @@ def add_mcq_questions(question_dir, category_embeddings):
             )
             qa_id = cursor.fetchone()[0]
 
-
             # Insérer les options dans la table qa_mcq
             cursor.execute(
                 """
@@ -202,7 +202,6 @@ def add_mcq_questions(question_dir, category_embeddings):
     print("MCQ questions and solutions added successfully!")
 
 
-
 def add_questions_open(question_dir, category_embeddings):
 
     conn = get_db_connection()
@@ -213,22 +212,22 @@ def add_questions_open(question_dir, category_embeddings):
         raise FileNotFoundError(f"Le dossier {question_dir} n'existe pas")
 
     # Récupération des fichiers MCQ et solutions
-    open_files = sorted([f for f in os.listdir(question_dir) if f.endswith("_open.json")])
-    solution_files = sorted([f for f in os.listdir(question_dir) if f.endswith("_open_solution.json")])
-    
+    open_files = sorted([f for f in os.listdir(
+        question_dir) if f.endswith("_open.json")])
+    solution_files = sorted([f for f in os.listdir(
+        question_dir) if f.endswith("_open_solution.json")])
+
     for i in range(len(open_files)):
 
         mcq_file = open_files[i]
         solution_file = solution_files[i]
 
         mcq_path = os.path.join(question_dir, mcq_file)
-        solution_path = os.path.join(question_dir, solution_file) 
-        
+        solution_path = os.path.join(question_dir, solution_file)
 
         with open(mcq_path, 'r', encoding='utf-8') as f:
             mcq_data = json.load(f)
 
-        
         with open(solution_path, 'r', encoding='utf-8') as f:
             solution_data = json.load(f)
 
@@ -254,15 +253,14 @@ def add_questions_open(question_dir, category_embeddings):
     conn.close()
     print("Open questions and solutions added successfully!!")
 
-    
-    
 
 if __name__ == "__main__":
     create_tables()
     # create_admin_user()
     question_dir = os.path.abspath('./ai/outputs')
 
-    category_embeddings = np.load('./ai/embeddings/categories_bert-base-uncased-eurlex.npy', allow_pickle=True).item()
+    category_embeddings = np.load(
+        './ai/embeddings/categories_bert-base-uncased-eurlex.npy', allow_pickle=True).item()
 
     add_mcq_questions(question_dir, category_embeddings)
     add_questions_open(question_dir, category_embeddings)

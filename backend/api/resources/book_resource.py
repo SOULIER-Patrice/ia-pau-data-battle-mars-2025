@@ -20,7 +20,7 @@ router = APIRouter(
 @router.post("/create")
 async def create_book(book: BookForCreate, token: str = Depends(oauth2_scheme)) -> PageOuput:
     current_user = auth_service.get_current_user(token)
-   
+
     if current_user.id != book.user_id and "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
@@ -76,6 +76,7 @@ async def get_pages(book_id: UUID, user_id: UUID, token: str = Depends(oauth2_sc
             status_code=status.HTTP_404_NOT_FOUND, detail="pages not found")
     return pages
 
+
 @router.get("/page/{page_id}/{user_id}")
 async def get_page(page_id: UUID, user_id: UUID, token: str = Depends(oauth2_scheme)) -> PageOuput:
     current_user = auth_service.get_current_user(token)
@@ -84,7 +85,7 @@ async def get_page(page_id: UUID, user_id: UUID, token: str = Depends(oauth2_sch
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
-    page= book_service.get_page(page_id)
+    page = book_service.get_page(page_id)
     if not page:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="pages not found")
@@ -106,15 +107,21 @@ async def add_page(book_id: UUID, user_id: UUID, token: str = Depends(oauth2_sch
     return page
 
 
+class MessageModel(BaseModel):
+    page_id: UUID
+    message: str
+    user_id: UUID
+
+
 @router.post("/send_meessage")
-async def send_message(page_id: UUID, message: str, user_id: UUID, token: str = Depends(oauth2_scheme)) -> str:
+async def send_message(message: MessageModel, token: str = Depends(oauth2_scheme)) -> str:
     current_user = auth_service.get_current_user(token)
 
-    if current_user.id != user_id and "admin" not in current_user.roles:
+    if current_user.id != message.user_id and "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
-    message, _ = book_service.send_message(page_id, message)
+    message, _ = book_service.send_message(message.page_id, message)
     if not message:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Page not found"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiPencil, mdiSend } from '@mdi/js'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 defineProps({
   label: String,
@@ -17,21 +17,43 @@ defineProps({
   },
 })
 
+const emit = defineEmits(['submit'])
+
+const emitSubmit = () => {
+  emit('submit', model.value)
+  model.value = ''
+}
+
 const model = defineModel<string>()
 
 const isFocused = ref(false)
+
+// Adjust textarea height dynamically
+const adjustTextareaHeight = (event: Event) => {
+  const textarea = event.target as HTMLTextAreaElement
+  textarea.style.height = 'auto' // Reset height to calculate new height
+  textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px` // Set height with a max limit
+}
+
+onMounted(() => {
+  const textarea = document.querySelector('textarea')
+  if (textarea) {
+    textarea.style.height = 'auto'
+  }
+})
 </script>
 
 <template>
-  <div :class="{ focused: isFocused || isMessages }">
+  <div :class="{ focused: isFocused || isMessages || model }">
     <SvgIcon type="mdi" :path="mdiPencil" />
     <textarea
       v-model="model"
       :placeholder="placeholder"
       @focus="isFocused = true"
       @blur="isFocused = false"
+      @input="adjustTextareaHeight"
     ></textarea>
-    <SvgIcon type="mdi" :path="mdiSend" />
+    <SvgIcon type="mdi" :path="mdiSend" @click="emitSubmit" class="submit" />
   </div>
 </template>
 
@@ -53,12 +75,12 @@ div {
     border: none;
     background-color: transparent;
     resize: none;
-    height: 20px;
     transition: height 0.3s ease-in-out;
+    max-height: 100px; // Limite maximale de hauteur
+    overflow-y: auto; // Ajout d'un défilement si nécessaire
 
     &:focus {
       outline: none;
-      height: 50px;
     }
   }
 
@@ -66,6 +88,10 @@ div {
     width: 450px;
     border: 2px solid black;
     border-radius: 7px;
+  }
+
+  .submit {
+    cursor: pointer;
   }
 }
 </style>

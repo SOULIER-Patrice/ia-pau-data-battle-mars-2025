@@ -1,5 +1,8 @@
 export type Book = {
+    id: string;
     title: string;
+    categories: Array<string>;
     type: string;
-    pages: any[];
+    user_id: string;
+    created_at: string;
 };
