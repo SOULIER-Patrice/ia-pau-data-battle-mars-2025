@@ -1,6 +1,10 @@
 db:
-  host: "localhost"
+  host: "postgres"
   port: 5432
   user: "user"
   password: "password"
   database: "data-battle"
+
+ai:
+  model: "qwen2.5:7b"
+  max_output_tokens: 3000

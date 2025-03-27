@@ -1,5 +1,6 @@
-from uuid import UUID, uuid4
+from uuid import UUID
 from typing import List
+from langchain_community.vectorstores import FAISS
 
 from api.models.Book import Book, BookForCreate
 from api.models.Page import PageOuput, PageForCreate
@@ -10,7 +11,8 @@ from ai.src.models.question import generate_mcq, generate_open
 from ai.src.models.answer import generate_mcq_answer, generate_open_answer, generate_feedback, chat_with_ai
 import random
 
-def create_book(book: BookForCreate) -> PageOuput:
+
+def create_book(book: BookForCreate, knowledge_vector_db: FAISS) -> PageOuput:
     book: Book = Book(
         title= book.title,
         categories= book.categories,
@@ -18,7 +20,7 @@ def create_book(book: BookForCreate) -> PageOuput:
         user_id= book.user_id,
     )
     book_id = book_repository.create_book(book)
-    page = add_page(book_id)
+    page = add_page(book_id, knowledge_vector_db)
 
     return page
 
@@ -100,7 +102,8 @@ def get_pages(book_id: UUID) -> List[PageOuput]:
         return []
 
 
-def add_page(book_id: UUID) -> PageOuput:
+def add_page(book_id: UUID, knowledge_vector_db: FAISS) -> PageOuput:
+
     book = get_book(book_id)
     category = random.sample(book.categories, 1)[0]
     questions = page_repository.get_qa_by_category(category)
@@ -114,15 +117,15 @@ def add_page(book_id: UUID) -> PageOuput:
     formatted_questions = '\n'.join([q.question for q in questions])
 
     if book.type == "MCQ":
-        question_disc = generate_mcq(formatted_questions) # renvoie un dict de la forme question: str options: List[str]
-        answer_disc = generate_mcq_answer(question_disc) # renvoie {'Answer': 'Answer B.', 'Justification': 'Explanation According to the Guidelines for'}
+        question_disc = generate_mcq(formatted_questions, knowledge_vector_db) # renvoie un dict de la forme question: str options: List[str]
+        answer_disc = generate_mcq_answer(question_disc, knowledge_vector_db) # renvoie {'Answer': 'Answer B.', 'Justification': 'Explanation According to the Guidelines for'}
 
         qa_id = page_repository.create_qa_mcq(category, question_disc, answer_disc)
 
         page_title = f"{category} - {question_disc["question"][:100]}"
     else:
-        question = generate_open(formatted_questions) # renvoie un str correspondant a question
-        answer = generate_open_answer(question) # renvoie un str correspondant a answer
+        question = generate_open(formatted_questions, knowledge_vector_db) # renvoie un str correspondant a question
+        answer = generate_open_answer(question, knowledge_vector_db) # renvoie un str correspondant a answer
         qa_id = page_repository.create_qa_open(category, question, answer)
 
         page_title = f"{category} - {question[:100]}"
@@ -140,7 +143,7 @@ def add_page(book_id: UUID) -> PageOuput:
     return page
 
 
-def send_message(page_id, message):
+def send_message(page_id: UUID, message: str, knowledge_vector_db: FAISS):
     try:
         page = get_page(page_id)
         if not page:
@@ -157,9 +160,9 @@ def send_message(page_id, message):
                 question = page.question #access question attribute.
                 correct_answer = page.answer #access answer attribute.
 
-            result = generate_feedback(question, correct_answer, user_answer)
+            result = generate_feedback(question, correct_answer, user_answer, knowledge_vector_db)
         else:
-            result = chat_with_ai(f"{history}", message)
+            result = chat_with_ai(f"{history}", message, knowledge_vector_db)
 
         history.append({"user": message})
         history.append({"ai": result})
@@ -171,25 +174,3 @@ def send_message(page_id, message):
     except Exception as e:
         print(f"Erreur lors de l'envoi du message : {e}")
         return "Une erreur est survenue.", []
-
-
-if __name__ == "__main__":
-    book_data = BookForCreate(
-        title = "test title",
-        categories=["International filing and search", "Grounds for opposition (article 100 epc)"],
-        type="OPEN",
-        user_id="1bb0f2bb-5e25-4dcb-8090-75a740342a17",
-    )
-
-    print(book_data.user_id)
-    page = create_book(book_data)
-    page.book_id
-    print(create_book(book_data))
-
-    result, history= send_message(page.id, "je suis toto")
-    print(result, history)
-    result, history = send_message(page.id, "je suis toto")
-    print(result, history)
-
-    page = add_page(page.book_id)
-    print(page)

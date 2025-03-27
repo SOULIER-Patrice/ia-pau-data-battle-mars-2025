@@ -1,7 +1,12 @@
-from ai.src.models.utils_temp import get_context
+from ai.src.get_context import get_context
+from ai.src.clean_output import clean_generate_mcq_output
+from langchain_community.vectorstores import FAISS
+from ollama import chat
+from config.config import load_ai_config
+
 
 # question, options
-def generate_mcq_answer(question_mcq: str) -> dict:
+def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     """
     Generates an answer for a MCQ question.
 
@@ -11,18 +16,18 @@ def generate_mcq_answer(question_mcq: str) -> dict:
     Returns:
     answer (str): The generated response from the AI with the context used.
     """
-
+    model, max_output_tokens =  load_ai_config()
     # Convert the question in string, in case the question is a json.
     question_mcq = str(question_mcq)
 
     # Retrieve context
-    retrieved_docs = get_context(question_mcq, k=5)
+    retrieved_docs = get_context(question_mcq, 5, knowledge_vector_db)
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(retrieved_docs)])
     context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
 
     # Build prompt
-    SYSTEM_PROMPT = f"""
+    system_prompt = f"""
     You are an AI specialized in answering legal multiple-choice questions based on provided legal texts.
     ### Instructions:
     - When given a multiple-choice legal question, provide the correct answer followed by an explanation.
@@ -51,10 +56,10 @@ def generate_mcq_answer(question_mcq: str) -> dict:
     max_attempts = 10  # Limit number of attempts to prevent infinite loops
 
     while attempt_count < max_attempts:
-        answer_mcq = chat(model=MODEL,
-                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+        answer_mcq = chat(model=model,
+                            messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            options = {"num_predict":max_output_tokens}
                             )
 
         # Put answer in correct json format
@@ -71,7 +76,7 @@ def generate_mcq_answer(question_mcq: str) -> dict:
     raise ValueError("Failed to generate a valid MCQ after multiple attempts.")
 
 
-def generate_open_answer(question_open: str) -> str:
+def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     """
     Generates an answer to a given open question.
 
@@ -81,17 +86,17 @@ def generate_open_answer(question_open: str) -> str:
     Returns:
     answer (str): The generated response from the AI with the context used.
     """
-
+    model, max_output_tokens =  load_ai_config()
 
     # Retrieve context
-    retrieved_docs = get_context(question_open)
+    retrieved_docs = get_context(question_open, 5, knowledge_vector_db)
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content}\nSource: {doc.metadata['ref']}\n' for i, doc in enumerate(retrieved_docs)])
     context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
 
 
     # Build prompt
-    SYSTEM_PROMPT = f"""You are an AI specialized in answering open-ended legal questions based on provided legal texts. Your task is to generate a detailed, accurate, and well-reasoned answer to the given question using the provided legal texts. Every answer must be supported by specific legal sources from the context provided.
+    system_prompt = f"""You are an AI specialized in answering open-ended legal questions based on provided legal texts. Your task is to generate a detailed, accurate, and well-reasoned answer to the given question using the provided legal texts. Every answer must be supported by specific legal sources from the context provided.
     ### Instructions:
     1. **Answer Generation**:
     - Provide a clear, well-explained answer to the user's legal question.
@@ -146,10 +151,10 @@ def generate_open_answer(question_open: str) -> str:
     """
 
     # Redact an answer
-    answer = chat(model=MODEL,
-                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+    answer = chat(model=model,
+                            messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            options = {"num_predict":max_output_tokens}
                             )
 
 
@@ -159,7 +164,7 @@ def generate_open_answer(question_open: str) -> str:
     return final_answer
 
 
-def generate_feedback(question: str, correct_answer: str, user_answer: str) -> str:
+def generate_feedback(question: str, correct_answer: str, user_answer: str, knowledge_vector_db: FAISS) -> str:
     """
     Generates an AI-generated feedback on the user_answer. 
     The question and correct_answer were generated before. When we gave an question to an user,
@@ -175,14 +180,16 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str) -> s
     feedback (str): The correct answer and the explaination why the user is wrong including the context.
     """
 
+    model, max_output_tokens =  load_ai_config()
+
     # Convert the question in string, in case the question is a json.
     question = str(question)
     correct_answer = str(correct_answer)
 
     # Retrieve context
-    question_context = get_context(question, k=3)
-    correct_answer_context = get_context(correct_answer, k=3)
-    user_answer_context = get_context(user_answer, k=3)
+    question_context = get_context(question, 3, knowledge_vector_db)
+    correct_answer_context = get_context(correct_answer, 3, knowledge_vector_db)
+    user_answer_context = get_context(user_answer, 3, knowledge_vector_db)
     # Combine all retrieved contexts
     all_contexts = question_context + correct_answer_context + user_answer_context
     context = "\nExtracted documents:\n"
@@ -190,7 +197,7 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str) -> s
     context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
 
     # Build prompt
-    SYSTEM_PROMPT = f"""You are an AI designed to provide feedback on legal answers, both for multiple-choice questions (MCQs) and open-ended responses. When a user answers a question, your task is to explain whether their answer is correct or incorrect, using the legal context and specific sources to support your feedback.
+    system_prompt = f"""You are an AI designed to provide feedback on legal answers, both for multiple-choice questions (MCQs) and open-ended responses. When a user answers a question, your task is to explain whether their answer is correct or incorrect, using the legal context and specific sources to support your feedback.
     ### Instructions:
     - If the user answers a multiple-choice question (MCQ):
         1. Start by acknowledging the user's chosen answer.
@@ -254,10 +261,10 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str) -> s
     """
 
     # Redact an answer
-    feedback = chat(model=MODEL,
-                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+    feedback = chat(model=model,
+                            messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            options = {"num_predict":max_output_tokens}
                             )
                     
 
@@ -267,7 +274,7 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str) -> s
     return final_answer
 
 
-def chat_with_ai(history: str, user_message: str) -> str:
+def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) -> str:
     """
     Based on the history of the conversation, initialy filled with question, user_answer, feedback.
 
@@ -279,11 +286,12 @@ def chat_with_ai(history: str, user_message: str) -> str:
     answer (str): The answer for the user_message, base on the context from history.
     context_sources (str): The context used to answer with real link.
     """
-
+    
+    model, max_output_tokens =  load_ai_config()
 
     # Retrieve context
-    history_context = get_context(history, k=5)
-    user_message_context = get_context(user_message, k=3)
+    history_context = get_context(history, 5, knowledge_vector_db)
+    user_message_context = get_context(user_message, 3, knowledge_vector_db)
     # Combine all retrieved contexts
     all_contexts = history_context + user_message_context
     context = "\nExtracted documents:\n"
@@ -291,7 +299,7 @@ def chat_with_ai(history: str, user_message: str) -> str:
     context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
 
     # Build prompt
-    SYSTEM_PROMPT = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
+    system_prompt = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
 
     ### Instructions:
     1. **Conversation History**: Refer to the conversation history as context for understanding the user's current question or doubt. Always base your responses on the conversation history and legal texts provided.
@@ -326,10 +334,10 @@ def chat_with_ai(history: str, user_message: str) -> str:
     """
 
     # Redact an answer
-    answer = chat(model=MODEL,
-                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+    answer = chat(model=model,
+                            messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            options = {"num_predict":max_output_tokens}
                             )
 
     # Assemble answer

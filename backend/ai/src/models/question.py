@@ -1,7 +1,11 @@
-from ai.src.models.utils_temp import get_context
+from ai.src.get_context import get_context
+from ai.src.clean_output import clean_generate_mcq_output
+from langchain_community.vectorstores import FAISS
+from ollama import chat
+from config.config import load_ai_config
 
 
-def generate_mcq(questions: str) -> dict:
+def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
     """
     Generates an MCQ question.
 
@@ -12,16 +16,16 @@ def generate_mcq(questions: str) -> dict:
     question (dict): {'question': '...',
                       'options': ['A ....', 'B ...', ...]}
     """
-
+    model, max_output_tokens =  load_ai_config()
     # Retrieve context
-    retrieved_docs = get_context(questions, k=3)
+    retrieved_docs = get_context(questions, 3, knowledge_vector_db)
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(retrieved_docs)])
     # context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
 
 
     # Build prompt
-    SYSTEM_PROMPT = f"""
+    system_prompt = f"""
     You are an AI specialized in generating multiple-choice legal questions based on given legal texts.
     ### Instructions:
     - Generate a new legal multiple-choice question based on the provided context.
@@ -47,10 +51,10 @@ def generate_mcq(questions: str) -> dict:
     max_attempts = 3  # Limit number of attempts to prevent infinite loops
 
     while attempt_count < max_attempts:
-        question_mcq = chat(model=MODEL,
-                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+        question_mcq = chat(model=model,
+                            messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            options = {"num_predict":max_output_tokens}
                             )
         
         # Put question in correct json format
@@ -65,7 +69,7 @@ def generate_mcq(questions: str) -> dict:
     raise ValueError("Failed to generate a valid MCQ after multiple attempts.")
 
 
-def generate_open(questions : str) -> str:
+def generate_open(questions : str, knowledge_vector_db: FAISS) -> str:
     """
     Generates an Open question.
 
@@ -75,17 +79,16 @@ def generate_open(questions : str) -> str:
     Returns:
     question (str): The new question.
     """
-    
-
+    model, max_output_tokens =  load_ai_config()
     # Retrieve context
-    retrieved_docs = get_context(questions, k=5)
+    retrieved_docs = get_context(questions, 5, knowledge_vector_db)
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(retrieved_docs)])
     # context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
 
 
     # Build prompt
-    SYSTEM_PROMPT = f"""You are an AI designed to generate legal questions based on the provided legal context. Your task is to generate a **detailed legal scenario** followed by **three to five structured questions**, ensuring that all questions can be answered using the given legal texts.
+    system_prompt = f"""You are an AI designed to generate legal questions based on the provided legal context. Your task is to generate a **detailed legal scenario** followed by **three to five structured questions**, ensuring that all questions can be answered using the given legal texts.
 
     ### **Instructions:**
     1. **Replicate the Structure**:
@@ -123,10 +126,10 @@ def generate_open(questions : str) -> str:
     """
 
     # Redact an answer
-    question_open = chat(model=MODEL,
-                            messages=[{"role":"system", "content":SYSTEM_PROMPT},
+    question_open = chat(model=model,
+                            messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":MAX_OUTPUT_TOKENS}
+                            options = {"num_predict":max_output_tokens}
                             )
 
     return question_open['message']['content']

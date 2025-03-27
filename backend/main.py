@@ -2,24 +2,20 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from ai.src.models.utils_temp import load_rag_embeddings  # Import de la fonction
-import config.config as config
+from ai.src.embedding_loader import load_rag_embeddings
 
-from api.resources import (
-    auth_resource,
-    user_resource,
-    book_resource,
-)
+from api.resources import auth_resource, user_resource, book_resource
+from api.resources.state import app_state  # Import du state depuis un module séparé
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """ Gère le chargement et la libération des embeddings """
     print("🚀 Chargement des embeddings RAG...")
-    app.state.knowledge_vector_db = load_rag_embeddings()  # Chargement unique
-    print(app.state.knowledge_vector_db)
+    app_state["knowledge_vector_db"] = load_rag_embeddings()  # Chargement unique
     yield  # L'application tourne ici
     print("🛑 Libération des ressources...")
-    app.state.knowledge_vector_db = None  # Nettoyage en mémoire
+    app_state["knowledge_vector_db"] = None  # Nettoyage en mémoire
 
 
 tags_metadata = [
