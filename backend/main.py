@@ -38,6 +38,7 @@ app = FastAPI(
 
 origins = [
     "http://localhost:5173",
+    "http://lawrag.duckdns.org",
 ]
 
 app.add_middleware(
