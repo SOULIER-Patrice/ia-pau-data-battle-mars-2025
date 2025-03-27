@@ -6,6 +6,7 @@ import config.config as config
 from api.resources import (
     auth_resource,
     user_resource,
+    book_resource,
 )
 
 tags_metadata = [
@@ -15,6 +16,9 @@ tags_metadata = [
     {
         "name": "User"
     },
+    {
+        "name": "Book"
+    }
 ]
 
 app = FastAPI(
@@ -37,6 +41,8 @@ app.add_middleware(
 
 app.include_router(auth_resource.router)
 app.include_router(user_resource.router)
+app.include_router(book_resource.router)
+
 
 if __name__ == "__main__":
     import uvicorn
