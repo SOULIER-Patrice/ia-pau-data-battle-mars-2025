@@ -117,7 +117,12 @@ const mode = ref<string>('')
       </BasicCard>
     </div>
     <div v-else>
-      <BasicCard title="Choose a category" buttonText="Start" @click="() => createBook(mode)">
+      <BasicCard
+        title="Choose a category"
+        buttonText="Start"
+        @click="() => createBook(mode)"
+        :disabled="selectedCategories.length === 0"
+      >
         <div class="select-categories__content">
           <ActiveButton
             v-for="category in categories"

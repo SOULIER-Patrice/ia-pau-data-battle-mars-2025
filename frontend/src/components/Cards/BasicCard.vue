@@ -15,6 +15,11 @@ defineProps({
     type: String,
     required: false,
   },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 })
 </script>
 
@@ -28,9 +33,9 @@ defineProps({
     <div class="button-container">
       <BasicButton
         :text="buttonText"
-        class="button"
+        :class="[disabled ? 'button disabled' : 'button']"
         color="var(--secondary-text-color)"
-        bg-color="var(--primary-color)"
+        :bg-color="disabled ? '#999999' : 'var(--primary-color)'"
         @click="$emit('click')"
       />
     </div>
@@ -73,6 +78,10 @@ defineProps({
 
   .button {
     margin-top: 24px;
+
+    &.disabled {
+      cursor: not-allowed;
+    }
   }
 }
 </style>
