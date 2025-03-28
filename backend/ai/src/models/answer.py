@@ -1,5 +1,6 @@
+from typing import AsyncGenerator
 from ai.src.get_context import get_context
-from ai.src.clean_output import clean_generate_mcq_output
+from ai.src.clean_output import clean_generate_mcq_output, clean_output_v2
 from langchain_community.vectorstores import FAISS
 from ollama import chat
 from config.config import model, max_output_tokens, ollama_client
@@ -22,8 +23,10 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     # Retrieve context
     retrieved_docs = get_context(question_mcq, 5, knowledge_vector_db)
     context = "\nExtracted documents:\n"
-    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(retrieved_docs)])
-    context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
+                       doc in enumerate(retrieved_docs)])
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
 
     # Build prompt
     system_prompt = f"""
@@ -55,6 +58,7 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     max_attempts = 10  # Limit number of attempts to prevent infinite loops
 
     while attempt_count < max_attempts:
+
         answer_mcq = ollama_client.chat(model=model,
                             messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
@@ -63,14 +67,17 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
 
         # Put answer in correct json format
         try:
-            cleaned_answer_mcq = clean_generate_mcq_output(answer_mcq['message']['content'], type='answer')
+            cleaned_answer_mcq = clean_output_v2(answer_mcq['message']['content'], type='answer')
+            if cleaned_answer_mcq['Answer'] not in {'A', 'B', 'C', 'D'}:
+                raise ValueError("Answer should be 'A', 'B', 'C' or 'D'.")
+
             # Add context to Justification
             cleaned_answer_mcq['Justification'] += f'\n\nSources:\n{context_sources}'
             return cleaned_answer_mcq  # If valid, return it
         except ValueError:
             attempt_count += 1  # Increment attempt count
             print(f"Attempt {attempt_count} failed. Retrying...")
-    
+
     # If all attempts fail, raise an exception or return None
     raise ValueError("Failed to generate a valid MCQ after multiple attempts.")
 
@@ -89,9 +96,10 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     # Retrieve context
     retrieved_docs = get_context(question_open, 5, knowledge_vector_db)
     context = "\nExtracted documents:\n"
-    context += "".join([f'Content: {doc.page_content}\nSource: {doc.metadata['ref']}\n' for i, doc in enumerate(retrieved_docs)])
-    context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
-
+    context += "".join([f'Content: {doc.page_content}\nSource: {doc.metadata['ref']}\n' for i,
+                       doc in enumerate(retrieved_docs)])
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
 
     # Build prompt
     system_prompt = f"""You are an AI specialized in answering open-ended legal questions based on provided legal texts. Your task is to generate a detailed, accurate, and well-reasoned answer to the given question using the provided legal texts. Every answer must be supported by specific legal sources from the context provided.
@@ -133,7 +141,7 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     - **Legal Text 1**: "A contract may be voidable if it was entered into under duress, provided that the duress was so severe that it compromised the free will of the affected party."
     - **Legal Text 2**: "A contract is voidable when one party lacks the legal capacity to understand the terms of the agreement, as specified in Article 123 of the Civil Code."
     """
-    
+
     user_prompt = f"""### Legal Texts:
     {context}
 
@@ -154,7 +162,6 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
                                       {"role":"user","content":user_prompt}],
                             options = {"num_predict":max_output_tokens}
                             )
-
 
     # Assemble answer and context_sources
     final_answer = f'{answer['message']['content']}\n\nSources:{context_sources}'
@@ -184,13 +191,16 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
 
     # Retrieve context
     question_context = get_context(question, 3, knowledge_vector_db)
-    correct_answer_context = get_context(correct_answer, 3, knowledge_vector_db)
+    correct_answer_context = get_context(
+        correct_answer, 3, knowledge_vector_db)
     user_answer_context = get_context(user_answer, 3, knowledge_vector_db)
     # Combine all retrieved contexts
     all_contexts = question_context + correct_answer_context + user_answer_context
     context = "\nExtracted documents:\n"
-    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(all_contexts)])
-    context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
+                       doc in enumerate(all_contexts)])
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
 
     # Build prompt
     system_prompt = f"""You are an AI designed to provide feedback on legal answers, both for multiple-choice questions (MCQs) and open-ended responses. When a user answers a question, your task is to explain whether their answer is correct or incorrect, using the legal context and specific sources to support your feedback.
@@ -236,7 +246,7 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     - Explain the correct parts: "You are right that duress can impact the validity of a contract."
     - Clarify the missed details: "However, the law also specifies that the duress must have been significant enough to prevent free consent. Therefore, the correct interpretation includes this additional detail."
     """
-    
+
     user_prompt = f"""### Context:
     {context}
     
@@ -258,9 +268,9 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
 
     # Redact an answer
     feedback = ollama_client.chat(model=model,
-                            messages=[{"role":"system", "content":system_prompt},
-                                      {"role":"user","content":user_prompt}],
-                            options = {"num_predict":max_output_tokens}
+                            messages=[{"role":"system", "content": system_prompt},
+                                      {"role":"user","content": user_prompt}],
+                            options = {"num_predict": max_output_tokens}
                             )
                     
 
@@ -268,6 +278,26 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     final_answer = f'{feedback['message']['content']}\n\nContext:{context_sources}'
 
     return final_answer
+
+
+async def generate_feedback_stream(question: str, correct_answer: str, user_answer: str, knowledge_vector_db: FAISS) -> AsyncGenerator[str, None]:
+    # Retrieve context
+    question_context = get_context(question, 3, knowledge_vector_db)
+    correct_answer_context = get_context(
+        correct_answer, 3, knowledge_vector_db)
+    user_answer_context = get_context(user_answer, 3, knowledge_vector_db)
+    all_contexts = question_context + correct_answer_context + user_answer_context
+    context = "\nExtracted documents:\n"
+    context += "".join(
+        [f'Content: {doc.page_content} \nSource: {doc.metadata["ref"]}\n\n' for doc in all_contexts])
+
+    # Build prompt
+    system_prompt = f"""You are an AI designed to provide feedback on legal answers..."""  # Same as before
+    user_prompt = f"""### Context:\n{context}\n\n### Correct Answer:\n{correct_answer}\n\n### User's Answer:\n{user_answer}\n\n### Legal Question:\n{question}\n\n### Instructions:\n..."""  # Same as before
+
+    # Stream response
+    async for chunk in chat_stream(model=model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=max_output_tokens):
+        yield chunk
 
 
 def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) -> str:
@@ -282,15 +312,17 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     answer (str): The answer for the user_message, base on the context from history.
     context_sources (str): The context used to answer with real link.
     """
-    
+
     # Retrieve context
     history_context = get_context(history, 5, knowledge_vector_db)
     user_message_context = get_context(user_message, 3, knowledge_vector_db)
     # Combine all retrieved contexts
     all_contexts = history_context + user_message_context
     context = "\nExtracted documents:\n"
-    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(all_contexts)])
-    context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
+                       doc in enumerate(all_contexts)])
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
 
     # Build prompt
     system_prompt = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
@@ -309,7 +341,7 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     User: "But the text just mentions duress, doesn't it?"
     AI: "Yes, the term 'duress' is mentioned, but it's crucial to understand that the law specifies the severity of duress required. For instance, Article 123 requires the duress to be 'so severe that it compromises the freedom of choice of the person involved.' This distinction is important. Let's dive deeper into what 'severe' means under the law."
     """
-    
+
     user_prompt = f"""### Conversation History:
     {history}
 
@@ -329,12 +361,41 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
 
     # Redact an answer
     answer = ollama_client.chat(model=model,
-                            messages=[{"role":"system", "content":system_prompt},
-                                      {"role":"user","content":user_prompt}],
-                            options = {"num_predict":max_output_tokens}
-                            )
+                  messages=[{"role": "system", "content": system_prompt},
+                            {"role": "user", "content": user_prompt}],
+                  options={"num_predict": max_output_tokens}
+                  )
 
     # Assemble answer
     final_answer = f'{answer['message']['content']}\n\nContext:\n{context_sources}'
 
     return final_answer
+
+
+async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_db: FAISS) -> AsyncGenerator[str, None]:
+    # Retrieve context
+    history_context = get_context(history, 5, knowledge_vector_db)
+    user_message_context = get_context(user_message, 3, knowledge_vector_db)
+    all_contexts = history_context + user_message_context
+    context = "\nExtracted documents:\n"
+    context += "".join(
+        [f'Content: {doc.page_content} \nSource: {doc.metadata["ref"]}\n\n' for doc in all_contexts])
+
+    # Build prompt
+    system_prompt = f"""You are an AI specialized in helping users understand legal concepts..."""  # Same as before
+    user_prompt = f"""### Conversation History:\n{history}\n\n### Legal Context:\n{context}\n\n### User's Question:\n{user_message}\n\n### Instructions:\n..."""  # Same as before
+
+    # Stream response
+    async for chunk in chat_stream(model=model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=max_output_tokens):
+        yield chunk
+
+
+async def chat_stream(model, system_prompt: str, user_prompt: str, max_output_tokens: int) -> AsyncGenerator[str, None]:
+    stream = chat(model=model,
+                  messages=[{"role": "system", "content": system_prompt},
+                            {"role": "user", "content": user_prompt}],
+                  options={"num_predict": max_output_tokens},
+                  stream=True)
+
+    for chunk in stream:
+        yield chunk["message"]["content"]

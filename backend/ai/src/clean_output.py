@@ -88,7 +88,10 @@ def call_formatting_llm_mcq(llm_output, type):
         {"role": "user", "content": user_prompt},
     ])
     
-    return validate_json_format_mcq(response['message']['content'], type)
+    if type == 'answer':
+        return response['message']['content']
+    elif type == 'question':
+        return validate_json_format_mcq(response['message']['content'], type)
 
 
 def clean_generate_mcq_output(llm_output, type):
@@ -112,3 +115,31 @@ def clean_generate_mcq_output(llm_output, type):
         return formatted_result
     
     raise ValueError("Failed to convert LLM output into valid JSON format.")
+
+
+def clean_output_v2(text, type):
+    """ 
+    Fist we call small model to translate in json style.
+    If it's parsable we get the json. If not, we do regex.
+    """
+
+    if type == 'answer':
+        text_json_like = call_formatting_llm_mcq(text, type)
+
+        # Regex pattern to capture the content of "Answer" and "Justification"
+        pattern = r'"Answer":\s*"([^"]+)"\s*,\s*"Justification":\s*"([^"]+)"'
+
+        matches = re.search(pattern, text_json_like)
+
+        if matches:
+            answer = matches.group(1)
+            # check for a valid letter isolated
+            match = re.search(r'\b[A-D]\b', answer)
+            if match:
+                answer = match.group()
+
+            justification = matches.group(2)
+        else:
+            raise ValueError("Can't extract data.")
+        
+        return {'Answer': answer, 'Justification': justification}
