@@ -149,7 +149,7 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     """
 
     # Redact an answer
-    answer = chat(model=model,
+    answer = ollama_client.chat(model=model,
                             messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
                             options = {"num_predict":max_output_tokens}
@@ -257,7 +257,7 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     """
 
     # Redact an answer
-    feedback = chat(model=model,
+    feedback = ollama_client.chat(model=model,
                             messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
                             options = {"num_predict":max_output_tokens}
@@ -328,7 +328,7 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     """
 
     # Redact an answer
-    answer = chat(model=model,
+    answer = ollama_client.chat(model=model,
                             messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
                             options = {"num_predict":max_output_tokens}
