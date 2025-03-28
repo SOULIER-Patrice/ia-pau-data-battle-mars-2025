@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import SidePannel from '@/components/SidePannel.vue'
 import BasicButton from '@/components/Buttons/BasicButton.vue'
@@ -136,7 +136,7 @@ const sendChatMessage = () => {
   if (!answer.value) return
   if (!page.value?.id) return
 
-  sendMessage(page.value?.id, answer.value)
+  sendMessageStream(page.value?.id, answer.value)
   answer.value = ''
 }
 
@@ -146,6 +146,68 @@ const sendMessageQuiz = () => {
 
   sendMessage(page.value?.id, selectedAnswers.value.join(', '))
   selectedAnswers.value = []
+}
+
+const sendMessageStream = async (pageId: string, message: string) => {
+  const userId = authStore.user?.id
+  const token = authStore.token?.access_token
+
+  if (!userId || !token) {
+    console.error('User ID or token is missing')
+    return
+  }
+
+  page.value?.history.push({
+    user: message,
+  })
+
+  // Pass the token as a query parameter
+  const response = await fetch(
+    `${apiUrl}/stream/send_message_stream?page_id=${pageId}&message=${encodeURIComponent(message)}&user_id=${userId}&token=${token}`,
+  )
+  const reader = response.body?.getReader()
+  const decoder = new TextDecoder('utf-8')
+
+  if (!reader) {
+    console.error('Failed to get reader from response body')
+    return
+  }
+
+  let accumulatedMessage = ''
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+
+    const chunk = decoder.decode(value, { stream: true })
+    const lines = chunk.split('\n').filter((line) => line.trim() !== '')
+
+    for (const line of lines) {
+      try {
+        // Supposons que chaque ligne commence par "data: "
+        if (line.startsWith('data: ')) {
+          const data = line.substring(6) // Retire "data: "
+          accumulatedMessage += data
+
+          // Mettez à jour l'interface utilisateur de manière réactive
+          // Supprimez uniquement le dernier message de l'IA s'il existe
+          if (
+            page.value?.history &&
+            page.value?.history.length > 0 &&
+            'ai' in page.value?.history[page.value?.history.length - 1]
+          ) {
+            page.value?.history.pop()
+          }
+          page.value?.history.push({
+            ai: accumulatedMessage,
+          })
+        }
+      } catch (error) {
+        console.error('Error parsing data:', error, line)
+      }
+    }
+  }
+  reader.releaseLock()
 }
 
 // Determine if the current view is a quiz or chat based on the route

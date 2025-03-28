@@ -1,5 +1,6 @@
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException, status, FastAPI
+from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi.responses import StreamingResponse
 
 from pydantic import BaseModel
 from api.resources.state import app_state
@@ -110,7 +111,6 @@ async def add_page(book_id: UUID, user_id: UUID, token: str = Depends(oauth2_sch
     return page
 
 
-
 class MessageModel(BaseModel):
     page_id: UUID
     message: str
@@ -127,8 +127,8 @@ async def send_message(message: MessageModel, token: str = Depends(oauth2_scheme
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
-
-    message, _ = book_service.send_message(message.page_id, message.message, knowledge_vector_db)
+    message, _ = book_service.send_message(
+        message.page_id, message.message, knowledge_vector_db)
 
     if not message:
         raise HTTPException(
