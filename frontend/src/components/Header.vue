@@ -36,7 +36,7 @@ const toggleExpanded = () => {
 <template>
   <header>
     <router-link to="/" class="title">
-      <img :src="Logo" alt="Logo" width="180px" />
+      <img :src="Logo" alt="Logo" width="100px" />
     </router-link>
     <nav>
       <LinkActiveButton text="Home" :isActive="activeTab === '/'" to="/" />

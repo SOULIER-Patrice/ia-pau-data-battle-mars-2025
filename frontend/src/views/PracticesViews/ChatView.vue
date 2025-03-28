@@ -55,6 +55,7 @@ const fetchPage = async () => {
       page.value = data
       fetchBook()
       fetchPages()
+      initializeChatVisibility()
     })
     .catch((err) => console.error(err))
 }
@@ -267,6 +268,47 @@ const goToNextPage = async () => {
 }
 
 //#endregion : --- Navigate between pages
+
+const getAnswerClass = (index: number) => {
+  switch (index) {
+    case 0:
+      return 'answer-a'
+    case 1:
+      return 'answer-b'
+    case 2:
+      return 'answer-c'
+    case 3:
+      return 'answer-d'
+    default:
+      return ''
+  }
+}
+
+const isCorrectAnswer = (index: number) => {
+  return page.value?.answer === String.fromCharCode(65 + index)
+}
+
+const isWrongAnswer = (index: number) => {
+  if (!showResults.value || !page.value) return false
+  return (
+    showResults.value &&
+    !isCorrectAnswer(index) &&
+    selectedAnswers.value.includes(page.value?.options[index])
+  )
+}
+
+const initializeChatVisibility = () => {
+  if (!page.value) return
+  if (page.value?.history.length > 0) {
+    chatVisible.value = true
+    showResults.value = true
+  }
+}
+
+const shouldHideFirstMessage = (index: number) => {
+  if (!page.value) return false
+  return index === 0 && chatVisible.value && page.value?.history.length > 0
+}
 </script>
 
 <template>
@@ -304,7 +346,7 @@ const goToNextPage = async () => {
     <div :class="['chat-container', { 'is-open': isOpen }]">
       <div class="scroll">
         <div class="content-scroll">
-          <h1>{{ page?.question }}</h1>
+          <div v-html="renderMarkdown(page?.question)"></div>
 
           <!-- Quiz Section -->
           <div v-if="isQuiz" class="answers">
@@ -312,11 +354,14 @@ const goToNextPage = async () => {
               <div
                 v-for="(answer, index) in page?.options"
                 :key="index"
-                :class="{
-                  'correct-answer': showResults && answer === page?.answer,
-                  'wrong-answer':
-                    showResults && answer !== page?.answer && selectedAnswers.includes(answer),
-                }"
+                :class="[
+                  'answer-option',
+                  getAnswerClass(index),
+                  {
+                    'correct-answer': showResults && isCorrectAnswer(index),
+                    'wrong-answer': showResults && isWrongAnswer(index),
+                  },
+                ]"
               >
                 <input
                   type="checkbox"
@@ -338,14 +383,23 @@ const goToNextPage = async () => {
             />
           </div>
 
+          <div class="message user-message" v-if="page && !isQuiz && page?.history.length > 0">
+            <div v-html="renderMarkdown(page.history[0].user)"></div>
+          </div>
+
+          <div class="message" v-if="page && !isQuiz && page?.history.length > 0">
+            <div v-html="renderMarkdown(page.answer)"></div>
+          </div>
+
           <!-- Chat Section -->
           <div
-            class="message"
             v-for="(message, index) in page?.history"
             :key="index"
+            class="message"
             :class="{
               'ai-message': message.ai,
               'user-message': message.user,
+              hidden: shouldHideFirstMessage(index),
             }"
           >
             <div v-html="renderMarkdown(message.ai || message.user)"></div>
@@ -505,6 +559,10 @@ const goToNextPage = async () => {
         border-radius: 5px;
         background-color: #f4f3f3;
         align-self: flex-end;
+      }
+
+      &.hidden {
+        display: none;
       }
     }
 
