@@ -5,8 +5,8 @@ db:
   password: "password"
   database: "data-battle"
 ai:
-  model: "qwen2.5:7b"
+  model: "qwen2.5:1.5b"
   max_output_tokens: 3000
-  host: 'http://ollama:11434/'
+  host: 'http://localhost:11434/'
   model_classification: 'nlpaueb/bert-base-uncased-eurlex'
   model_rag: 'thenlper/gte-small'
