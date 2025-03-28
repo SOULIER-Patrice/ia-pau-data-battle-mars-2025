@@ -1,0 +1,368 @@
+{
+    "2022_PreEx_open": {
+        "1": {
+            "Category": "Entitlement and transfers",
+            "Subcategory": "Entitlement disputes (article 61 EPC)"
+        },
+        "2": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "3": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Appeal proceedings"
+        },
+        "4": {
+            "Category": "Entitlement and transfers",
+            "Subcategory": "Transfers and assignments"
+        },
+        "5": {
+            "Category": "Languages and translations",
+            "Subcategory": "Language of filing and procedural language"
+        },
+        "6": {
+            "Category": "Divisional applications",
+            "Subcategory": "Filing requirements"
+        },
+        "7": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Special forms of claims (e.g., medical use)"
+        },
+        "8": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "9": {
+            "Category": "Filing requirements and formalities",
+            "Subcategory": "Formality examination"
+        },
+        "10": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "11": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Examination procedure and communications"
+        },
+        "12": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Novelty analysis"
+        },
+        "13": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Novelty analysis"
+        },
+        "14": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Claim amendments and article 123 epc"
+        },
+        "15": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Inventive step analysis"
+        },
+        "16": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Novelty analysis"
+        },
+        "17": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Novelty analysis"
+        },
+        "18": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Claim amendments and article 123 epc"
+        },
+        "19": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Claim amendments and article 123 epc"
+        },
+        "20": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Inventive step analysis"
+        }
+    },
+    "2021_PreEx_open": {
+        "1": {
+            "Category": "Fees, payment methods, and time limits",
+            "Subcategory": "Fee deadlines and late payment consequences"
+        },
+        "2": {
+            "Category": "Priority claims and right of priority",
+            "Subcategory": "Time limits and restoration"
+        },
+        "3": {
+            "Category": "Divisional applications",
+            "Subcategory": "Filing requirements"
+        },
+        "4": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "5": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "6": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Examination procedure and communications"
+        },
+        "7": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Examination procedure and communications"
+        },
+        "8": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Appeal proceedings"
+        },
+        "9": {
+            "Category": "Languages and translations",
+            "Subcategory": "Language of filing and procedural language"
+        },
+        "10": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "11": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Novelty analysis"
+        },
+        "12": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Examination procedure and communications"
+        },
+        "13": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Novelty analysis"
+        },
+        "14": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Claim amendments and article 123 epc"
+        },
+        "15": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Inventive step analysis"
+        },
+        "16": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Examination procedure and communications"
+        },
+        "17": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Novelty analysis"
+        },
+        "18": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Novelty analysis"
+        },
+        "19": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Claim amendments and article 123 epc"
+        },
+        "20": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Inventive step analysis"
+        }
+    },
+    "OEB_SUP_mcq": {
+        "1": {
+            "Category": "Languages and translations",
+            "Subcategory": "Effects of language on costs and procedural rights"
+        },
+        "2": {
+            "Category": "Procedural remedies and legal effect",
+            "Subcategory": "Loss of rights and remedies"
+        },
+        "3": {
+            "Category": "Procedural remedies and legal effect",
+            "Subcategory": "Loss of rights and remedies"
+        },
+        "4": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "5": {
+            "Category": "Entitlement and transfers",
+            "Subcategory": "Transfers and assignments"
+        },
+        "6": {
+            "Category": "Priority claims and right of priority",
+            "Subcategory": "Substantive requirements for priority"
+        },
+        "7": {
+            "Category": "Fees, payment methods, and time limits",
+            "Subcategory": "Payment mechanisms"
+        },
+        "8": {
+            "Category": "Divisional applications",
+            "Subcategory": "Filing requirements"
+        },
+        "9": {
+            "Category": "Fees, payment methods, and time limits",
+            "Subcategory": "Fee deadlines and late payment consequences"
+        },
+        "10": {
+            "Category": "Fees, payment methods, and time limits",
+            "Subcategory": "Fee deadlines and late payment consequences"
+        },
+        "11": {
+            "Category": "Priority claims and right of priority",
+            "Subcategory": "Time limits and restoration"
+        },
+        "12": {
+            "Category": "Priority claims and right of priority",
+            "Subcategory": "Time limits and restoration"
+        },
+        "13": {
+            "Category": "Filing requirements and formalities",
+            "Subcategory": "Formality examination"
+        },
+        "14": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "15": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "16": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "17": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Appeal proceedings"
+        },
+        "18": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Appeal proceedings"
+        },
+        "19": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "20": {
+            "Category": "Entitlement and transfers",
+            "Subcategory": "Transfers and assignments"
+        },
+        "21": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Examination procedure and communications"
+        },
+        "22": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "23": {
+            "Category": "Divisional applications",
+            "Subcategory": "Filing requirements"
+        },
+        "24": {
+            "Category": "Languages and translations",
+            "Subcategory": "Effects of language on costs and procedural rights"
+        },
+        "25": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Claim amendments and article 123 epc"
+        },
+        "26": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Claim amendments and article 123 epc"
+        },
+        "27": {
+            "Category": "Filing requirements and formalities",
+            "Subcategory": "Formality examination"
+        },
+        "28": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Claim amendments and article 123 epc"
+        },
+        "29": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Claim amendments and article 123 epc"
+        },
+        "30": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "31": {
+            "Category": "Opposition and appeals",
+            "Subcategory": "Opposition procedure and admissibility"
+        },
+        "32": {
+            "Category": "Fees, payment methods, and time limits",
+            "Subcategory": "Types and calculation of fees"
+        },
+        "33": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "34": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "35": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "36": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "37": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "38": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "International filing and search"
+        },
+        "39": {
+            "Category": "Priority claims and right of priority",
+            "Subcategory": "Time limits and restoration"
+        },
+        "40": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "European phase entry and requirements"
+        },
+        "41": {
+            "Category": "Fees, payment methods, and time limits",
+            "Subcategory": "Fee deadlines and late payment consequences"
+        },
+        "42": {
+            "Category": "Substantive patent law: novelty and inventive step",
+            "Subcategory": "Novelty analysis"
+        },
+        "43": {
+            "Category": "Unity of invention",
+            "Subcategory": "Unity in pct applications"
+        },
+        "44": {
+            "Category": "Examination, amendments, and grant",
+            "Subcategory": "Examination procedure and communications"
+        },
+        "45": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "European phase entry and requirements"
+        },
+        "46": {
+            "Category": "Priority claims and right of priority",
+            "Subcategory": "Time limits and restoration"
+        },
+        "47": {
+            "Category": "Priority claims and right of priority",
+            "Subcategory": "Time limits and restoration"
+        },
+        "48": {
+            "Category": "Pct procedure and entry into the european phase",
+            "Subcategory": "European phase entry and requirements"
+        },
+        "49": {
+            "Category": "Filing requirements and formalities",
+            "Subcategory": "Formality examination"
+        },
+        "50": {
+            "Category": "Priority claims and right of priority",
+            "Subcategory": "Multiple priorities and partial priority"
+        }
+    }
+}
