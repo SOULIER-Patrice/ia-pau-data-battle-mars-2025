@@ -1,5 +1,5 @@
 from ai.src.get_context import get_context
-from ai.src.clean_output import clean_generate_mcq_output
+from ai.src.clean_output import clean_generate_mcq_output, clean_output_v2
 from langchain_community.vectorstores import FAISS
 from ollama import chat
 from config.config import model, max_output_tokens, ollama_client
@@ -63,7 +63,10 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
 
         # Put answer in correct json format
         try:
-            cleaned_answer_mcq = clean_generate_mcq_output(answer_mcq['message']['content'], type='answer')
+            cleaned_answer_mcq = clean_output_v2(answer_mcq['message']['content'], type='answer')
+            if cleaned_answer_mcq['Answer'] not in {'A', 'B', 'C', 'D'}:
+                raise ValueError("Answer should be 'A', 'B', 'C' or 'D'.")
+            
             # Add context to Justification
             cleaned_answer_mcq['Justification'] += f'\n\nSources:\n{context_sources}'
             return cleaned_answer_mcq  # If valid, return it
