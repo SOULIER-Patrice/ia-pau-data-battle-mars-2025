@@ -1,4 +1,4 @@
-from config.config import conn
+from config.config import get_db_connection
 import uuid
 import psycopg2.extras
 import json
@@ -12,7 +12,7 @@ from ai.src.models.classification import get_category_question
 
 def create_tables():
     psycopg2.extras.register_uuid()
-    
+    conn = get_db_connection()    
     cursor = conn.cursor()
 
     # Supprimer les tables existantes sauf la table Users
