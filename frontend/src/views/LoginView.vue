@@ -79,7 +79,7 @@ const register = async (args: any) => {
       <RegiterForm v-else @register="register" />
     </div>
     <div class="right">
-      <h1>IA PAU DATA BATTLE 2025</h1>
+      <h1>LAWRAG</h1>
     </div>
   </div>
 </template>
