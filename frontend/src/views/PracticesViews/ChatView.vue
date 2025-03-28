@@ -145,7 +145,7 @@ const sendMessageQuiz = () => {
   if (!selectedAnswers.value.length) return
   if (!page.value?.id) return
 
-  sendMessage(page.value?.id, selectedAnswers.value.join(', '))
+  sendMessageStream(page.value?.id, selectedAnswers.value.join(', '))
   selectedAnswers.value = []
 }
 

@@ -1,5 +1,5 @@
 db:
-  host: "postgres"
+  host: "localhost"
   port: 5432
   user: "user"
   password: "password"
@@ -7,6 +7,6 @@ db:
 ai:
   model: "qwen2.5:7b"
   max_output_tokens: 3000
-  host: 'http://ollama:11434/'
+  host: 'http://localhost:11434/'
   model_classification: 'nlpaueb/bert-base-uncased-eurlex'
   model_rag: 'thenlper/gte-small'

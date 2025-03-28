@@ -41,7 +41,7 @@ const toggleExpanded = () => {
     <nav>
       <LinkActiveButton text="Home" :isActive="activeTab === '/'" to="/" />
       <LinkActiveButton text="Practice" :isActive="activeTab === '/practice'" to="/practice" />
-      <LinkActiveButton text="About" :isActive="activeTab === '/about'" to="/about" />
+      <!-- <LinkActiveButton text="About" :isActive="activeTab === '/about'" to="/about" /> -->
     </nav>
     <div class="auth">
       <div v-if="user">
