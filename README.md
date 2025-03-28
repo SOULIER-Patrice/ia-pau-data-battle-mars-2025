@@ -1,4 +1,6 @@
-# IA Pau Data Battle 2025
+# LawRAG
+
+![logo](./frontend/src/assets/lawrag.png)
 
 ## Description
 
@@ -62,7 +64,7 @@ docker run -d --gpus=all --name ollama -p 11434:11434 ollama/ollama
 Then you have to install the models you want to use. You can find the list of the models [here](https://ollama.com/models). We recommend to use the following models:
 
 ```sh
-docker exec -it ollama ollama pull qwen2.5:1.5b
+docker exec -it ollama ollama pull qwen2.5:7b
 ```
 
 ### Database

@@ -131,6 +131,8 @@ watch(selectedBook, (book) => {
   }
 
   .content {
+    overflow-y: auto;
+    height: calc(100% - 50px); /* Adjust for header height */
     .item {
       display: flex;
       align-items: center;
