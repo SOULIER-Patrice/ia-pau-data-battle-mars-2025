@@ -1,6 +1,6 @@
 from typing import AsyncGenerator
 from ai.src.get_context import get_context
-from ai.src.clean_output import clean_generate_mcq_output
+from ai.src.clean_output import clean_generate_mcq_output, clean_output_v2
 from langchain_community.vectorstores import FAISS
 from ollama import chat
 from config.config import model, max_output_tokens, ollama_client
@@ -67,8 +67,10 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
 
         # Put answer in correct json format
         try:
-            cleaned_answer_mcq = clean_generate_mcq_output(
-                answer_mcq['message']['content'], type='answer')
+            cleaned_answer_mcq = clean_output_v2(answer_mcq['message']['content'], type='answer')
+            if cleaned_answer_mcq['Answer'] not in {'A', 'B', 'C', 'D'}:
+                raise ValueError("Answer should be 'A', 'B', 'C' or 'D'.")
+
             # Add context to Justification
             cleaned_answer_mcq['Justification'] += f'\n\nSources:\n{context_sources}'
             return cleaned_answer_mcq  # If valid, return it
@@ -155,11 +157,11 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     """
 
     # Redact an answer
-    answer = chat(model=model,
-                  messages=[{"role": "system", "content": system_prompt},
-                            {"role": "user", "content": user_prompt}],
-                  options={"num_predict": max_output_tokens}
-                  )
+    answer = ollama_client.chat(model=model,
+                            messages=[{"role":"system", "content":system_prompt},
+                                      {"role":"user","content":user_prompt}],
+                            options = {"num_predict":max_output_tokens}
+                            )
 
     # Assemble answer and context_sources
     final_answer = f'{answer['message']['content']}\n\nSources:{context_sources}'
@@ -265,11 +267,12 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     """
 
     # Redact an answer
-    feedback = chat(model=model,
-                    messages=[{"role": "system", "content": system_prompt},
-                              {"role": "user", "content": user_prompt}],
-                    options={"num_predict": max_output_tokens}
-                    )
+    feedback = ollama_client.chat(model=model,
+                            messages=[{"role":"system", "content": system_prompt},
+                                      {"role":"user","content": user_prompt}],
+                            options = {"num_predict": max_output_tokens}
+                            )
+                    
 
     # Assemble final answer
     final_answer = f'{feedback['message']['content']}\n\nContext:{context_sources}'
@@ -357,7 +360,7 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     """
 
     # Redact an answer
-    answer = chat(model=model,
+    answer = ollama_client.chat(model=model,
                   messages=[{"role": "system", "content": system_prompt},
                             {"role": "user", "content": user_prompt}],
                   options={"num_predict": max_output_tokens}

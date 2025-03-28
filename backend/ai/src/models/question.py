@@ -47,7 +47,7 @@ def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
 
     # Initial attempt to get the answer
     attempt_count = 0
-    max_attempts = 3  # Limit number of attempts to prevent infinite loops
+    max_attempts = 5  # Limit number of attempts to prevent infinite loops
 
     while attempt_count < max_attempts:
         question_mcq = ollama_client.chat(model=model,
