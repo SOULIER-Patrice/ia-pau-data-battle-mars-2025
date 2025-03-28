@@ -104,12 +104,12 @@ def create_tables():
     # Commit and close connection
     conn.commit()
     cursor.close()
-    
+    conn.close()
     print("Tables created successfully!")
 
 
 def create_admin_user():
-    
+    conn = get_db_connection()  
     cursor = conn.cursor()
 
     # Ajouter un utilisateur administrateur
@@ -133,11 +133,11 @@ def create_admin_user():
 
     conn.commit()
     cursor.close()
-    
+    conn.close()
 
 
 def add_mcq_questions(question_dir, category_embeddings):
-    
+    conn = get_db_connection()  
     cursor = conn.cursor()
 
     # Vérifie si le chemin existe
@@ -198,13 +198,12 @@ def add_mcq_questions(question_dir, category_embeddings):
     # Commit et fermeture de la connexion
     conn.commit()
     cursor.close()
-    
+    conn.close()
     print("MCQ questions and solutions added successfully!")
 
 
 def add_questions_open(question_dir, category_embeddings):
-
-    
+    conn = get_db_connection()  
     cursor = conn.cursor()
 
     # Vérifie si le chemin existe
@@ -250,7 +249,7 @@ def add_questions_open(question_dir, category_embeddings):
     # Commit et fermeture de la connexion
     conn.commit()
     cursor.close()
-    
+    conn.close()
     print("Open questions and solutions added successfully!!")
 
 
