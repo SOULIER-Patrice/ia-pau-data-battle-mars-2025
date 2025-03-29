@@ -25,6 +25,7 @@ const updateUser = (args: any) => {
 
 <style lang="scss" scoped>
 .profile-view {
+  width: 100%;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
