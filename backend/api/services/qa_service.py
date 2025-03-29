@@ -10,7 +10,7 @@ def get_all_qas() -> list[QA]:
     qas = qa_repository.get_qas()
     if not qas:
         return []
-    return [QA(**qa) for qa in qas]
+    return qas
 
 
 def get_qa(qa_id: str) -> QA:
@@ -20,7 +20,7 @@ def get_qa(qa_id: str) -> QA:
     qa = qa_repository.get_qa(qa_id)
     if not qa:
         return None
-    return QA(**qa)
+    return qa
 
 
 def update_qa(qa: QA) -> QA:
