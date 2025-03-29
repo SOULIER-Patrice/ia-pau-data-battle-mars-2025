@@ -13,6 +13,7 @@ import type { Page } from '@/types/Page'
 import type { Book } from '@/types/Book'
 import { marked } from 'marked'
 import router from '@/router'
+import SpinnerLoader from '@/components/Loaders/SpinnerLoader.vue'
 const authStore = useAuthStore()
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL
@@ -21,17 +22,24 @@ const route = useRoute()
 const isOpen = ref(true)
 const chatVisible = ref(false)
 const showResults = ref(false)
-const selectedAnswers = ref<string[]>([])
+const selectedAnswer = ref<string>('')
 const answer = ref<string>('')
 const modelThinking = ref(false)
+const page = ref<Page | null>(null)
+const book = ref<Book | null>(null)
+const pages = ref<Page[]>([])
+const isQuiz = computed(() => route.name === 'MCQ')
+const isLoading = ref(false)
+const isNextPageLoading = ref(false)
 
 const togglePanel = () => {
   isOpen.value = !isOpen.value
 }
 
 const toggleSubmit = () => {
+  if (!selectedAnswer.value || !page.value) return
   checkAnswers()
-  sendMessageQuiz()
+  sendMessageStream(page.value?.id, selectedAnswer.value)
   chatVisible.value = true
 }
 
@@ -39,13 +47,10 @@ const checkAnswers = () => {
   showResults.value = true
 }
 
-const page = ref<Page | null>(null)
-const book = ref<Book | null>(null)
-const pages = ref<Page[]>([])
-
 const fetchPage = async () => {
   const pageId = route.query.page
   const userId = authStore.user?.id
+  const isLoading = ref(true)
 
   fetch(`${apiUrl}/books/page/${pageId}/${userId}`, {
     headers: {
@@ -60,6 +65,9 @@ const fetchPage = async () => {
       initializeChatVisibility()
     })
     .catch((err) => console.error(err))
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 watch(() => route.params.page, fetchPage, { immediate: true })
@@ -102,14 +110,6 @@ const sendChatMessage = () => {
 
   sendMessageStream(page.value?.id, answer.value)
   answer.value = ''
-}
-
-const sendMessageQuiz = () => {
-  if (!selectedAnswers.value.length) return
-  if (!page.value?.id) return
-
-  sendMessageStream(page.value?.id, selectedAnswers.value.join(', '))
-  selectedAnswers.value = []
 }
 
 const sendMessageStream = async (pageId: string, message: string) => {
@@ -178,9 +178,6 @@ const sendMessageStream = async (pageId: string, message: string) => {
   reader.releaseLock()
 }
 
-// Determine if the current view is a quiz or chat based on the route
-const isQuiz = computed(() => route.name === 'MCQ')
-
 const renderMarkdown = (markdown: string | undefined) => {
   if (!markdown) return ''
   return marked(markdown, { breaks: true })
@@ -208,6 +205,8 @@ const goToNextPage = async () => {
     const bookId = page.value?.book_id
     if (!userId || !bookId) return
 
+    isNextPageLoading.value = true
+
     try {
       const response = await fetch(`${apiUrl}/books/page/${bookId}/${userId}`, {
         method: 'PUT',
@@ -225,6 +224,8 @@ const goToNextPage = async () => {
       router.push(`/practice/${book.value.type}?page=${nextPage.id}`)
     } catch (error) {
       console.error('Error completing book:', error)
+    } finally {
+      isNextPageLoading.value = false
     }
   } else {
     const nextPage = pages.value[currentPageIndex.value + 1]
@@ -257,11 +258,7 @@ const isCorrectAnswer = (index: number) => {
 
 const isWrongAnswer = (index: number) => {
   if (!showResults.value || !page.value) return false
-  return (
-    showResults.value &&
-    !isCorrectAnswer(index) &&
-    selectedAnswers.value.includes(page.value?.options[index])
-  )
+  return showResults.value && !isCorrectAnswer(index)
 }
 
 const initializeChatVisibility = () => {
@@ -280,6 +277,7 @@ const shouldHideFirstMessage = (index: number) => {
 
 <template>
   <div class="chat-quiz-view">
+    <SpinnerLoader v-if="isLoading" class="global-loader" :size="5" />
     <SvgIcon type="mdi" :path="mdiMenu" @click="togglePanel" class="menu-button" />
     <SidePannel :isOpen="isOpen" :current-book="book" class="side-pannel" />
     <div :class="['floating-header', { 'is-open': isOpen }]">
@@ -302,7 +300,10 @@ const shouldHideFirstMessage = (index: number) => {
       :size="64"
       :class="['chevron', 'chevron-left', { disabled: isFirstPage }, { 'is-open': isOpen }]"
     />
+
+    <SpinnerLoader v-if="isNextPageLoading" class="chevron chevron-right" :size="2" />
     <SvgIcon
+      v-if="!isNextPageLoading"
       type="mdi"
       :path="mdiChevronRight"
       @click="goToNextPage"
@@ -331,10 +332,10 @@ const shouldHideFirstMessage = (index: number) => {
                 ]"
               >
                 <input
-                  type="checkbox"
+                  type="radio"
                   :id="'answer-' + index"
                   :value="answer"
-                  v-model="selectedAnswers"
+                  v-model="selectedAnswer"
                   :disabled="showResults"
                 />
                 <label :for="'answer-' + index">{{ answer }}</label>
@@ -350,12 +351,19 @@ const shouldHideFirstMessage = (index: number) => {
             />
           </div>
 
+          <!-- Answer of the user before true answer for free response -->
           <div class="message user-message" v-if="page && !isQuiz && page?.history.length > 0">
             <div v-html="renderMarkdown(page.history[0].user)"></div>
           </div>
 
+          <!-- True answer for free response -->
           <div class="message" v-if="page && !isQuiz && page?.history.length > 0">
             <div v-html="renderMarkdown(page.answer)"></div>
+          </div>
+
+          <!-- Justification for quiz -->
+          <div class="message" v-if="page && isQuiz && showResults">
+            <div v-html="renderMarkdown(page.justification)"></div>
           </div>
 
           <!-- Chat Section -->
@@ -372,7 +380,7 @@ const shouldHideFirstMessage = (index: number) => {
             <div v-html="renderMarkdown(message.ai || message.user)"></div>
           </div>
           <!-- Loader -->
-          <DotLoader v-if="modelThinking" class="message loader" />
+          <DotLoader v-if="modelThinking" class="message chat-loader" />
         </div>
       </div>
 
@@ -392,8 +400,17 @@ const shouldHideFirstMessage = (index: number) => {
 <style lang="scss" scoped>
 .chat-quiz-view {
   display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 0 20px;
+
+  .global-loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
 
   .menu-button {
     position: fixed;
@@ -414,7 +431,7 @@ const shouldHideFirstMessage = (index: number) => {
     display: flex;
     align-items: center;
     position: fixed;
-    top: 85px;
+    top: 75px;
     left: 50px;
     width: 100%;
     padding: 10px;
@@ -521,7 +538,7 @@ const shouldHideFirstMessage = (index: number) => {
         align-self: flex-end;
       }
 
-      &.loader {
+      &.chat-loader {
         align-self: flex-start;
         margin: 0 15px;
         width: 20px;
@@ -547,6 +564,11 @@ const shouldHideFirstMessage = (index: number) => {
       flex-direction: column;
       align-items: flex-start;
       width: 500px;
+      padding: 10px 20px;
+    }
+
+    .answer-option {
+      width: 100%;
     }
 
     .submit-button {
@@ -554,7 +576,7 @@ const shouldHideFirstMessage = (index: number) => {
       font-size: 16px;
     }
 
-    input[type='checkbox'] {
+    input[type='radio'] {
       flex-shrink: 0;
       appearance: none;
       width: 20px;
