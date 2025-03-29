@@ -8,10 +8,12 @@ const base_api_url = import.meta.env.VITE_BASE_API_URL
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: null as User | null,
-        token: null as Token | null
+        token: null as Token | null,
+        isLoading: false
     }),
     actions: {
         async login(username: string, password: string, redirect = '/') {
+            this.isLoading = true
             try {
                 // Request token
                 const tokenResponse = await fetch(`${base_api_url}/auth/token`, {
@@ -51,12 +53,13 @@ export const useAuthStore = defineStore('auth', {
             } catch (error) {
                 console.error('Login failed:', error);
                 throw error;
+            } finally {
+                this.isLoading = false;
             }
         },
 
         async register(email: string, password: string, firstName: string, lastName: string, redirect = '/') {
-            console.log('Base API URL:', base_api_url);
-
+            this.isLoading = true;
             try {
                 const response = await fetch(`${base_api_url}/auth/register`, {
                     method: 'POST',
@@ -79,6 +82,8 @@ export const useAuthStore = defineStore('auth', {
             } catch (error) {
                 console.error('Registration failed:', error);
                 throw error;
+            } finally {
+                this.isLoading = false;
             }
         },
         async updateUser(id: string, first_name: string, last_name: string, email: string) {

@@ -6,6 +6,7 @@ import BasicButton from '@/components/Buttons/BasicButton.vue'
 import InputChatField from '@/components/Fields/InputChatField.vue'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiMenu, mdiTagOutline, mdiChevronLeft, mdiChevronRight } from '@mdi/js'
+import DotLoader from '@/components/Loaders/DotLoader.vue'
 
 import { useAuthStore } from '@/stores/authStore'
 import type { Page } from '@/types/Page'
@@ -22,6 +23,7 @@ const chatVisible = ref(false)
 const showResults = ref(false)
 const selectedAnswers = ref<string[]>([])
 const answer = ref<string>('')
+const modelThinking = ref(false)
 
 const togglePanel = () => {
   isOpen.value = !isOpen.value
@@ -94,45 +96,6 @@ const fetchPages = async () => {
     .catch((err) => console.error(err))
 }
 
-const sendMessage = async (pageId: string, message: string) => {
-  const userId = authStore.user?.id
-
-  if (!userId) {
-    console.error('User ID is missing')
-    return
-  }
-
-  page.value?.history.push({
-    user: message,
-  })
-
-  try {
-    const response = await fetch(`${apiUrl}/books/send_meessage`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${authStore.token?.access_token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        page_id: pageId,
-        message,
-        user_id: userId,
-      }),
-    })
-
-    if (!response.ok) {
-      throw new Error(`Failed to send message: ${response.statusText}`)
-    }
-
-    const data = await response.json()
-    page.value?.history.push({
-      ai: data,
-    })
-  } catch (error) {
-    console.error('Error sending message:', error)
-  }
-}
-
 const sendChatMessage = () => {
   if (!answer.value) return
   if (!page.value?.id) return
@@ -150,6 +113,9 @@ const sendMessageQuiz = () => {
 }
 
 const sendMessageStream = async (pageId: string, message: string) => {
+  // Initialize the loader
+  modelThinking.value = true
+
   const userId = authStore.user?.id
   const token = authStore.token?.access_token
 
@@ -168,6 +134,7 @@ const sendMessageStream = async (pageId: string, message: string) => {
   )
   const reader = response.body?.getReader()
   const decoder = new TextDecoder('utf-8')
+  modelThinking.value = false
 
   if (!reader) {
     console.error('Failed to get reader from response body')
@@ -307,7 +274,7 @@ const initializeChatVisibility = () => {
 
 const shouldHideFirstMessage = (index: number) => {
   if (!page.value) return false
-  return index === 0 && chatVisible.value && page.value?.history.length > 0
+  return index === 0 && page.value?.history.length > 0
 }
 </script>
 
@@ -404,6 +371,8 @@ const shouldHideFirstMessage = (index: number) => {
           >
             <div v-html="renderMarkdown(message.ai || message.user)"></div>
           </div>
+          <!-- Loader -->
+          <DotLoader v-if="modelThinking" class="message loader" />
         </div>
       </div>
 
@@ -536,19 +505,10 @@ const shouldHideFirstMessage = (index: number) => {
       transform: translateX(300px);
     }
 
-    .chat {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      width: 450px;
-      margin: 10px 0;
-    }
-
     .message {
       font-weight: normal;
       padding: 10px;
       margin: 5px;
-      width: calc(100% - 30px);
 
       &.ai-message {
         align-self: flex-start;
@@ -559,6 +519,12 @@ const shouldHideFirstMessage = (index: number) => {
         border-radius: 5px;
         background-color: #f4f3f3;
         align-self: flex-end;
+      }
+
+      &.loader {
+        align-self: flex-start;
+        margin: 0 15px;
+        width: 20px;
       }
 
       &.hidden {

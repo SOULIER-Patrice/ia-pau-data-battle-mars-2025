@@ -26,6 +26,10 @@ defineProps({
     default: 'var(--primary-color)',
   },
   isActive: Boolean,
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['click'])
@@ -42,6 +46,7 @@ const onClick = () => {
     :color="color"
     :bg-color="bgColor"
     :icon="icon"
+    :isLoading="isLoading"
     :style="{
       color: isActive ? activeColor : color,
       backgroundColor: isActive ? activeBgColor : bgColor,

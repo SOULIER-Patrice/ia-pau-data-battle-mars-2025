@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SvgIcon from '@jamescoyle/vue-icon'
+import SpinnerLoader from '../Loaders/SpinnerLoader.vue'
 
 defineProps({
   text: String,
@@ -13,6 +14,14 @@ defineProps({
     type: Number,
     default: 24,
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['click'])
@@ -23,7 +32,20 @@ const onClick = () => {
 </script>
 
 <template>
-  <button @click="onClick" class="button" :style="{ color: color, backgroundColor: bgColor }">
+  <button
+    v-if="isLoading"
+    :disabled="isLoading"
+    class="button"
+    :style="{ color: color, backgroundColor: bgColor }"
+  >
+    <SpinnerLoader class="loader" :color="color" :size="1" />
+  </button>
+  <button
+    v-else
+    @click="onClick"
+    :class="['button', { disabled: disabled }]"
+    :style="{ color: color, backgroundColor: bgColor }"
+  >
     <SvgIcon
       v-if="icon"
       type="mdi"
@@ -50,6 +72,11 @@ button {
   .icon {
     margin-left: -5px;
     margin-right: 5px;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }
 </style>

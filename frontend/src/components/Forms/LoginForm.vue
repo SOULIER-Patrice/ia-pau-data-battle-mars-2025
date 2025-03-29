@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+// Stores
+import { useAuthStore } from '@/stores/authStore'
+const authStore = useAuthStore()
+
 // Components
 import InputField from '../Fields/InputField.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
@@ -27,6 +31,7 @@ const handleSubmit = () => {
       color="var(--secondary-text-color)"
       bg-color="var(--primary-color)"
       type="submit"
+      :is-loading="authStore.isLoading"
     />
   </form>
 </template>
