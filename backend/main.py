@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from ai.src.embedding_loader import load_rag_embeddings
 from config.config import init_ollama_model
 
-from api.resources import auth_resource, user_resource, book_resource
+from api.resources import auth_resource, user_resource, book_resource, qa_resource
 # Import du state depuis un module séparé
 from api.resources.state import app_state
 
@@ -30,6 +30,9 @@ tags_metadata = [
     },
     {
         "name": "Book"
+    },
+    {
+        "name": "QA"
     },
 ]
 
@@ -57,6 +60,7 @@ app.add_middleware(
 app.include_router(auth_resource.router)
 app.include_router(user_resource.router)
 app.include_router(book_resource.router)
+app.include_router(qa_resource.router)
 
 
 if __name__ == "__main__":
