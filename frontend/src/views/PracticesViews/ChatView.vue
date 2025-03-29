@@ -266,6 +266,9 @@ const initializeChatVisibility = () => {
   if (page.value?.history.length > 0) {
     chatVisible.value = true
     showResults.value = true
+    if (isQuiz.value && page.value?.history[0].user) {
+      selectedAnswer.value = page.value?.history[0].user
+    }
   }
 }
 
