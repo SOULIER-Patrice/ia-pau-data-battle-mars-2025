@@ -1,3 +1,4 @@
+import asyncio
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.responses import StreamingResponse
@@ -111,14 +112,14 @@ async def add_page(book_id: UUID, user_id: UUID, token: str = Depends(oauth2_sch
     return page
 
 
-class MessageModel(BaseModel):
+class Message(BaseModel):
     page_id: UUID
     message: str
     user_id: UUID
 
 
 @router.post("/send_meessage", response_model=str)
-async def send_message(message: MessageModel, token: str = Depends(oauth2_scheme)) -> str:
+async def send_message(message: Message, token: str = Depends(oauth2_scheme)) -> str:
 
     current_user = auth_service.get_current_user(token)
     knowledge_vector_db = app_state.get("knowledge_vector_db")
@@ -135,3 +136,30 @@ async def send_message(message: MessageModel, token: str = Depends(oauth2_scheme
             status_code=status.HTTP_404_NOT_FOUND, detail="Page not found"
         )
     return message
+
+
+async def event_stream(page_id: UUID, message: str, knowledge_vector_db) -> StreamingResponse:
+    async for chunk in book_service.send_message_stream(page_id, message, knowledge_vector_db):
+        await asyncio.sleep(0.001)
+        yield f"data: {chunk}[END_CHUNK]\n\n"
+
+
+@router.post("/send_message_stream", response_class=StreamingResponse)
+async def send_message_stream(message: Message, token: str = Depends(oauth2_scheme)) -> StreamingResponse:
+
+    current_user = auth_service.get_current_user(token)
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden"
+        )
+
+    knowledge_vector_db = app_state.get("knowledge_vector_db")
+
+    # Vérification des permissions
+    if current_user.id != message.user_id and "admin" not in current_user.roles:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden"
+        )
+
+    return StreamingResponse(event_stream(message.page_id, message.message, knowledge_vector_db),
+                             media_type="text/event-stream")
