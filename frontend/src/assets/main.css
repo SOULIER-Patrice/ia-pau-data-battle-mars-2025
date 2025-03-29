@@ -71,3 +71,11 @@ h6 {
 p {
   margin: 5px 0;
 }
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}

@@ -79,6 +79,7 @@ header {
   background-color: #f4f3f3;
   z-index: 1002;
   align-items: center;
+  height: 20px;
 
   nav {
     display: flex;

@@ -181,7 +181,7 @@ const sendMessageStream = async (pageId: string, message: string) => {
     if (done) break
 
     const chunk = decoder.decode(value, { stream: true })
-    const lines = chunk.split('\n').filter((line) => line.trim() !== '')
+    const lines = chunk.split('[END_CHUNK]\n\n')
 
     for (const line of lines) {
       try {
@@ -314,7 +314,7 @@ const shouldHideFirstMessage = (index: number) => {
 <template>
   <div class="chat-quiz-view">
     <SvgIcon type="mdi" :path="mdiMenu" @click="togglePanel" class="menu-button" />
-    <SidePannel :isOpen="isOpen" />
+    <SidePannel :isOpen="isOpen" :current-book="book" class="side-pannel" />
     <div :class="['floating-header', { 'is-open': isOpen }]">
       <h1>{{ book?.title }}</h1>
       <BasicButton

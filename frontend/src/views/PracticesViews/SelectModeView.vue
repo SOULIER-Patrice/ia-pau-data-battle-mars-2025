@@ -166,10 +166,6 @@ const mode = ref<string>('')
     }
   }
 
-  .side-pannel {
-    margin-top: 150px;
-  }
-
   h1 {
     font-size: 64px;
     color: var(--primary-text-color);

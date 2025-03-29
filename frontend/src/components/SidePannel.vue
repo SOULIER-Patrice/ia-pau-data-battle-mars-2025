@@ -2,19 +2,20 @@
 import router from '@/router'
 import type { Book } from '@/types/Book'
 import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiNotebook, mdiFileDocumentOutline } from '@mdi/js'
+import { mdiNotebook, mdiFileDocumentOutline, mdiBookOpenVariantOutline } from '@mdi/js'
 import { ref, watch } from 'vue'
 
 import { useAuthStore } from '@/stores/authStore'
 import type { Page } from '@/types/Page'
 const authStore = useAuthStore()
 
-defineProps({
+const props = defineProps({
   isOpen: Boolean,
+  currentBook: Object as () => Book | null,
 })
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL
-const selectedBook = ref<Book | null>(null)
+const selectedBook = ref<Book | null>(props.currentBook ?? null)
 
 const books = ref<Book[]>([])
 
@@ -73,12 +74,23 @@ watch(selectedBook, (book) => {
       >
         Books
       </div>
-      <div>Pages</div>
+      <div
+        @click="
+          () => {
+            selectedBook = props.currentBook ?? null
+          }
+        "
+      >
+        Pages
+      </div>
     </div>
     <div class="content">
       <div v-if="selectedBook === null">
         <div v-for="book in books" :key="book.title" @click="selectedBook = book" class="item">
-          <SvgIcon type="mdi" :path="mdiNotebook" />
+          <SvgIcon
+            type="mdi"
+            :path="currentBook?.id === book.id ? mdiBookOpenVariantOutline : mdiNotebook"
+          />
           <div>
             {{ book.title }}
           </div>
@@ -109,8 +121,9 @@ watch(selectedBook, (book) => {
   padding-left: 10px;
   padding-top: 50px;
   left: -300px; /* Hidden by default */
+  top: 60px;
   width: 290px;
-  height: 100%;
+  height: calc(100vh - (60px + 50px)); /* Header + top padding */
   background-color: #f4f3f3;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;

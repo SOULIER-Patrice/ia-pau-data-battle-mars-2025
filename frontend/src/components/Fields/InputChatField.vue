@@ -20,6 +20,11 @@ defineProps({
 const emit = defineEmits(['submit'])
 
 const emitSubmit = () => {
+  // Resize the textarea to fit the content
+  const textarea = document.querySelector('textarea') as HTMLTextAreaElement
+  textarea.style.height = 'auto' // Reset height to calculate new height
+  // Emit the submit event with the current value of the model
+  if (model.value && !model.value.trim()) return // Prevent submission of empty messages
   emit('submit', model.value)
   model.value = ''
 }
