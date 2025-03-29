@@ -42,6 +42,7 @@ def create_classification_embeddings(model_name, categories_path, output_dir):
             embeddings_dict[f"{category}_{subcategory}"] = embeddings.numpy()
     
     # Sauvegarder les embeddings dans un fichier .npy
+    print(f"{output_dir}/categories_{model_name.split("/")[-1]}.npy")
     np.save(f"{output_dir}/categories_{model_name.split("/")[-1]}.npy", embeddings_dict)
 
 

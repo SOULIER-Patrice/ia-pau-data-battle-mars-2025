@@ -170,8 +170,8 @@ def send_message(page_id: UUID, message: str, knowledge_vector_db: FAISS):
                 question = page.question  # access question attribute.
                 correct_answer = page.answer  # access answer attribute.
 
-            result = generate_feedback(
-                question, correct_answer, user_answer, knowledge_vector_db)
+                result = generate_feedback(
+                    question, correct_answer, user_answer, knowledge_vector_db)
         else:
             result = chat_with_ai(f"{history}", message, knowledge_vector_db)
 
@@ -200,17 +200,13 @@ async def send_message_stream(page_id: UUID, message: str, knowledge_vector_db: 
 
         if not history:
             user_answer = message
-            if page.category == "MCQ":
-                question = f"{page.question} {page.options}"
-                correct_answer = f"{page.answer} {page.justification}"
-            else:
+            if page.category == "OPEN":
                 question = page.question
                 correct_answer = page.answer
-
-            async for chunk in generate_feedback_stream(question, correct_answer, user_answer, knowledge_vector_db):
-                # Ajouter chaque chunk à la liste
-                response_chunks.append(chunk)
-                yield chunk
+                async for chunk in generate_feedback_stream(question, correct_answer, user_answer, knowledge_vector_db):
+                    # Ajouter chaque chunk à la liste
+                    response_chunks.append(chunk)
+                    yield chunk
         else:
             async for chunk in chat_with_ai_stream(f"{history}", message, knowledge_vector_db):
                 # Ajouter chaque chunk à la liste
