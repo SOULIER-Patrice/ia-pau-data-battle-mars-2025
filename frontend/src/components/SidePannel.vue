@@ -37,6 +37,8 @@ const fetchBooks = async () => {
     .then((res) => res.json())
     .then((data) => {
       books.value = data
+      // Reverse the order of books
+      books.value = books.value.reverse()
     })
     .catch((err) => console.error(err))
     .finally(() => {
