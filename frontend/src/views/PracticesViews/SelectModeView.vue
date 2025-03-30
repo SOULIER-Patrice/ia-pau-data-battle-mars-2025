@@ -117,7 +117,7 @@ const mode = ref<string>('')
           <p>This category consists to choose one answer between different responses.</p>
         </div>
       </BasicCard>
-      <BasicCard title="Free response" buttonText="Choose this option" @click="mode = 'chat'">
+      <BasicCard title="Free response" buttonText="Choose this option" @click="mode = 'OPEN'">
         <div class="select-mode-view__content">
           <p>This category consists to write your own answer.</p>
         </div>

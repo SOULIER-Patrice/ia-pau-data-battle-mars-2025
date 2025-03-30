@@ -1,13 +1,12 @@
 import asyncio
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 
 from pydantic import BaseModel
 from api.resources.state import app_state
 
-from api.dependancies import auth_required, allowed_roles, oauth2_scheme
-from api.exceptions import AlreadyExistsException
+from api.dependancies import auth_required, oauth2_scheme
 from api.models.Book import Book, BookForCreate
 from api.models.Page import PageOuput
 from api.services import auth_service, book_service

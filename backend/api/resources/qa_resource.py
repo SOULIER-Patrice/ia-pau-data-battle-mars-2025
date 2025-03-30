@@ -1,6 +1,8 @@
 from api.dependancies import auth_required, oauth2_scheme
 from api.services import auth_service, qa_service
-from api.models.Page import QA
+from api.models.QA import QA, QAForCreate
+
+from api.resources.state import app_state
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
@@ -14,6 +16,29 @@ router = APIRouter(
 )
 
 
+@router.put("/create")
+async def create_qa(create_qa: QAForCreate, token: str = Depends(oauth2_scheme)) -> list[QA]:
+    current_user = auth_service.get_current_user(token)
+
+    knowledge_vector_db = app_state.get("knowledge_vector_db")
+
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized"
+        )
+    # if "admin" not in current_user.roles:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden"
+        )
+
+    qas = qa_service.generate_qas(create_qa, knowledge_vector_db)
+    if not qas:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Page not found"
+        )
+    return qas
+
+
 @router.get("")
 async def get_qa(token: str = Depends(oauth2_scheme)) -> list[QA]:
     current_user = auth_service.get_current_user(token)
@@ -21,7 +46,7 @@ async def get_qa(token: str = Depends(oauth2_scheme)) -> list[QA]:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized"
         )
-    if "admin" not in current_user.roles:
+    # if "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden"
         )
@@ -45,7 +70,7 @@ async def export_qas(token: str = Depends(oauth2_scheme)) -> FileResponse:
 
     # Récupérer toutes les questions
     qas = qa_service.get_all_qas()
-    
+
     # Supprimer les UUID des questions
     for qa in qas:
         del qa.id
