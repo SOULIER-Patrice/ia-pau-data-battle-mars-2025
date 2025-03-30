@@ -2,7 +2,7 @@ from ai.src.get_context import get_context
 from ai.src.clean_output import clean_generate_mcq_output
 from langchain_community.vectorstores import FAISS
 from ollama import chat
-from config.config import model, max_output_tokens, ollama_client
+import config.ai as ai
 
 
 def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
@@ -50,10 +50,10 @@ def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
     max_attempts = 5  # Limit number of attempts to prevent infinite loops
 
     while attempt_count < max_attempts:
-        question_mcq = ollama_client.chat(model=model,
+        question_mcq = ai.ollama_client.chat(model=ai.model,
                             messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":max_output_tokens}
+                            options = {"num_predict":ai.max_output_tokens}
                             )
         
         # Put question in correct json format
@@ -124,10 +124,10 @@ def generate_open(questions : str, knowledge_vector_db: FAISS) -> str:
     """
 
     # Redact an answer
-    question_open = ollama_client.chat(model=model,
+    question_open = ai.ollama_client.chat(model=ai.model,
                             messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":max_output_tokens}
+                            options = {"num_predict":ai.max_output_tokens}
                             )
 
     return question_open['message']['content']

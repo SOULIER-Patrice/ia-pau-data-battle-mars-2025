@@ -7,3 +7,8 @@ with open('config/config.yml', 'r') as file:
     config = yaml.safe_load(file)
 
 print("Fichier de configuration chargé avec succès.")
+
+
+
+
+

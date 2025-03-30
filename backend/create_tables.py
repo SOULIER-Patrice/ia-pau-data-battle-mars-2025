@@ -1,4 +1,4 @@
-from config.config import get_db_connection
+import config.db_connect as db_connect
 import uuid
 import psycopg2.extras
 import json
@@ -12,7 +12,7 @@ from ai.src.models.classification import get_category_question
 
 def create_tables():
     psycopg2.extras.register_uuid()
-    conn = get_db_connection()    
+    conn = db_connect.get_db_connection()    
     cursor = conn.cursor()
 
     # Supprimer les tables existantes sauf la table Users
@@ -109,7 +109,7 @@ def create_tables():
 
 
 def create_admin_user():
-    conn = get_db_connection()  
+    conn = db_connect.get_db_connection()  
     cursor = conn.cursor()
 
     # Ajouter un utilisateur administrateur
@@ -137,7 +137,7 @@ def create_admin_user():
 
 
 def add_mcq_questions(question_dir, category_embeddings):
-    conn = get_db_connection()  
+    conn = db_connect.get_db_connection()  
     cursor = conn.cursor()
 
     # Vérifie si le chemin existe
@@ -203,7 +203,7 @@ def add_mcq_questions(question_dir, category_embeddings):
 
 
 def add_questions_open(question_dir, category_embeddings):
-    conn = get_db_connection()  
+    conn = db_connect.get_db_connection()  
     cursor = conn.cursor()
 
     # Vérifie si le chemin existe

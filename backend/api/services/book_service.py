@@ -2,9 +2,11 @@ from uuid import UUID
 from typing import AsyncGenerator, List
 from langchain_community.vectorstores import FAISS
 
+from api.models.QA import QA
 from api.models.Book import Book, BookForCreate
 from api.models.Page import PageOuput, PageForCreate
-from api.repositories import book_repository, page_repository
+from api.repositories import book_repository, page_repository, qa_repository
+from api.services import qa_service
 
 
 from ai.src.models.question import generate_mcq, generate_open
@@ -39,7 +41,7 @@ def get_page(page_id: UUID) -> PageOuput:
 
     page = page_repository.get_page(page_id)
     if page:
-        qa = page_repository.get_qa(page.qa_id)
+        qa = qa_repository.get_qa(page.qa_id)
         if qa:
             page_output_data = {
                 "id": page.id,
@@ -48,14 +50,12 @@ def get_page(page_id: UUID) -> PageOuput:
                 "history": page.history,
                 "created_at": page.created_at,
                 "qa_id": page.qa_id,
-                "category": qa["category"],
-                "question": qa["question"],
-                # Utiliser .get() pour gérer les cas où 'options' est absent
-                "options": qa.get("options"),
-                "answer": qa["answer"],
-                # Utiliser .get() pour gérer les cas où 'justification' est absent
-                "justification": qa.get("justification"),
-                "isVerified": qa["is_verified"],
+                "category": qa.category,
+                "question": qa.question,
+                "options": qa.options,
+                "answer": qa.answer,
+                "justification": qa.justification,
+                "isVerified": qa.is_verified,
             }
             return PageOuput(**page_output_data)
         else:
@@ -78,7 +78,7 @@ def get_pages(book_id: UUID) -> List[PageOuput]:
     if pages:
         page_outputs = []
         for page in pages:
-            qa = page_repository.get_qa(page.qa_id)
+            qa = qa_repository.get_qa(page.qa_id)
             if qa:
                 page_output_data = {
                     "id": page.id,
@@ -87,12 +87,12 @@ def get_pages(book_id: UUID) -> List[PageOuput]:
                     "history": page.history,
                     "created_at": page.created_at,
                     "qa_id": page.qa_id,
-                    "category": qa["category"],
-                    "question": qa["question"],
-                    "options": qa.get("options"),
-                    "answer": qa["answer"],
-                    "justification": qa.get("justification"),
-                    "isVerified": qa["is_verified"],
+                    "category": qa.category,
+                    "question": qa.question,
+                    "options": qa.options,
+                    "answer": qa.answer,
+                    "justification": qa.justification,
+                    "isVerified": qa.is_verified,
                 }
                 page_outputs.append(PageOuput(**page_output_data))
             else:
@@ -108,41 +108,23 @@ def add_page(book_id: UUID, knowledge_vector_db: FAISS) -> PageOuput:
 
     book = get_book(book_id)
     category = random.sample(book.categories, 1)[0]
-    questions = page_repository.get_qa_by_category(category)
-    # Prendre 3 questions de questions et les mettre dans questions
-    if len(questions) >= 3:
-        questions = random.sample(questions, 3)
+    qas_catagory = qa_repository.get_qas_by_category(category, book.type)
+    qas_in_book = qa_repository.get_qas_by_book(book.id)
+    print(qas_catagory, qas_in_book)
+    available_qas = [qa for qa in qas_catagory if qa.id not in [
+        q.id for q in qas_in_book]]
+    if available_qas:
+        qa = random.sample(available_qas, 1)[0]  # Take the first available QA
     else:
-        # prend tout les elements si moins de 3.
-        questions = random.sample(questions, len(questions))
+        qa = qa_service.generate_qa(
+            category, book.type, knowledge_vector_db)
 
-    # Formatter les questions
-    formatted_questions = '\n'.join([q.question for q in questions])
-
-    if book.type == "MCQ":
-        # renvoie un dict de la forme question: str options: List[str]
-        question_disc = generate_mcq(formatted_questions, knowledge_vector_db)
-        # renvoie {'Answer': 'Answer B.', 'Justification': 'Explanation According to the Guidelines for'}
-        answer_disc = generate_mcq_answer(question_disc, knowledge_vector_db)
-
-        qa_id = page_repository.create_qa_mcq(
-            category, question_disc, answer_disc)
-
-        page_title = f"{category} - {question_disc["question"][:100]}"
-    else:
-        # renvoie un str correspondant a question
-        question = generate_open(formatted_questions, knowledge_vector_db)
-        # renvoie un str correspondant a answer
-        answer = generate_open_answer(question, knowledge_vector_db)
-        qa_id = page_repository.create_qa_open(category, question, answer)
-
-        page_title = f"{category} - {question[:100]}"
-
+    page_title = f"{qa.category} - {qa.question[:100]}"
     # Créer l'objet PageForCreate
     page_for_create = PageForCreate(
         title=page_title,
         book_id=book_id,
-        qa_id=qa_id,
+        qa_id=qa.id,
     )
 
     page_id = page_repository.create_page(page_for_create)

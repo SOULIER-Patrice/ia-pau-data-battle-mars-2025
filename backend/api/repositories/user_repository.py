@@ -1,10 +1,10 @@
 from uuid import UUID
-from config.config import get_db_connection
+import config.db_connect as db_connect
 from psycopg2.extras import RealDictCursor
 
 
 def create_user(user: dict):
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
         """
@@ -20,7 +20,7 @@ def create_user(user: dict):
 
 
 def get_users():
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute("SELECT * FROM users")
     users = cursor.fetchall()
@@ -30,7 +30,7 @@ def get_users():
 
 
 def find_user_by_email(email: str):
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
     user = cursor.fetchone()
@@ -40,7 +40,7 @@ def find_user_by_email(email: str):
 
 
 def find_user_by_id(user_id: UUID):
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
     user = cursor.fetchone()
@@ -50,7 +50,7 @@ def find_user_by_id(user_id: UUID):
 
 
 def update_user(user_id: UUID, user: dict):
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
         """
@@ -69,7 +69,7 @@ def update_user(user_id: UUID, user: dict):
 
 
 def grand_role_to_user(user_id: UUID, role: str):
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
         """
@@ -87,7 +87,7 @@ def grand_role_to_user(user_id: UUID, role: str):
 
 
 def delete_user(user_id: UUID):
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
     conn.commit()
