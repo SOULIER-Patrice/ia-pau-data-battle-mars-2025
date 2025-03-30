@@ -3,8 +3,10 @@ from psycopg2.extras import RealDictCursor
 import config.db_connect as db_connect
 import psycopg2
 from typing import List, Dict
-from api.models.Page import Page, QA, PageForCreate
+from api.models.QA import QA
+from api.models.Page import Page, PageForCreate
 import json
+
 
 def create_page(page_for_create: PageForCreate) -> uuid.UUID:
     """
@@ -30,7 +32,8 @@ def create_page(page_for_create: PageForCreate) -> uuid.UUID:
         )
 
         conn.commit()
-        return page_for_create.id # return the id that was given to the function.
+        # return the id that was given to the function.
+        return page_for_create.id
 
     except psycopg2.Error as e:
         if conn:
@@ -39,8 +42,8 @@ def create_page(page_for_create: PageForCreate) -> uuid.UUID:
         return None
 
     except KeyError as e:
-      print(f"Erreur de clef de donnée : {e}")
-      return None
+        print(f"Erreur de clef de donnée : {e}")
+        return None
 
     except Exception as e:
         print(f"Erreur Inattendue : {e}")
@@ -88,11 +91,13 @@ def update_page_history(page_id: uuid.UUID, history: list) -> bool:
     except psycopg2.Error as e:
         if conn:
             conn.rollback()
-        print(f"Erreur de base de données lors de la mise à jour de l'historique : {e}")
+        print(
+            f"Erreur de base de données lors de la mise à jour de l'historique : {e}")
         return False
 
     except Exception as e:
-        print(f"Erreur inattendue lors de la mise à jour de l'historique : {e}")
+        print(
+            f"Erreur inattendue lors de la mise à jour de l'historique : {e}")
         return False
 
     finally:
@@ -125,8 +130,8 @@ def get_page(page_id: uuid.UUID) -> Page:
     conn.close()
 
     return Page(**page_data)
-   
-    
+
+
 def get_pages(book_id: uuid.UUID) -> List[Page]:
     """
     Récupère toutes les pages associées à un livre donné.
@@ -198,7 +203,8 @@ def create_qa_mcq(category: str, question_data: Dict[str, str], answer_data: Dic
             INSERT INTO qa (id, type, category, question, answer, is_verified)
             VALUES (%s, %s, %s, %s, %s, %s)
             """,
-            (qa_id, "MCQ", category, question_data["question"], answer_data["Answer"], False),
+            (qa_id, "MCQ", category,
+             question_data["question"], answer_data["Answer"], False),
         )
 
         cursor.execute(
@@ -206,7 +212,8 @@ def create_qa_mcq(category: str, question_data: Dict[str, str], answer_data: Dic
             INSERT INTO qa_mcq (id, qa_id, options, justification)
             VALUES (%s, %s, %s, %s)
             """,
-            (str(uuid.uuid4()), qa_id, question_data["options"], answer_data["Justification"]),
+            (str(uuid.uuid4()), qa_id,
+             question_data["options"], answer_data["Justification"]),
         )
 
         conn.commit()
@@ -219,15 +226,14 @@ def create_qa_mcq(category: str, question_data: Dict[str, str], answer_data: Dic
         return None  # Ou lancez l'exception, selon votre gestion des erreurs
 
     except Exception as e:
-      print(f"Erreur Inattendue : {e}")
-      return None
+        print(f"Erreur Inattendue : {e}")
+        return None
 
     finally:
         if cursor:
             cursor.close()
         if conn:
             conn.close()
-
 
 
 def get_qa(qa_id: uuid.UUID) -> QA:
@@ -273,7 +279,7 @@ def get_qa(qa_id: uuid.UUID) -> QA:
         cursor.close()
         conn.close()
         return None
-    
+
 
 def get_qa_by_category(category: str, is_verified: bool = True) -> List[QA]:
     """
@@ -314,7 +320,7 @@ def get_qa_by_category(category: str, is_verified: bool = True) -> List[QA]:
                 # Combiner les données de 'qa' et 'qa_mcq'
                 qa.update(mcq_data)
 
-            qa_list.append(QA(**qa)) # ajouter l'objet qa a la list.
+            qa_list.append(QA(**qa))  # ajouter l'objet qa a la list.
         cursor.close()
         conn.close()
         return qa_list  # Retourner la liste des QA
@@ -322,4 +328,3 @@ def get_qa_by_category(category: str, is_verified: bool = True) -> List[QA]:
         cursor.close()
         conn.close()
         return []
-    

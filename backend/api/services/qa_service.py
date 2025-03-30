@@ -1,6 +1,6 @@
 from api.repositories import qa_repository
 
-from api.models.Page import QA
+from api.models.QA import QA
 
 
 def get_all_qas() -> list[QA]:

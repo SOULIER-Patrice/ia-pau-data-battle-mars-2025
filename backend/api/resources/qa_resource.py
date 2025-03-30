@@ -1,6 +1,6 @@
 from api.dependancies import auth_required, oauth2_scheme
 from api.services import auth_service, qa_service
-from api.models.Page import QA
+from api.models.QA import QA
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
@@ -45,7 +45,7 @@ async def export_qas(token: str = Depends(oauth2_scheme)) -> FileResponse:
 
     # Récupérer toutes les questions
     qas = qa_service.get_all_qas()
-    
+
     # Supprimer les UUID des questions
     for qa in qas:
         del qa.id

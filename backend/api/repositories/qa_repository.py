@@ -4,7 +4,7 @@ from config.config import get_db_connection
 import psycopg2
 from typing import List
 
-from api.models.Page import QA
+from api.models.QA import QA
 
 
 def get_qas() -> List[QA]:
