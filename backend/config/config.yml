@@ -4,9 +4,11 @@ db:
   user: "user"
   password: "password"
   database: "data-battle"
+  reset_db: false
 ai:
   model: "qwen2.5:7b"
   max_output_tokens: 3000
   host: 'http://localhost:11434/'
-  model_classification: 'nlpaueb/bert-base-uncased-eurlex'
+  model_classification: 'thenlper/gte-small'
+  remake_classification: false
   model_rag: 'thenlper/gte-small'

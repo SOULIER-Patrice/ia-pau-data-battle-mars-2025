@@ -2,8 +2,7 @@ import uuid
 from psycopg2.extras import RealDictCursor
 import config.db_connect as db_connect
 import psycopg2
-from typing import List, Dict
-from api.models.QA import QA
+from typing import List
 from api.models.Page import Page, PageForCreate
 import json
 
