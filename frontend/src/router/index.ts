@@ -12,6 +12,22 @@ const authRequired = (to: any, from: any, next: any) => {
   }
 }
 
+const adminRequired = async (to: any, from: any, next: any) => {
+  const authStore = useAuthStore()
+  await authStore.fetchUser()
+
+  if (!authStore.token) {
+    next({ name: 'login', query: { redirect: to.fullPath } })
+    return
+  }
+
+  if (authStore.token && authStore.user?.roles.includes('admin')) {
+    next()
+  } else {
+    next({ name: 'error' })
+  }
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -56,6 +72,30 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      beforeEnter: adminRequired,
+      component: () => import('../views/AdminViews/AdminHomeView.vue')
+    },
+    {
+      path: '/admin/users',
+      name: 'admin-users',
+      beforeEnter: adminRequired,
+      component: () => import('../views/AdminViews/AdminUserView.vue')
+    },
+    {
+      path: '/admin/qa',
+      name: 'admin-qa',
+      beforeEnter: adminRequired,
+      component: () => import('../views/AdminViews/AdminQAView.vue')
+    },
+    {
+      path: '/admin/qa/:id',
+      name: 'admin-qa-detail',
+      beforeEnter: adminRequired,
+      component: () => import('../views/AdminViews/AdminQADetailView.vue')
     },
     {
       path: '/error',
