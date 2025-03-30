@@ -38,8 +38,8 @@ const router = createRouter({
       component: () => import('../views/PracticesViews/SelectModeView.vue')
     },
     {
-      path: '/practice/chat',
-      name: 'chat',
+      path: '/practice/OPEN',
+      name: 'OPEN',
       beforeEnter: authRequired,
       component: () => import('../views/PracticesViews/ChatView.vue')
     },

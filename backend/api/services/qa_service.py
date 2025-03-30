@@ -11,12 +11,14 @@ def generate_qa(category: str, qa_type: str, knowledge_vector_db, attempt=10) ->
 
     for _ in range(attempt):
         questions = qa_repository.get_qas_by_category(category, qa_type)
+        print(len(questions), "questions found")
         if len(questions) >= 3:
             questions = random.sample(questions, 3)
             # Formatter les questions
             formatted_questions = '\n'.join([q.question for q in questions])
 
             if qa_type == "MCQ":
+                print("Generating MCQ")
                 # renvoie un dict de la forme question: str options: List[str]
                 question_disc = generate_mcq(
                     formatted_questions, knowledge_vector_db)
@@ -28,6 +30,7 @@ def generate_qa(category: str, qa_type: str, knowledge_vector_db, attempt=10) ->
                         qa_id = qa_repository.create_qa_mcq(
                             category, question_disc["question"], answer_disc["Answer"], question_disc["options"], answer_disc["Justification"])
                         qa = qa_repository.get_qa(qa_id)
+                        print("Generated QA:", qa)
                         if not qa:
                             return None
                         return qa

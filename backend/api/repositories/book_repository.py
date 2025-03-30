@@ -81,3 +81,28 @@ def get_books(user_id: uuid.UUID) -> List[Book]:
         return [Book(**book_data) for book_data in books_data] #création de la liste d'objet book.
     else:
         return []
+    
+    
+def delete_book(book_id: uuid.UUID) -> bool:
+    """
+    Supprime un livre par son ID.
+
+    Args:
+        book_id: L'ID du livre à supprimer.
+
+    Returns:
+        True si la suppression a réussi, False sinon.
+    """
+    conn = db_connect.get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        DELETE FROM books WHERE id = %s
+        """,
+        (str(book_id),),
+    )
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return True

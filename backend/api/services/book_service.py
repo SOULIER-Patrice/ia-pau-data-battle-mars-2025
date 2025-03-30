@@ -37,6 +37,19 @@ def get_books(user_id: UUID) -> List[Book]:
     return books
 
 
+def delete_book(book_id: UUID) -> bool:
+    """
+    Supprime un livre par son ID et renvoie un booléen indiquant si la suppression a réussi.
+
+    Args:
+        book_id: L'ID du livre à supprimer.
+
+    Returns:
+        True si la suppression a réussi, False sinon.
+    """
+    return book_repository.delete_book(book_id)
+
+
 def get_page(page_id: UUID) -> PageOuput:
 
     page = page_repository.get_page(page_id)
@@ -110,7 +123,6 @@ def add_page(book_id: UUID, knowledge_vector_db: FAISS) -> PageOuput:
     category = random.sample(book.categories, 1)[0]
     qas_catagory = qa_repository.get_qas_by_category(category, book.type)
     qas_in_book = qa_repository.get_qas_by_book(book.id)
-    print(qas_catagory, qas_in_book)
     available_qas = [qa for qa in qas_catagory if qa.id not in [
         q.id for q in qas_in_book]]
     if available_qas:
@@ -187,7 +199,7 @@ async def send_message_stream(page_id: UUID, message: str, knowledge_vector_db: 
 
         if not history:
             user_answer = message
-            if book.type == "chat":
+            if book.type == "OPEN":
                 question = page.question
                 correct_answer = page.answer
                 async for chunk in generate_feedback_stream(question, correct_answer, user_answer, knowledge_vector_db):

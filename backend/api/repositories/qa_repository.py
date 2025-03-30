@@ -192,13 +192,13 @@ def get_qas_by_category(category: str, type: str, is_verified: bool = True) -> L
 
         # Récupérer toutes les QAs avec une jointure pour inclure les MCQs
         cursor.execute("""
-            SELECT qa.id, qa.type, qa.category, qa.question, qa.answer, qa.is_verified, qa_mcq.options, qa_mcq.justification
+            SELECT 
+                qa.id, qa.type, qa.category, qa.question, qa.answer, qa.is_verified,
+                qa_mcq.options, qa_mcq.justification
             FROM qa
             LEFT JOIN qa_mcq ON qa.id = qa_mcq.qa_id
             WHERE qa.category = %s AND qa.type = %s AND qa.is_verified = %s
-            """,
-                       (category, type, is_verified),
-                       )
+        """, (category, type, is_verified))
         rows = cursor.fetchall()
 
         # Convertir les résultats en objets QA
@@ -252,9 +252,11 @@ def get_qas_by_book(book_id: uuid.UUID) -> List[QA]:
         conn = db_connect.get_db_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute(
-            "SELECT qa.id, qa.type, qa.category, qa.question, qa.answer, qa.is_verified, qa_mcq.options, qa_mcq.justification FROM qa JOIN pages ON qa.id = pages.qa_id WHERE pages.book_id = %s",
-            (str(book_id),),  # Convert UUID to string for the query
-        )
+            """SELECT qa.id, qa.type, qa.category, qa.question, qa.answer, qa.is_verified, qa_mcq.options, qa_mcq.justification
+            FROM qa
+            LEFT JOIN qa_mcq ON qa.id = qa_mcq.qa_id
+            JOIN pages ON qa.id = pages.qa_id
+            WHERE pages.book_id = %s""", (str(book_id),))  # Convert UUID to string for the query
         rows = cursor.fetchall()
 
         # Convertir les résultats en objets QA
