@@ -76,6 +76,18 @@ watch(selectedBook, (book) => {
     fetchPages(book.id)
   }
 })
+
+// Calculate font size based on text length
+const calculateFontSize = (length: number): string => {
+  const maxFontSize = 16 // Maximum font size in px
+  const minFontSize = 10 // Minimum font size in px
+  const maxLength = 200 // Maximum length for scaling
+
+  if (length <= maxLength) {
+    return `${maxFontSize - (length / maxLength) * (maxFontSize - minFontSize)}px`
+  }
+  return `${minFontSize}px`
+}
 </script>
 
 <template>
@@ -111,8 +123,8 @@ watch(selectedBook, (book) => {
             type="mdi"
             :path="currentBook?.id === book.id ? mdiBookOpenVariantOutline : mdiNotebook"
           />
-          <div>
-            {{ book.title }}
+          <div :style="{ fontSize: calculateFontSize(book.title.length) }">
+            {{ book.title.slice(0, 200) }}{{ book.title.length > 200 ? '...' : '' }}
           </div>
         </div>
       </div>
@@ -125,8 +137,8 @@ watch(selectedBook, (book) => {
           class="item"
         >
           <SvgIcon type="mdi" :path="mdiFileDocumentOutline" />
-          <div>
-            {{ page.title }}
+          <div :style="{ fontSize: calculateFontSize(page.title.length) }">
+            {{ page.title.slice(0, 200) }}{{ page.title.length > 200 ? '...' : '' }}
           </div>
         </div>
       </div>
@@ -179,8 +191,17 @@ watch(selectedBook, (book) => {
       padding: 10px;
       cursor: pointer;
 
+      & svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      & div {
+        width: 100%;
+      }
+
       &:hover {
-        background-color: #f1f1f1;
+        background-color: #e0e0e0;
       }
     }
   }
