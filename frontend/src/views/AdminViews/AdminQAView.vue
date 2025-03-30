@@ -5,6 +5,7 @@ import type { QA } from '@/types/QA'
 import type { Item } from '@/types/Item'
 import { useAuthStore } from '@/stores/authStore'
 import { ref, watch, computed } from 'vue'
+import SpinnerLoader from '@/components/Loaders/SpinnerLoader.vue'
 
 const authStore = useAuthStore()
 
@@ -117,7 +118,8 @@ watch(
       </select>
     </div>
 
-    <List title="Questions and Answers" :items="filteredItems" :limit="10" class="qa-list" />
+    <SpinnerLoader v-if="isLoading" />
+    <List v-else title="Questions and Answers" :items="filteredItems" :limit="10" class="qa-list" />
     <router-link to="/admin">Back to Admin Home</router-link>
   </div>
 </template>
