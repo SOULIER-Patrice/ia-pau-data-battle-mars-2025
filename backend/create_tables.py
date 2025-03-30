@@ -7,12 +7,10 @@ import numpy as np
 
 from api.services.auth_service import get_password_hash
 
-from ai.src.models.classification import get_category_question
-
 
 def create_tables():
     psycopg2.extras.register_uuid()
-    conn = db_connect.get_db_connection()    
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor()
 
     # Supprimer les tables existantes sauf la table Users
@@ -21,13 +19,14 @@ def create_tables():
     cursor.execute("DROP TABLE IF EXISTS pages CASCADE")
     cursor.execute("DROP TABLE IF EXISTS books CASCADE")
     cursor.execute("DROP TABLE IF EXISTS articles CASCADE")
+    # cursor.execute("DROP TABLE IF EXISTS users CASCADE")
 
     # Table Users
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS users (
             id UUID PRIMARY KEY,
-            email VARCHAR(255) NOT NULL,
+            email VARCHAR(255) UNIQUE NOT NULL,
             first_name VARCHAR(255) NOT NULL,
             last_name VARCHAR(255) NOT NULL,
             roles TEXT[] NOT NULL,
@@ -56,8 +55,8 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS qa (
             id UUID PRIMARY KEY,
             type VARCHAR(50) NOT NULL,
-            category VARCHAR(255) NOT NULL,
-            question TEXT NOT NULL,
+            categories TEXT[] NOT NULL,
+            question TEXT UNIQUE NOT NULL,
             answer TEXT NOT NULL,
             is_verified BOOLEAN DEFAULT FALSE
         )
@@ -109,7 +108,7 @@ def create_tables():
 
 
 def create_admin_user():
-    conn = db_connect.get_db_connection()  
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor()
 
     # Ajouter un utilisateur administrateur
@@ -125,7 +124,7 @@ def create_admin_user():
         """
         INSERT INTO users (id, email, first_name, last_name, roles, hashed_password)
         VALUES (%s, %s, %s, %s, %s, %s)
-        ON CONFLICT (id) DO NOTHING
+        ON CONFLICT (email) DO NOTHING
         """,
         (admin_id, admin_email, admin_first_name,
          admin_last_name, admin_roles, admin_hashed_password)
@@ -136,8 +135,8 @@ def create_admin_user():
     conn.close()
 
 
-def add_mcq_questions(question_dir, category_embeddings):
-    conn = db_connect.get_db_connection()  
+def add_mcq_questions(question_dir):
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor()
 
     # Vérifie si le chemin existe
@@ -149,6 +148,7 @@ def add_mcq_questions(question_dir, category_embeddings):
         question_dir) if f.endswith("_mcq.json")])
     solution_files = sorted([f for f in os.listdir(
         question_dir) if f.endswith("_mcq_solution.json")])
+
     # Parcours des fichiers MCQ et ajout à la base de données
     for i in range(len(mcq_files)):
 
@@ -168,21 +168,19 @@ def add_mcq_questions(question_dir, category_embeddings):
         for qid, question_data in mcq_data.items():
 
             question = question_data["question"]
+            categories = question_data["categories"]
             answer = solution_data[qid]["Answer"]
-
             options = question_data["options"]
             justification = solution_data[qid]["Justification"]
-
-            input = f"{question} {options}"
-            category = get_category_question(input, category_embeddings)
             # Insérer la question dans la table qa
             cursor.execute(
                 """
-                INSERT INTO qa (id, type, category, question, answer, is_verified)
+                INSERT INTO qa (id, type, categories, question, answer, is_verified)
                 VALUES (%s, %s, %s, %s, %s, %s)
+                ON CONFLICT (question) DO NOTHING
                 RETURNING id
                 """,
-                (str(uuid.uuid4()), "MCQ", category, question, answer, True)
+                (str(uuid.uuid4()), "MCQ", categories, question, answer, True)
             )
             qa_id = cursor.fetchone()[0]
 
@@ -202,8 +200,8 @@ def add_mcq_questions(question_dir, category_embeddings):
     print("MCQ questions and solutions added successfully!")
 
 
-def add_questions_open(question_dir, category_embeddings):
-    conn = db_connect.get_db_connection()  
+def add_questions_open(question_dir):
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor()
 
     # Vérifie si le chemin existe
@@ -218,49 +216,37 @@ def add_questions_open(question_dir, category_embeddings):
 
     for i in range(len(open_files)):
 
-        mcq_file = open_files[i]
+        open_file = open_files[i]
         solution_file = solution_files[i]
 
-        mcq_path = os.path.join(question_dir, mcq_file)
+        open_path = os.path.join(question_dir, open_file)
         solution_path = os.path.join(question_dir, solution_file)
 
-        with open(mcq_path, 'r', encoding='utf-8') as f:
-            mcq_data = json.load(f)
+        with open(open_path, 'r', encoding='utf-8') as f:
+            open_data = json.load(f)
 
         with open(solution_path, 'r', encoding='utf-8') as f:
             solution_data = json.load(f)
 
         # Insérer les questions et solutions dans la base de données
-        for qid, question_data in mcq_data.items():
+        for qid, question_data in open_data.items():
 
-            question = question_data.strip()
+            question = question_data["question"].strip()
+            categories = question_data["categories"]
             answer = solution_data[qid].strip()
+
             # Insérer la question dans la table qa
-            input = f"{question}"
-            category = get_category_question(input, category_embeddings)
             cursor.execute(
                 """
-                INSERT INTO qa (id, type, category, question, answer, is_verified)
+                INSERT INTO qa (id, type, categories, question, answer, is_verified)
                 VALUES (%s, %s, %s, %s, %s, %s)
+                ON CONFLICT (question) DO NOTHING
                 RETURNING id
                 """,
-                (str(uuid.uuid4()), "OPEN", category, question, answer, True)
+                (str(uuid.uuid4()), "OPEN", categories, question, answer, True)
             )
     # Commit et fermeture de la connexion
     conn.commit()
     cursor.close()
     conn.close()
     print("Open questions and solutions added successfully!!")
-
-
-if __name__ == "__main__":
-    create_tables()
-    # create_admin_user()
-    question_dir = os.path.abspath('./ai/outputs')
-
-    category_embeddings = np.load(
-        './ai/embeddings/categories_bert-base-uncased-eurlex.npy', allow_pickle=True).item()
-
-    add_mcq_questions(question_dir, category_embeddings)
-    add_questions_open(question_dir, category_embeddings)
-    print("Tables créées avec succès et utilisateur administrateur ajouté.")

@@ -1,9 +1,10 @@
 from typing import AsyncGenerator
 from ai.src.get_context import get_context
-from ai.src.clean_output import clean_generate_mcq_output, clean_output_v2
+from ai.src.clean_output import clean_generate_mcq_output
 from langchain_community.vectorstores import FAISS
 from ollama import chat
 import config.ai as ai
+import re
 
 
 # question, options
@@ -25,19 +26,20 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(retrieved_docs)])
-    context_sources = "".join(
-        [f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
+    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
 
     # Build prompt
-    system_prompt = f"""
-    You are an AI specialized in answering legal multiple-choice questions based on provided legal texts.
+    system_prompt = f""""You are an AI specialized in answering multiple-choice legal questions based on given legal texts.
     ### Instructions:
-    - When given a multiple-choice legal question, provide the correct answer followed by an explanation.
-    - Your answer should begin with the correct choice (e.g., "Answer A").
-    - After that, explain why this choice is correct based on the provided legal context.
-    - Then, explain why the other choices (B, C, D) are incorrect, using relevant legal reasoning from the context.
-    - Use the legal context provided to back up your reasoning.
-    - Make sure to clearly distinguish between the correct answer and the incorrect ones.
+    - Always start your response with:  
+    **Answer: X** (where X is A, B, C, or D).  
+    - After that, provide a detailed justification.  
+    - Explain why the selected answer is correct based on the legal context.  
+    - Explain why the other choices (B, C, D) are incorrect, referencing the legal context.  
+
+    The **Answer** field must contain only a single letter: A, B, C, or D.  
+    All explanations must be in the **Justification** section.  
+    Ensure strict adherence to this format to allow for structured extraction.
     """
 
     user_prompt = f"""
@@ -47,15 +49,21 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     ### Legal Question:
     {question_mcq}
 
-    Answer the question by:
-    1. Starting with the correct answer (e.g., "Answer A").
-    2. Explaining why this choice is correct according to the provided legal text.
-    3. Explaining why the other options (B, C, D) are incorrect based on the legal context.
+    Respond strictly in the following format:
+
+    **Answer: X**  
+    **Justification:**  
+    - Explanation of why X is correct.  
+    - Explanation of why B, C, and D are incorrect.  
+
+    Ensure that:  
+    - The **Answer** field contains only a single letter (A, B, C, or D).  
+    - All other explanations are in the **Justification** section.
     """
 
     # Initial attempt to get the answer
     attempt_count = 0
-    max_attempts = 10  # Limit number of attempts to prevent infinite loops
+    max_attempts = 3  # Limit number of attempts to prevent infinite loops
 
     while attempt_count < max_attempts:
 
@@ -67,13 +75,25 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
 
         # Put answer in correct json format
         try:
-            cleaned_answer_mcq = clean_output_v2(answer_mcq['message']['content'], type='answer')
-            if cleaned_answer_mcq['Answer'] not in {'A', 'B', 'C', 'D'}:
-                raise ValueError("Answer should be 'A', 'B', 'C' or 'D'.")
+            # Regex to get Answer and Justification
+            pattern = re.compile(r"\*\*Answer:\s*([A-D])\*\*\s*\n\s*\*\*Justification:\*\*\s*\n(.*)", re.DOTALL)
+            match = pattern.search(answer_mcq['message']['content'])
 
-            # Add context to Justification
-            cleaned_answer_mcq['Justification'] += f'\n\nSources:\n{context_sources}'
-            return cleaned_answer_mcq  # If valid, return it
+            if match:
+                extracted_answer = match.group(1)
+                justification = match.group(2).strip()
+
+                # check for a valid letter isolated
+                match = re.search(r'\b[A-D]\b', extracted_answer)
+                if match:
+                    extracted_answer = match.group()
+                else:
+                    print(f"Erreur Answer is not a letter: Answer={extracted_answer}")
+                    raise ValueError("Answer should be 'A', 'B', 'C' ou 'D'.")
+            
+                justification += f'\n\nSources:\n{context_sources}'
+                return {"Answer": extracted_answer, "Justification": justification}  # If valid, return it
+
         except ValueError:
             attempt_count += 1  # Increment attempt count
             print(f"Attempt {attempt_count} failed. Retrying...")
@@ -98,9 +118,8 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content}\nSource: {doc.metadata['ref']}\n' for i,
                        doc in enumerate(retrieved_docs)])
-    context_sources = "".join(
-        [f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
-
+    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
+    
     # Build prompt
     system_prompt = f"""You are an AI specialized in answering open-ended legal questions based on provided legal texts. Your task is to generate a detailed, accurate, and well-reasoned answer to the given question using the provided legal texts. Every answer must be supported by specific legal sources from the context provided.
     ### Instructions:
@@ -199,8 +218,8 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(all_contexts)])
-    context_sources = "".join(
-        [f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
+    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
+
 
     # Build prompt
     system_prompt = f"""You are an AI designed to provide feedback on legal answers, both for multiple-choice questions (MCQs) and open-ended responses. When a user answers a question, your task is to explain whether their answer is correct or incorrect, using the legal context and specific sources to support your feedback.
@@ -321,8 +340,8 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(all_contexts)])
-    context_sources = "".join(
-        [f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(all_contexts)])
+    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
+
 
     # Build prompt
     system_prompt = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
@@ -376,14 +395,46 @@ async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_
     # Retrieve context
     history_context = get_context(history, 5, knowledge_vector_db)
     user_message_context = get_context(user_message, 3, knowledge_vector_db)
+    # Combine all retrieved contexts
     all_contexts = history_context + user_message_context
     context = "\nExtracted documents:\n"
-    context += "".join(
-        [f'Content: {doc.page_content} \nSource: {doc.metadata["ref"]}\n\n' for doc in all_contexts])
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
+                       doc in enumerate(all_contexts)])
+    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
 
     # Build prompt
-    system_prompt = f"""You are an AI specialized in helping users understand legal concepts..."""  # Same as before
-    user_prompt = f"""### Conversation History:\n{history}\n\n### Legal Context:\n{context}\n\n### User's Question:\n{user_message}\n\n### Instructions:\n..."""  # Same as before
+    system_prompt = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
+    ### Instructions:
+    1. **Conversation History**: Refer to the conversation history as context for understanding the user's current question or doubt. Always base your responses on the conversation history and legal texts provided.
+    2. **Legal Context**: Use the legal context (texts, articles, or sections) provided to answer questions or clarify points. If needed, quote specific legal articles or reference them when explaining a concept.
+    3. **Discussion Flow**: Engage with the user in a conversational style. If they ask why their answer isn't correct, provide a detailed explanation using the legal context and reasoning.
+    4. **Interactive Exploration**: Encourage the user to ask follow-up questions or seek further clarification about specific parts of the legal text. Offer suggestions to explore the legal texts together and make sure to reference specific articles when necessary.
+    5. **Supportive Dialogue**: If the user's understanding of a legal concept or their answer is incorrect, explain where they went wrong and guide them towards the correct interpretation of the law. Use the legal context to back up your explanation.
+
+    ### Example Flow:
+    User: "I think the contract is voidable due to duress. Isn't that right?"
+    AI: "Let's take a look at the legal context. According to Article 123 of the Civil Code, a contract may be voidable if one party was under severe duress. However, for duress to be a valid reason to void the contract, it must meet specific criteria. Let me walk you through the exact conditions outlined in the law."
+
+    User: "But the text just mentions duress, doesn't it?"
+    AI: "Yes, the term 'duress' is mentioned, but it's crucial to understand that the law specifies the severity of duress required. For instance, Article 123 requires the duress to be 'so severe that it compromises the freedom of choice of the person involved.' This distinction is important. Let's dive deeper into what 'severe' means under the law."
+    """
+
+    user_prompt = f"""### Conversation History:
+    {history}
+
+    ### Legal Context:
+    {context}
+
+    ### User's Question:
+    {user_message}
+
+    ### Instructions:
+    - Provide a conversational response based on the conversation history and the legal context.
+    - If the user has a misunderstanding or an incorrect answer, explain why it is wrong using the relevant legal text and guide them to the correct understanding.
+    - Encourage the user to ask more questions if they need further clarification on specific legal points or sections.
+    - Reference legal articles and sections as needed to back up your explanation.
+    - Keep the conversation open and interactive, so the user feels comfortable discussing and exploring the legal concepts.
+    """
 
     # Stream response
     async for chunk in chat_stream(model=ai.model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=ai.max_output_tokens):

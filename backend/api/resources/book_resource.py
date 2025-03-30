@@ -28,8 +28,30 @@ async def create_book(book: BookForCreate, token: str = Depends(oauth2_scheme)) 
     if current_user.id != book.user_id and "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
+    try:
+        page = book_service.create_book(book, knowledge_vector_db)
 
-    page = book_service.create_book(book, knowledge_vector_db)
+    except ValueError as ve:  # Attraper l'erreur spécifique attendue
+        # Log l'erreur originale pour le débogage côté serveur
+        # Remplacez par votre système de logging
+        print(f"QA generation failed: {ve}")
+
+        # Lever une HTTPException appropriée pour le client
+        raise HTTPException(
+            # status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, # Ou 422, 503...
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            # Optionnel: inclure une partie du message d'erreur
+            detail=f"Failed during question generation: {ve}"
+            # Ou gardez un message plus générique pour le client:
+            # detail="An error occurred during question generation. Please try again later or contact support."
+        )
+    except Exception as e:  # Attraper d'autres erreurs inattendues
+        print(f"Unexpected error during QA generation: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected server error occurred during question generation."
+        )
+
     if not page:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Page not found"
@@ -103,8 +125,29 @@ async def add_page(book_id: UUID, user_id: UUID, token: str = Depends(oauth2_sch
     if current_user.id != user_id and "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
+    try:
+        page = book_service.add_page(book_id, knowledge_vector_db)
+    except ValueError as ve:  # Attraper l'erreur spécifique attendue
+        # Log l'erreur originale pour le débogage côté serveur
+        # Remplacez par votre système de logging
+        print(f"QA generation failed: {ve}")
 
-    page = book_service.add_page(book_id, knowledge_vector_db)
+        # Lever une HTTPException appropriée pour le client
+        raise HTTPException(
+            # status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, # Ou 422, 503...
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            # Optionnel: inclure une partie du message d'erreur
+            detail=f"Failed during question generation: {ve}"
+            # Ou gardez un message plus générique pour le client:
+            # detail="An error occurred during question generation. Please try again later or contact support."
+        )
+    except Exception as e:  # Attraper d'autres erreurs inattendues
+        print(f"Unexpected error during QA generation: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected server error occurred during question generation."
+        )
+
     if not page:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="pages not found")

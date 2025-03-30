@@ -26,15 +26,31 @@ async def create_qa(create_qa: QAForCreate, token: str = Depends(oauth2_scheme))
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized"
         )
-    # if "admin" not in current_user.roles:
+    if "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden"
         )
+    try:
+        qas = qa_service.generate_qas(create_qa, knowledge_vector_db)
+    except ValueError as ve:  # Attraper l'erreur spécifique attendue
+        # Log l'erreur originale pour le débogage côté serveur
+        # Remplacez par votre système de logging
+        print(f"QA generation failed: {ve}")
 
-    qas = qa_service.generate_qas(create_qa, knowledge_vector_db)
-    if not qas:
+        # Lever une HTTPException appropriée pour le client
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Page not found"
+            # status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, # Ou 422, 503...
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            # Optionnel: inclure une partie du message d'erreur
+            detail=f"Failed during question generation: {ve}"
+            # Ou gardez un message plus générique pour le client:
+            # detail="An error occurred during question generation. Please try again later or contact support."
+        )
+    except Exception as e:  # Attraper d'autres erreurs inattendues
+        print(f"Unexpected error during QA generation: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected server error occurred during question generation."
         )
     return qas
 
@@ -46,7 +62,7 @@ async def get_qa(token: str = Depends(oauth2_scheme)) -> list[QA]:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized"
         )
-    # if "admin" not in current_user.roles:
+    if "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden"
         )

@@ -20,8 +20,6 @@ def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
     retrieved_docs = get_context(questions, 3, knowledge_vector_db)
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(retrieved_docs)])
-    # context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
-
 
     # Build prompt
     system_prompt = f"""
@@ -82,8 +80,6 @@ def generate_open(questions : str, knowledge_vector_db: FAISS) -> str:
     retrieved_docs = get_context(questions, 5, knowledge_vector_db)
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(retrieved_docs)])
-    # context_sources = "".join([f'\nSource: {doc.metadata['ref']}, Url: {doc.metadata.get('url', 'N/A')}' for i, doc in enumerate(retrieved_docs)])
-
 
     # Build prompt
     system_prompt = f"""You are an AI designed to generate legal questions based on the provided legal context. Your task is to generate a **detailed legal scenario** followed by **three to five structured questions**, ensuring that all questions can be answered using the given legal texts.

@@ -6,6 +6,7 @@ import config.db_connect as db_connect
 from typing import List, Optional
 from api.models.Book import Book
 
+
 def create_book(book_data: Book) -> uuid.UUID:
     conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -26,6 +27,7 @@ def create_book(book_data: Book) -> uuid.UUID:
     cursor.close()
     conn.close()
     return book_data.id
+
 
 def get_book(book_id: uuid.UUID) -> Optional[Book]:
     """
@@ -51,9 +53,10 @@ def get_book(book_id: uuid.UUID) -> Optional[Book]:
     conn.close()
 
     if book_data:
-        return Book(**book_data) # Create a Book object directly.
+        return Book(**book_data)  # Create a Book object directly.
     else:
         return None
+
 
 def get_books(user_id: uuid.UUID) -> List[Book]:
     """
@@ -78,11 +81,12 @@ def get_books(user_id: uuid.UUID) -> List[Book]:
     conn.close()
 
     if books_data:
-        return [Book(**book_data) for book_data in books_data] #création de la liste d'objet book.
+        # création de la liste d'objet book.
+        return [Book(**book_data) for book_data in books_data]
     else:
         return []
-    
-    
+
+
 def delete_book(book_id: uuid.UUID) -> bool:
     """
     Supprime un livre par son ID.
