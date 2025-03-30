@@ -12,3 +12,9 @@ class QA(BaseModel):
     is_verified: bool
     options: Optional[List[str]] = None
     justification: Optional[str] = None
+
+
+class QAForCreate(BaseModel):
+    categories: List[str]
+    type: str
+    number: int
