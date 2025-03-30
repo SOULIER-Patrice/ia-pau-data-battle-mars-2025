@@ -95,7 +95,7 @@ async def export_qas(token: str = Depends(oauth2_scheme)) -> FileResponse:
     json_data = json.dumps([qa.model_dump() for qa in qas], indent=4)
 
     # Sauvegarder le JSON dans un fichier temporaire
-    file_path = "/tmp/qas_export.json"
+    file_path = "data/qas_export.json"
     with open(file_path, "w") as file:
         file.write(json_data)
 
