@@ -194,13 +194,18 @@ async def send_message_stream(page_id: UUID, message: str, knowledge_vector_db: 
             yield "Page non trouvée."
             return
 
+        book = get_book(page.book_id)
+        if not book:
+            yield "Livre non trouvé."
+            return
+
         history = page.history
 
         response_chunks = []  # Liste pour accumuler les chunks
 
         if not history:
             user_answer = message
-            if page.category == "OPEN":
+            if book.type == "chat":
                 question = page.question
                 correct_answer = page.answer
                 async for chunk in generate_feedback_stream(question, correct_answer, user_answer, knowledge_vector_db):
