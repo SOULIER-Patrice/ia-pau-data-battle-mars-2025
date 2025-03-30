@@ -42,6 +42,12 @@ const toggleExpanded = () => {
       <LinkActiveButton text="Home" :isActive="activeTab === '/'" to="/" />
       <LinkActiveButton text="Practice" :isActive="activeTab === '/practice'" to="/practice" />
       <!-- <LinkActiveButton text="About" :isActive="activeTab === '/about'" to="/about" /> -->
+      <LinkActiveButton
+        v-if="user?.roles.includes('admin')"
+        text="Admin"
+        :isActive="activeTab === '/admin'"
+        to="/admin"
+      />
     </nav>
     <div class="auth">
       <div v-if="user">
