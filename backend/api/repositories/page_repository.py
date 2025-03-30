@@ -1,6 +1,6 @@
 import uuid
 from psycopg2.extras import RealDictCursor
-from config.config import get_db_connection
+import config.db_connect as db_connect
 import psycopg2
 from typing import List, Dict
 from api.models.Page import Page, QA, PageForCreate
@@ -13,7 +13,7 @@ def create_page(page_for_create: PageForCreate) -> uuid.UUID:
     conn = None
     cursor = None
     try:
-        conn = get_db_connection()
+        conn = db_connect.get_db_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
 
         cursor.execute(
@@ -67,7 +67,7 @@ def update_page_history(page_id: uuid.UUID, history: list) -> bool:
     conn = None
     cursor = None
     try:
-        conn = get_db_connection()
+        conn = db_connect.get_db_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
 
         # Convertir la liste d'historique en JSONB
@@ -112,7 +112,7 @@ def get_page(page_id: uuid.UUID) -> Page:
     Returns:
         Un objet Page contenant les données de la page, ou None si la page n'est pas trouvée.
     """
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
         """
@@ -137,7 +137,7 @@ def get_pages(book_id: uuid.UUID) -> List[Page]:
     Returns:
         Une liste d'objets Page contenant les données des pages, ou une liste vide si aucune page n'est trouvée.
     """
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
         """
@@ -167,7 +167,7 @@ def create_qa_open(category: str, question: str, answer: str) -> uuid.UUID:
     Returns:
         L'ID de la question créée.
     """
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     qa_id = str(uuid.uuid4())
     cursor.execute(
@@ -189,7 +189,7 @@ def create_qa_mcq(category: str, question_data: Dict[str, str], answer_data: Dic
     Crée une question de type MCQ et retourne son ID.
     """
     try:
-        conn = get_db_connection()
+        conn = db_connect.get_db_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         qa_id = str(uuid.uuid4())
 
@@ -240,7 +240,7 @@ def get_qa(qa_id: uuid.UUID) -> QA:
     Returns:
         Un dictionnaire contenant les données de la QA, ou None si la QA n'est pas trouvée.
     """
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     # Récupérer les données de la table 'qa'
@@ -286,7 +286,7 @@ def get_qa_by_category(category: str, is_verified: bool = True) -> List[QA]:
     Returns:
         Une liste d'objets QA contenant les données des QAs, ou une liste vide si aucune QA n'est trouvée pour cette catégorie.
     """
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     # Récupérer les données de la table 'qa' en filtrant par catégorie et is_verified

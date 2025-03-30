@@ -3,7 +3,7 @@ from ai.src.get_context import get_context
 from ai.src.clean_output import clean_generate_mcq_output, clean_output_v2
 from langchain_community.vectorstores import FAISS
 from ollama import chat
-from config.config import model, max_output_tokens, ollama_client
+import config.ai as ai
 
 
 # question, options
@@ -59,10 +59,10 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
 
     while attempt_count < max_attempts:
 
-        answer_mcq = ollama_client.chat(model=model,
+        answer_mcq = ai.ollama_client.chat(model=ai.model,
                             messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":max_output_tokens}
+                            options = {"num_predict": ai.max_output_tokens}
                             )
 
         # Put answer in correct json format
@@ -157,10 +157,10 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     """
 
     # Redact an answer
-    answer = ollama_client.chat(model=model,
+    answer = ai.ollama_client.chat(model=ai.model,
                             messages=[{"role":"system", "content":system_prompt},
                                       {"role":"user","content":user_prompt}],
-                            options = {"num_predict":max_output_tokens}
+                            options = {"num_predict":ai.max_output_tokens}
                             )
 
     # Assemble answer and context_sources
@@ -267,10 +267,10 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     """
 
     # Redact an answer
-    feedback = ollama_client.chat(model=model,
+    feedback = ai.ollama_client.chat(model=ai.model,
                             messages=[{"role":"system", "content": system_prompt},
                                       {"role":"user","content": user_prompt}],
-                            options = {"num_predict": max_output_tokens}
+                            options = {"num_predict": ai.max_output_tokens}
                             )
                     
 
@@ -296,7 +296,7 @@ async def generate_feedback_stream(question: str, correct_answer: str, user_answ
     user_prompt = f"""### Context:\n{context}\n\n### Correct Answer:\n{correct_answer}\n\n### User's Answer:\n{user_answer}\n\n### Legal Question:\n{question}\n\n### Instructions:\n..."""  # Same as before
 
     # Stream response
-    async for chunk in chat_stream(model=model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=max_output_tokens):
+    async for chunk in chat_stream(model=ai.model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=ai.max_output_tokens):
         yield chunk
 
 
@@ -360,10 +360,10 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     """
 
     # Redact an answer
-    answer = ollama_client.chat(model=model,
+    answer = ai.ollama_client.chat(model=ai.model,
                   messages=[{"role": "system", "content": system_prompt},
                             {"role": "user", "content": user_prompt}],
-                  options={"num_predict": max_output_tokens}
+                  options={"num_predict": ai.max_output_tokens}
                   )
 
     # Assemble answer
@@ -386,7 +386,7 @@ async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_
     user_prompt = f"""### Conversation History:\n{history}\n\n### Legal Context:\n{context}\n\n### User's Question:\n{user_message}\n\n### Instructions:\n..."""  # Same as before
 
     # Stream response
-    async for chunk in chat_stream(model=model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=max_output_tokens):
+    async for chunk in chat_stream(model=ai.model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=ai.max_output_tokens):
         yield chunk
 
 

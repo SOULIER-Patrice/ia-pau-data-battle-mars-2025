@@ -1,7 +1,7 @@
 import re
 import json
 from ollama import chat
-from config.config import model, ollama_client
+import config.ai as ai
 
 
 def validate_json_format_mcq(llm_output, type):
@@ -83,7 +83,7 @@ def call_formatting_llm_mcq(llm_output, type):
         Please convert it into the required JSON format.
         """
 
-    response = ollama_client.chat(model=model, messages=[
+    response = ai.ollama_client.chat(model=ai.model, messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt},
     ])

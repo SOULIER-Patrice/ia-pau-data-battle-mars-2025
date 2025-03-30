@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from ai.src.embedding_loader import load_rag_embeddings
-from config.config import init_ollama_model
+import config.ai as ai 
 
 from api.resources import auth_resource, user_resource, book_resource, stream_resource
 # Import du state depuis un module séparé
@@ -66,5 +66,5 @@ app.include_router(stream_resource.router)
 
 if __name__ == "__main__":
     import uvicorn
-    init_ollama_model()
+    ai.init_ollama_model()
     uvicorn.run(app, host="0.0.0.0", port=8000)

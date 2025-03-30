@@ -1,13 +1,13 @@
 import uuid
 from psycopg2.extras import RealDictCursor
 
-from config.config import get_db_connection
+import config.db_connect as db_connect
 
 from typing import List, Optional
 from api.models.Book import Book
 
 def create_book(book_data: Book) -> uuid.UUID:
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
         """
@@ -37,7 +37,7 @@ def get_book(book_id: uuid.UUID) -> Optional[Book]:
     Returns:
         Un objet Book contenant les données du livre, ou None si le livre n'est pas trouvé.
     """
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
         """
@@ -65,7 +65,7 @@ def get_books(user_id: uuid.UUID) -> List[Book]:
     Returns:
         Une liste d'objets Book contenant les données des livres.
     """
-    conn = get_db_connection()
+    conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
         """
