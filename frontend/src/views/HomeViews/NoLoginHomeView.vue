@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Logo from '@/assets/lawrag.png'
+
+</script>
 
 <template>
   <div class="no-login-home-view">
@@ -8,7 +11,9 @@
       <p>succeed</p>
     </div>
     <div class="right">
-      <div class="circle"></div>
+      <div class="circle">
+        <img :src="Logo" alt="Logo" width="280px" />
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +51,9 @@
     .circle {
       width: 400px;
       height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin-right: 50px;
       border-radius: 50%;
       background: radial-gradient(50% 50% at 50% 50%, #588157 0%, #3d5a3e 100%);

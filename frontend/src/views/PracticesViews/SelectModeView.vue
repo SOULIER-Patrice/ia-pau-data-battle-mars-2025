@@ -20,6 +20,8 @@ const togglePanel = () => {
   isOpen.value = !isOpen.value
 }
 
+const isLoading = ref(false)
+
 const categories = [
   'Minimum requirements for a filing date',
   'Filing methods and locations',
@@ -75,6 +77,8 @@ const createBook = (type: string) => {
   const userId = authStore.user?.id
   if (!userId) return
 
+  isLoading.value = true
+
   fetch(`${apiUrl}/books/create`, {
     method: 'POST',
     headers: {
@@ -93,6 +97,9 @@ const createBook = (type: string) => {
     })
     .catch((err) => {
       console.error(err)
+    })
+    .finally(() => {
+      isLoading.value = false
     })
 }
 
@@ -121,6 +128,7 @@ const mode = ref<string>('')
         title="Choose a category"
         buttonText="Start"
         @click="() => createBook(mode)"
+        :isLoading="isLoading"
         :disabled="selectedCategories.length === 0"
       >
         <div class="select-categories__content">
@@ -164,10 +172,6 @@ const mode = ref<string>('')
     &:hover {
       background-color: #f4f3f3;
     }
-  }
-
-  .side-pannel {
-    margin-top: 150px;
   }
 
   h1 {

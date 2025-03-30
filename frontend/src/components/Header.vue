@@ -8,6 +8,7 @@ import LinkActiveButton from './Buttons/LinkActiveButton.vue'
 import BasicButton from './Buttons/BasicButton.vue'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiAccountCircleOutline } from '@mdi/js'
+import Logo from '@/assets/lawrag.png'
 
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -34,11 +35,13 @@ const toggleExpanded = () => {
 
 <template>
   <header>
-    <router-link to="/" class="title">IA Pau Data Battle 2025</router-link>
+    <router-link to="/" class="title">
+      <img :src="Logo" alt="Logo" width="100px" />
+    </router-link>
     <nav>
       <LinkActiveButton text="Home" :isActive="activeTab === '/'" to="/" />
       <LinkActiveButton text="Practice" :isActive="activeTab === '/practice'" to="/practice" />
-      <LinkActiveButton text="About" :isActive="activeTab === '/about'" to="/about" />
+      <!-- <LinkActiveButton text="About" :isActive="activeTab === '/about'" to="/about" /> -->
     </nav>
     <div class="auth">
       <div v-if="user">
@@ -76,6 +79,7 @@ header {
   background-color: #f4f3f3;
   z-index: 1002;
   align-items: center;
+  height: 20px;
 
   nav {
     display: flex;
@@ -117,12 +121,20 @@ header {
 
       .title {
         display: flex;
+        flex-direction: row;
+        align-items: center;
         justify-content: center;
         width: 100%;
         background-color: var(--primary-color);
         color: white;
         margin-right: 0;
         padding: 5px 0;
+
+        img {
+          width: 30px;
+          height: 30px;
+          margin-right: 5px;
+        }
 
         h2 {
           font-family: 'Konkhmer Sleokchher';

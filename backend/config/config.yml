@@ -5,8 +5,7 @@ db:
   password: "password"
   database: "data-battle"
 ai:
-
-  model: "qwen2.5:0.5b"
+  model: "qwen2.5:7b"
   max_output_tokens: 3000
   host: 'http://localhost:11434/'
   model_classification: 'nlpaueb/bert-base-uncased-eurlex'

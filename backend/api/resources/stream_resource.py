@@ -15,8 +15,8 @@ router = APIRouter(
 
 async def event_stream(page_id: UUID, message: str, knowledge_vector_db) -> StreamingResponse:
     async for chunk in book_service.send_message_stream(page_id, message, knowledge_vector_db):
-        await asyncio.sleep(0.01)
-        yield f"data: {chunk}\n\n"
+        await asyncio.sleep(0.001)
+        yield f"data: {chunk}[END_CHUNK]\n\n"
 
 
 @router.get("/send_message_stream", response_class=StreamingResponse, dependencies=[])

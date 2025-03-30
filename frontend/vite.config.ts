@@ -10,6 +10,11 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  server: {
+    allowedHosts: ['lawrag.duckdns.org'],
+    host: true,
+    port: 5173,
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
