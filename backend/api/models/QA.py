@@ -6,7 +6,7 @@ from typing import Optional, List
 class QA(BaseModel):
     id: uuid.UUID
     type: str
-    category: str
+    categories: list[str]
     question: str
     answer: str
     is_verified: bool

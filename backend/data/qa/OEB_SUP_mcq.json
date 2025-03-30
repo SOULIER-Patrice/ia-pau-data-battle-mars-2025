@@ -1,0 +1,578 @@
+{
+    "1": {
+        "question": "You represent an individual applicant from Spain who has filed a European patent application in Spanish and satisfied all the requirements for filing. Examination was requested in Spanish at the time of filing the application. The examination and designation fees are due by 7 November 2023 and the applicant has asked you whether he is entitled to a reduction of 20% in the examination fee. What is the correct answer?",
+        "options": [
+            "A. The applicant is entitled to a reduction of 20% in the examination fee under Rule 6(3) EPC and Article 14(1) RFees.",
+            "B. The applicant is entitled to a reduction in the examination fee under Rule 6(3)EPC and Article 14(1) RFees, but the reduction is not 20%."
+        ],
+        "categories": [
+            "Languages and translations",
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "2": {
+        "question": "Is the following statement true or false?\n\nWhen proceedings for grant of a European patent application are stayed following the institution of entitlement proceedings, renewal fees which fall due during the period of stay can be paid up to the date of resumption of the proceedings for grant.",
+        "options": [
+            "A. True",
+            "B. False"
+        ],
+        "categories": [
+            "Entitlement and transfers",
+            "Examination, amendments, and grant"
+        ]
+    },
+    "3": {
+        "question": "You represent a client whose European patent has been opposed. The opposition division decides to maintain the patent in amended form. The invitation with the three-month time limit under Rule 82(2) EPC is sent on 16 August 2021, but proceedings are interrupted under Rule 142 EPC on 20 October 2021. The problems are resolved and the proceedings resume on 16 January 2022. When does the time limit under Rule 82(2)EPC end?",
+        "options": [
+            "A. 19 April 2022",
+            "B. 30 April 2022"
+        ],
+        "categories": [
+            "Opposition and appeals",
+            "Procedural remedies and legal effect"
+        ]
+    },
+    "4": {
+        "question": "You are informed that one of the inventors named in an international application is incorrect. The application names Mr Y, but the correct inventor is Mrs Z. What should you do?",
+        "options": [
+            "A. Obtain the consent of Mr Y to rectification of the inventor before filing a request at the International Bureau with details of the correct inventor.",
+            "B. File a request for rectification at the International Bureau with details of the correct inventor."
+        ],
+        "categories": [
+            "Unity of invention",
+            "Filing requirements and formalities",
+            "Substantive patent law: novelty and inventive step"
+        ]
+    },
+    "5": {
+        "question": "Your Client, A Inc, is a sub-licensee under European patent application EP-1. Can the sub-licence be recorded in the European Patent Register?",
+        "options": [
+            "A. No, it is not possible to record sub-licences in the European Patent Register.",
+            "B. Yes, any sub-licence can be recorded in the European Patent Register.",
+            "C. Yes, provided the licensee granting the sub-licence has recorded its licence in the European Patent Register."
+        ],
+        "categories": [
+            "Entitlement and transfers",
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "6": {
+        "question": "Company C files a European patent application for an invention which has been displayed at an officially recognised international exhibition. The exhibition closes two weeks after the invention was first displayed. Rule 25(d) EPC states that a suitable certificate must be filed within four months of the filing of the European patent application. Three months after filing the application, the applicant approaches the authority responsible for the protection of industrial property at the exhibition and obtains a certificate stating the information required according to Rule 25 EPC. The certificate is filed within the four-month period together with the authenticated identification of the invention. Will the certificate be accepted by the EPO?",
+        "options": [
+            "A. No, the certificate was not issued at the exhibition.",
+            "B. Yes, the certificate was filed within the specified four-month period."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Procedural remedies and legal effect"
+        ]
+    },
+    "7": {
+        "question": "The time limit for paying the examination fee for a European patent application ends on 18 August 2023. The applicant wishes to pay by bank transfer and wants to make absolutely sure that no additional fees have to be paid even if the payment is delayed due to unforeseen circumstances. What can he do?",
+        "options": [
+            "A. Nothing. If the payment is received too late by the EPO it will be considered not to have been made.",
+            "B. Effect the payment no later than 13 August 2023.",
+            "C. Effect the payment no later than 8 August 2023.",
+            "D. It is sufficient to effect the payment on the last day for payment, that is on 18 August 2023."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Procedural remedies and legal effect",
+            "Entitlement and transfers"
+        ]
+    },
+    "8": {
+        "question": "A European patent application EP-A is refused in a decision dated 1 June 2023. Today is 15 July 2023. Is it still possible to file a divisional application from EP-A?",
+        "options": [
+            "A. Yes.",
+            "B. No.",
+            "C. Only if the decision to refuse the application is appealed."
+        ],
+        "categories": [
+            "Divisional applications",
+            "Pct procedure and entry into the european phase",
+            "Opposition and appeals"
+        ]
+    },
+    "9": {
+        "question": "Most fees for European patent applications cannot be paid before their due date. One exception is renewal fees, which can always be paid up to:",
+        "options": [
+            "A. Three months before the due date.",
+            "B. Six months before the due date.",
+            "C. One year before the due date."
+        ],
+        "categories": [
+            "Fees, payment methods, and time limits",
+            "Entitlement and transfers"
+        ]
+    },
+    "10": {
+        "question": "Today is 28 March 2023. Following national proceedings for entitlement of European patent application EP-1, the successful party has elected to file a new application under Article 61(1)(b) EPC. EP-1 was filed on 12 April 2019 and the new application, EP-2, was filed on 10 January 2023.  What is the last day for paying the first renewal fee that is payable for the new application, without surcharge (i.e. not including the fees for past renewals)?",
+        "options": [
+            "A. 31 January 2023.",
+            "B. 2 May 2023."
+        ],
+        "categories": [
+            "Entitlement and transfers",
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "11": {
+        "question": "You file a European patent application EP-1 in February 2023 on behalf of the applicant. In October 2023 you are informed that EP-1 should have claimed priority from United States patent application US-1 filed in March 2022. Is it possible to add the priority declaration to EP-1?",
+        "options": [
+            "A. No. More than 16 months have elapsed since the filing of US-1.",
+            "B. Yes. EP-1 was filed within 12 months of US-1, so is entitled to claim priority."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Priority claims and right of priority"
+        ]
+    },
+    "12": {
+        "question": "What is the legal effect of failing to file a priority document for a European patent application? The right of priority will be lost if a priority document is not filed within 16 months of the earliest priority date (or any additional period permitted by the EPO).",
+        "options": [
+            "A. None. The priority document can be filed at any time.",
+            "B. The European patent application will be deemed withdrawn if a priority document is not filed within 16 months of the earliest priority date (or any additional period permitted by the EPO)."
+        ],
+        "categories": [
+            "Filing requirements and formalities",
+            "Entitlement and transfers",
+            "Priority claims and right of priority"
+        ]
+    },
+    "13": {
+        "question": "European patent application EP-1 is filed on 10 December 2020, but the inventor is not designated. The designation of the inventor is filed on 25 February 2022. Will the application be refused?",
+        "options": [
+            "A. No. The designation of the inventor was filed in due time.",
+            "B. Yes. The designation of the inventor was not filed in due time."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Opposition and appeals"
+        ]
+    },
+    "14": {
+        "question": "In response to an opposition, the patentee introduces the features of claim 12 as granted into claim 1. Claim 12 was dependent on claim 1 and is phrased as a result to be achieved. The opponent argues that the amendment introduces a lack of clarity. Will the opposition division agree with the opponent?",
+        "options": [
+            "A. Yes. A claim feature may not be phrased as a result to be achieved.",
+            "B. Perhaps. It depends on whether or not the feature phrased as a result to be achieved is considered to be clear.",
+            "C. No. Since the feature was already in the claims set the amendment does not introduce a lack of clarity."
+        ],
+        "categories": [
+            "Examination, amendments, and grant",
+            "Opposition and appeals"
+        ]
+    },
+    "15": {
+        "question": "Why might an opposition be filed even if the European patent has been surrendered, or has lapsed, in all the designated contracting states (Rule 75 EPC)?",
+        "options": [
+            "A. In the case of surrender or lapse the rights acquired with the patent remain in existence in the period up to surrender or lapse and claims arising from those rights may subsist after the date of grant.",
+            "B. There is no reason to oppose a patent that has been surrendered or has lapsed.",
+            "C. The effect of surrender or lapse is ex nunc, while the effect of revocation is ex tunc."
+        ],
+        "categories": [
+            "Opposition and appeals",
+            "Entitlement and transfers"
+        ]
+    },
+    "16": {
+        "question": "In opposition proceedings a patent proprietor has proposed amendments to claims 1, 3 and 4 of its patent to overcome issues of novelty and inventive step. The proprietor has also noted a problem with the clarity of claim 2 and has additionally proposed an amendment to this claim. Is the amendment of claim 2 permitted?",
+        "options": [
+            "A. Yes",
+            "B. No"
+        ],
+        "categories": [
+            "Examination, amendments, and grant",
+            "Opposition and appeals",
+            "Substantive patent law: novelty and inventive step"
+        ]
+    },
+    "17": {
+        "question": "Where an assumed infringer intervenes in opposition appeal proceedings, which of the following fees are payable?",
+        "options": [
+            "A. The opposition fee.",
+            "B. The appeal fee.",
+            "C. The opposition fee and the appeal fee.",
+            "D. The assumed infringer must pay the opposition fee and may choose whether to pay the appeal fee."
+        ],
+        "categories": [
+            "Opposition and appeals",
+            "Divisional applications"
+        ]
+    },
+    "18": {
+        "question": "During proceedings before the opposition division there is a valid intervention under Article 105 EPC. At the conclusion of the proceedings the patent is maintained in amended form. Is the assumed infringer permitted to appeal?",
+        "options": [
+            "A. Yes",
+            "B. No"
+        ],
+        "categories": [
+            "Opposition and appeals"
+        ]
+    },
+    "19": {
+        "question": "A patent proprietor requests revocation under Article 105a EPC of its European patent EP-B, which has been validated in Germany, France and Spain. It has an exclusive licensee in Germany. Will the request for revocation be considered to be admissible?",
+        "options": [
+            "A. No, the patent proprietor must file evidence that it is entitled to act on behalf of the exclusive licensee.",
+            "B. Yes, the existence of an exclusive licensee has no bearing on the admissibility of the request for revocation."
+        ],
+        "categories": [
+            "Entitlement and transfers",
+            "Opposition and appeals",
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "20": {
+        "question": "The applicant for European patent application EP-1 has granted an exclusive license under the application. The exclusive licensee wishes to make its rights known by recording the license in the European Patent Register. \nIs it possible to record the exclusive license?",
+        "options": [
+            "A. No, exclusive licenses cannot be recorded in the European Patent Register.",
+            "B. Yes, exclusive licenses can be recorded in the European Patent Register at the joint request of both the applicant and the licensee.",
+            "C. Yes, exclusive licenses can be recorded in the European Patent Register, but only by the applicant.",
+            "D. Yes, exclusive licences can be recorded in the European Patent Register by either the applicant or the licensee."
+        ],
+        "categories": [
+            "Entitlement and transfers",
+            "Opposition and appeals"
+        ]
+    },
+    "21": {
+        "question": "A European patent application is filed on 13.01.2023, not claiming priority. After receiving the EESR, the applicant wishes to proceed as soon as possible with examination and therefore pays the examination fee, responds to the search opinion and files by fax a request for accelerated examination under PACE. Will the EPO start examination as soon as possible? And will examination be accelerated?",
+        "options": [
+            "A. Examination will start but will not be accelerated.",
+            "B. Examination will not start until the time limit for requesting examination but then it will be accelerated.",
+            "C. Examination will start early and will be accelerated.",
+            "D. No."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Procedural remedies and legal effect"
+        ]
+    },
+    "22": {
+        "question": "It is permitted to file observations under Article 115 EPC in respect of a patent undergoing limitation proceedings. However, there is no provision under Article 105b EPC or Rule 95 EPC for examination as to patentability, \nand Article 115 EPC specifically refers to observations concerning patentability. \nIs there any reason why a third party might nevertheless file observations under Article 115 EPC in respect of a patent undergoing limitation proceedings?",
+        "options": [
+            "A. Yes, the examining division may be persuaded to consider patentability as part of the limitation proceedings.",
+            "B. Yes, patentability can be considered in the broader sense as including issues relating to Articles 84 and 123(2) EPC.",
+            "C. No, there is no point in filing observations on patentability because they will not be taken into consideration."
+        ],
+        "categories": [
+            "Examination, amendments, and grant",
+            "Biotech and sequence listings",
+            "Entitlement and transfers"
+        ]
+    },
+    "23": {
+        "question": "In response to a Rule 71(3) communication you have filed, on the 2 April 2023, the required translations of the claims and paid the grant fee. Today, the 3 May 2023, you receive the decision to grant, dated 28 April 2023. The decision states that the mention of the grant will be published on the 24 May 2023. What is/was the last day a divisional application may be filed?",
+        "options": [
+            "A. 2 April 2023",
+            "B. 28 April 2023",
+            "C. 8 May 2023",
+            "D. 23 May 2023",
+            "E. 24 May 2023"
+        ],
+        "categories": [
+            "Divisional applications",
+            "Examination, amendments, and grant",
+            "Languages and translations"
+        ]
+    },
+    "24": {
+        "question": "In the case of applicants entitled to a fee reduction under Rule 6(3) EPC, does the fee reduction include the additional fee for pages in excess of 35?",
+        "options": [
+            "A. Yes",
+            "B. No"
+        ],
+        "categories": [
+            "Languages and translations",
+            "Examination, amendments, and grant",
+            "Procedural remedies and legal effect"
+        ]
+    },
+    "26": {
+        "question": "Claim 1 of European patent application EP-1 originally defines a polymer blend XY containing, as a filler, graphite, talc, asbestos or silica. \nThe European search report identifies prior art disclosing a polymer blend XY containing asbestos. Is it permissible under Article 123(2) EPC to restrict the list of fillers by simply omitting asbestos, i.e., to claim a polymer blend XY containing, as a filler, graphite, talc or silica?",
+        "options": [
+            "A. Yes",
+            "B. No"
+        ],
+        "categories": [
+            "Substantive patent law: novelty and inventive step",
+            "Examination, amendments, and grant",
+            "Opposition and appeals"
+        ]
+    },
+    "28": {
+        "question": "Errors and mistakes in any document filed with the European Patent Office may be corrected on request under Rule 139 EPC. What is the last date in written proceedings prior to grant that such a request can be made?",
+        "options": [
+            "A. Up to the time the decision to grant has been received by the applicant or their representative.",
+            "B. Up to the time the decision to grant has been handed over to the EPO internal postal service.",
+            "C. Up to the expiry of the time limit for replying to the communication under Rule 71(3) EPC."
+        ],
+        "categories": [
+            "Examination, amendments, and grant",
+            "Procedural remedies and legal effect"
+        ]
+    },
+    "29": {
+        "question": "On receipt of the decision to grant its European patent application EP-1 under Rule 71a(1) EPC the applicant realizes that they have made a significant typographical error in claim 1. \nWhat action can they take before the EPO to correct the error?",
+        "options": [
+            "A. None",
+            "B. Seek correction under Rule 140 EPC",
+            "C. Seek correction under Rule 139 EPC"
+        ],
+        "categories": [
+            "Examination, amendments, and grant",
+            "Procedural remedies and legal effect"
+        ]
+    },
+    "30": {
+        "question": "Company X wishes to file an opposition to European patent EP-B, which was recently granted to its main competitor, company Y. To avoid retaliation, company X would prefer not to file the opposition in its own name. It therefore asks a European patent attorney to file the opposition in her name. Will the EPO accept this?",
+        "options": [
+            "A. Yes",
+            "B. No",
+            "C. Only if the patentee does not object"
+        ],
+        "categories": [
+            "Opposition and appeals"
+        ]
+    },
+    "31": {
+        "question": "European patent EP-B is granted with a claim directed to a method of operating a heart pacemaker in dependence upon the required cardiac output while a person is exercising, the pacemaker including a pressure sensing means mounted on a pacing lead and adapted to be implanted in a heart and used to sense the right ventricular systolic pressure, which pressure is used to control the pacer rate. Is it permissible in opposition or opposition appeal proceedings to amend the claim to be directed to a heart pacemaker in order to address problems relating to Article 53(c) EPC?",
+        "options": [
+            "A. Yes, a change in claim category is permitted.",
+            "B. No, a change in claim category would contravene Article 123(3) EPC."
+        ],
+        "categories": [
+            "Opposition and appeals",
+            "Substantive patent law: novelty and inventive step"
+        ]
+    },
+    "32": {
+        "question": "The first communication from the examining division concerning a European patent application is unexpectedly negative. The applicant decides not to proceed further with the application. Can the applicant get a refund of fees in this situation?",
+        "options": [
+            "A. Yes",
+            "B. No"
+        ],
+        "categories": [
+            "Unity of invention",
+            "Examination, amendments, and grant"
+        ]
+    },
+    "33": {
+        "question": "You file an international application for an applicant on 6 November 2023, but do not pay the fees because the applicant wishes to delay paying them as long as possible. The fees are due by 6 December 2023, but are not paid until 11 December 2023. What is the most likely outcome?",
+        "options": [
+            "A. The international application will be considered to be withdrawn.",
+            "B. The fees will be accepted as if they had been paid within the one-month period.",
+            "C. The applicant will be sent an invitation to pay a late payment fee of 50% of the fees due."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Fees, payment methods, and time limits",
+            "Languages and translations"
+        ]
+    },
+    "34": {
+        "question": "Two applicants resident in Germany jointly file an international application with the EPO as receiving office. No agent or common representative is appointed. Following receipt of the international search report, the applicants both agree that the international application should be withdrawn, so the first-named applicant on Form PCT/RO/101 sends a letter, signed by him, to the EPO as receiving office specifically withdrawing the international application. Will the application be withdrawn?",
+        "options": [
+            "A. No",
+            "B. Yes"
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "35": {
+        "question": "The applicant for international application PCT-1 wishes to prevent publication of the application. What is the last day for withdrawing the application and \npreventing publication?",
+        "options": [
+            "A. The 15th day prior to the date of publication.",
+            "B. Any time prior to the date of publication.",
+            "C. The end of the day five weeks before the end of the 18th month from the priority or filing date as appropriate."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Priority claims and right of priority"
+        ]
+    },
+    "36": {
+        "question": "You are the agent for international application PCT-1. Shortly before the end of the international phase the applicant informs you that they wish to continue only with the regional phase before the EPO and additionally that there was an error in the details of the inventor and that the correct inventor is Ms White and not Mr Black. They ask you whether it would be better to wait until entry \ninto the EPO regional phase rather than to rush correction of the inventorship details in the international phase. What is your advice?",
+        "options": [
+            "A. Inventorship should be corrected if at all possible in the international phase.",
+            "B. It would be better to wait until after entry into the EPO regional phase.",
+            "C. There is no difference between the two options."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "37": {
+        "question": "You are monitoring the progress of an international application and on reviewing the details of the international search report you realize that you know of relevant prior art that has not been cited in the search report, but which is likely to be novelty-destroying in respect of at least some of the claims. \nYou believe that the international application will enter the national or regional phase in a significant number of countries or regions and it would therefore be time-consuming and costly to file separate observations in respect of each of \nthe national or regional applications. What can you do?",
+        "options": [
+            "A. File observations online using ePCT.",
+            "B. Send a letter with your observations to the receiving office or the International Bureau.",
+            "C. File observations by letter.",
+            "D. It is not possible to file observations on international applications."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Unity of invention"
+        ]
+    },
+    "38": {
+        "question": "The EPO as receiving office issues an invitation to the applicant to remedy certain defects in an international application within a time limit of two months from the date of invitation. The invitation is dated as being mailed on 22 September 2023 and is received by the applicant on 2 October 2023. What is the final date for responding to the invitation?",
+        "options": [
+            "A. 22 November 2023",
+            "B. 27 November 2023",
+            "C. 3 December 2023",
+            "D. 4 December 2023"
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Procedural remedies and legal effect"
+        ]
+    },
+    "39": {
+        "question": "International application PCT-1 is filed on 31 October 2023. It seeks to claim priority from European patent application EP-1 filed on 27 October 2022. Can the claim to priority be restored in the international phase so as to be effective in a subsequent EPO regional phase?",
+        "options": [
+            "A. No, the 12-month period has expired.",
+            "B. Yes, the applicant can request further processing.",
+            "C. Yes, the applicant can restore the priority claim provided that they can show that the date was missed unintentionally.",
+            "D. Yes, the applicant can restore the priority date provided that they \ncan show that they were unable, despite taking all due care, to meet the time limit for claiming priority."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Priority claims and right of priority"
+        ]
+    },
+    "40": {
+        "question": "You receive an email on 30 October 2023 from a United States patent attorney asking you to enter the regional phase before the EPO in respect of international application PCT-1. The international application was filed at the United States Patent and Trademark Office on 14 March 2022 claiming priority from United States patent application US-1 filed 14 March 2021. Can you effect entry into the EPO regional phase?",
+        "options": [
+            "A. No, the 31-month period has expired.",
+            "B. Yes, provided the priority of US-1 is withdrawn.",
+            "C. Yes, provided use is made of the provisions for further processing."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "41": {
+        "question": "International patent application PCT-1 is filed on 16 June 2019 without any claim to priority. Steps are taken to enter the EPO regional phase on 26 December 2021. When should the renewal fee in respect of the third year be paid (without surcharge)?",
+        "options": [
+            "A. 30 June 2021",
+            "B. 26 December 2021",
+            "C. 2 January 2022",
+            "D. 17 January 2022"
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "42": {
+        "question": "International application PCT-1 was filed by applicant A on 5 January 2020 and the requirements for entry into the European regional phase were completed on 19 July 2022. European patent application EP-1 was filed by applicant B on 19 June 2022 validly claiming priority from Italian patent application IT-1 filed on 20 June 2021. PCT-1, EP-1 and IT-1 all relate to the same invention. What is the prior art effect of PCT-1 on EP-1?",
+        "options": [
+            "A. PCT-1 has no prior art effect on EP-1.",
+            "B. PCT-1 will be part of the state of the art according to Article 54(3) EPC.",
+            "C. PCT-1 will be part of the state of the art according to Article 54(2) EPC."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "43": {
+        "question": "International application PCT-1 enters the European regional phase as EP-1 today. Independent claims 1 and 10 of the international application were considered to lack unity in the international phase and a partial search report was drawn up by the EPO as ISA in respect of the invention of claim 1. The applicant wishes to have the opportunity to protect the invention of claim 10 during the EPO regional phase, but wants to keep costs to a minimum, at least at the beginning. What can the applicant do?",
+        "options": [
+            "A. File a divisional application to the invention of independent claim 10 after entry into the EPO regional phase.",
+            "B. Pay an additional search fee in respect of the invention of independent claim 10 within two months of entry into the EPO regional phase.",
+            "C. Pay an additional search fee in respect of the invention of independent claim 10 within two months of notification by the EPO."
+        ],
+        "categories": [
+            "Unity of invention",
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "44": {
+        "question": "Generally speaking, oral proceedings must be held if any party to proceedings so requests. This does not apply to requests for further oral proceedings \nbefore the same department where the parties and the subject of the proceedings are the same. Are there any other situations in which the EPO may refuse a request for oral proceedings?",
+        "options": [
+            "A. There are no further exceptions.",
+            "B. The receiving section may refuse a request for oral proceedings.",
+            "C. The opposition division may refuse a request for oral proceedings.",
+            "D. The Legal Division may refuse a request for oral proceedings."
+        ],
+        "categories": [
+            "Opposition and appeals",
+            "Procedural remedies and legal effect"
+        ]
+    },
+    "45": {
+        "question": "Entry into the European phase of an international application can be effected early provided an express request for early processing is made at the time the requirements of Rule 159(1) EPC are complied with. International application PCT-1 was filed 28 months ago with no claim to priority. The application consists of 20 pages, including 16 claims. The international search was carried out by the EPO acting as ISA and the international search report was published with the international application. Which of the following fees must be paid in order to effect early entry into the European phase?",
+        "options": [
+            "A. The filing fee.",
+            "B. The filing fee, the examination fee and the designation fee.",
+            "C. The filing fee, the examination fee, the designation fee and the renewal fee.",
+            "D. The filing fee, the claims fee, the examination fee, the designation fee and the renewal fee."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "46": {
+        "question": "International application PCT-1 was not filed within 12 months of its priority application, the priority period being missed by 25 days. The applicant filed a request for restoration of the priority right at the receiving office and this was granted under the \"unintentional\" criterion before publication of the international application.\nThe applicant realises that this is not sufficient for the EPO to grant restoration of the priority right and asks you to file a request for restoration after entry \ninto the EPO regional phase. When does the request for restoration have to be filed at the EPO",
+        "options": [
+            "A. Within one month of the expiry of 31 months from the filing date of the priority right to be restored.",
+            "B. Within one month of the date on which the requirements of Rule 159(1) EPC are satisfied.",
+            "C. Within two months of the date on which the requirements of \nRule 159(1) EPC are satisfied.",
+            "D. Within one month of the expiry of 31 months from the filing date of \nthe international application."
+        ],
+        "categories": [
+            "Priority claims and right of priority",
+            "Pct procedure and entry into the european phase",
+            "Procedural remedies and legal effect"
+        ]
+    },
+    "47": {
+        "question": "International application PCT-1 claims priority from Korean utility model \napplication KR-U1. Is a translation of the priority document required on \nentry into the European regional phase?",
+        "options": [
+            "A. A translation into the language of the proceedings is required within two months of the end of the 31-month period for entering \nthe EPO regional phase.",
+            "B. A translation into one of the official EPO languages is required within two months of the end of the 31-month period for entering the EPO regional phase.",
+            "C. No translation is required unless the validity of the priority claim is relevant to patentability.",
+            "D. No translation is required if a declaration is submitted that the European patent application is a complete translation of the priority application."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase",
+            "Languages and translations"
+        ]
+    },
+    "48": {
+        "question": "Following entry into the EPO regional phase, a translation of the international \napplication is not filed at the EPO in due time. How can this be remedied?",
+        "options": [
+            "A. The applicant can request reinstatement of rights under Rule 49.6 PCT.",
+            "B. The applicant can file the translation, request further processing and pay the further processing fee under Rule 135 EPC within two months \nof notification by the EPO."
+        ],
+        "categories": [
+            "Procedural remedies and legal effect",
+            "Pct procedure and entry into the european phase",
+            "Languages and translations"
+        ]
+    },
+    "49": {
+        "question": "The applicants for international application PCT-1 are based in Japan. Having regard to the provisions of the EPC and the PCT, can the applicants themselves comply with the requirements of Rule 159(1) EPC?",
+        "options": [
+            "A. No, a professional representative must be appointed.",
+            "B. No, a professional representative or appropriate legal representative must be appointed.",
+            "C. Yes, the applicants can themselves comply with the requirements of Rule 159(1) EPC."
+        ],
+        "categories": [
+            "Pct procedure and entry into the european phase"
+        ]
+    },
+    "50": {
+        "question": "A French patent application FP2, including claim 1 related to subject-matter A and claim 2 related to A+B, is filed validly claiming priority from an earlier French patent application FP1 related to subject-matter A and filed ten months earlier.\nFP1 is still pending. No relevant prior art has been discovered regarding subject-matter A or A+B. Ten months after the filing of FP2, the applicant instructs you to file a European patent application EP1 identical to and claiming priority from FP2 and if possible from FP1. They also ask about the likely outcome of the EP1. What do you tell them, based on our current knowledge of the situation?",
+        "options": [
+            "A. Both priority claims are valid and EP1 may be granted with both claims 1 and 2.",
+            "B. EP1 cannot validly claim priority from FP1 but the priority from FP2 is valid and EP1 may be granted with both claims 1 and 2.",
+            "C. EP1 cannot validly claim priority from FP1, which becomes prior art for subject-matter A. Claim 1 will not be granted in EP1."
+        ],
+        "categories": [
+            "Priority claims and right of priority",
+            "Substantive patent law: novelty and inventive step"
+        ]
+    }
+}

@@ -19,9 +19,9 @@ class PageOuput(BaseModel):
     book_id: uuid.UUID
     history: list[dict]
     created_at: datetime.datetime
-    qa_id: uuid.UUID
 
-    category: str
+    qa_id: uuid.UUID
+    categories: list[str]
     question: str
     options: Optional[List[str]]
     answer: str

@@ -1,0 +1,24 @@
+{'question': 'You filed an international patent application on 6 June 2024, claiming the priority of a European patent application filed on 7  July 2023. You received a communication dated 25 September 2024 from the EPO acting as International Searching Authority (ISA), stating that the requirement of unity of invention has not been complied with. The ISA identifies three inventions. You are invited to pay two additional search fees. Which of the following statements is correct?', 'options': ['A. You must pay two additional search fees by 25 October 2024', 'B. You do not need to file a response to the provisional opinion accompanying the partial search results', 'C. If you pay two additional search fees under protest, you must pay two protest fees within the time limit', 'D. If you do not pay any additional search fees within the time limit, the international patent application will be deemed to be withdrawn']}
+Answer before 2nd model:  Answer A.
+
+Explanation: According to EPC Rule 64 and Rule 164, if the European Patent Office considers that a European patent application does not comply with the requirement of unity of invention, it will draw up a partial search report on those parts of the application which relate to the invention or group of inventions first mentioned in the claims. For the European search report to cover other inventions, additional search fees must be paid within two months from the date of the communication.
+
+In this scenario:
+- You received a communication dated 25 September 2024.
+- The ISA identified three inventions and invited you to pay two additional search fees.
+- According to Rule 64(1), if you do not pay the required search fees within two months, which is until 25 November 2024 in this case, the international patent application will be deemed to have been withdrawn (Rule 63 EPC).
+
+Options Analysis:
+B. Incorrect: You must provide a response to the provisional opinion accompanying the partial search results according to Rule 164(2) and Rule 71 of EPC.
+C. Incorrect: There is no provision for protest fees in relation to additional search fee requirements under EPC Rules.
+D. Incorrect: The deadline for payment is two months, not immediately upon receipt of the communication (Rule 63). Therefore, you have until 25 November 2024 to pay the additional search fees, and if they are not paid by that date, the application will be deemed withdrawn.
+Answer after 2nd model: application/json```json
+{
+    "Answer": "D",
+    "Justification": "According to EPC Rule 63, if you do not pay the required search fees within two months from the date of the communication, which in this case is until 25 November 2024, the international patent application will be deemed withdrawn. Options B, C are incorrect as they pertain to different requirements under EPC rules."
+}
+```
+Final answer: D
+
+
+

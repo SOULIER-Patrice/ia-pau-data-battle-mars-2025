@@ -20,7 +20,7 @@ def get_qas() -> List[QA]:
         # Récupérer toutes les QAs avec une jointure pour inclure les MCQs
         cursor.execute("""
             SELECT 
-                qa.id, qa.type, qa.category, qa.question, qa.answer, qa.is_verified,
+                qa.id, qa.type, qa.categories, qa.question, qa.answer, qa.is_verified,
                 qa_mcq.options, qa_mcq.justification
             FROM qa
             LEFT JOIN qa_mcq ON qa.id = qa_mcq.qa_id
@@ -32,7 +32,7 @@ def get_qas() -> List[QA]:
             QA(
                 id=row["id"],
                 type=row["type"],
-                category=row["category"],
+                categories=row["categories"],
                 question=row["question"],
                 answer=row["answer"],
                 is_verified=row["is_verified"],
@@ -74,7 +74,7 @@ def get_qa(qa_id: uuid.UUID) -> QA:
         # Récupérer une QA avec une jointure pour inclure les MCQs
         cursor.execute("""
             SELECT 
-                qa.id, qa.type, qa.category, qa.question, qa.answer, qa.is_verified,
+                qa.id, qa.type, qa.categories, qa.question, qa.answer, qa.is_verified,
                 qa_mcq.options, qa_mcq.justification
             FROM qa
             LEFT JOIN qa_mcq ON qa.id = qa_mcq.qa_id
@@ -89,7 +89,7 @@ def get_qa(qa_id: uuid.UUID) -> QA:
         return QA(
             id=row["id"],
             type=row["type"],
-            category=row["category"],
+            categories=row["categories"],
             question=row["question"],
             answer=row["answer"],
             is_verified=row["is_verified"],
@@ -128,10 +128,10 @@ def update_qa(qa: QA) -> bool:
         cursor.execute(
             """
             UPDATE qa
-            SET category = %s, question = %s, answer = %s, is_verified = %s
+            SET categories = %s, question = %s, answer = %s, is_verified = %s
             WHERE id = %s
             """,
-            (qa.category, qa.question, qa.answer, qa.is_verified, qa.id),
+            (qa.categories, qa.question, qa.answer, qa.is_verified, qa.id),
         )
 
         # Vérifier si la QA est un MCQ et mettre à jour ou insérer dans `qa_mcq`
@@ -189,15 +189,14 @@ def get_qas_by_category(category: str, type: str, is_verified: bool = True) -> L
     try:
         conn = db_connect.get_db_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
-
         # Récupérer toutes les QAs avec une jointure pour inclure les MCQs
         cursor.execute("""
             SELECT 
-                qa.id, qa.type, qa.category, qa.question, qa.answer, qa.is_verified,
+                qa.id, qa.type, qa.categories, qa.question, qa.answer, qa.is_verified,
                 qa_mcq.options, qa_mcq.justification
             FROM qa
             LEFT JOIN qa_mcq ON qa.id = qa_mcq.qa_id
-            WHERE qa.category = %s AND qa.type = %s AND qa.is_verified = %s
+            WHERE  %s = ANY(qa.categories) AND qa.type = %s AND qa.is_verified = %s
         """, (category, type, is_verified))
         rows = cursor.fetchall()
 
@@ -206,7 +205,7 @@ def get_qas_by_category(category: str, type: str, is_verified: bool = True) -> L
             QA(
                 id=row["id"],
                 type=row["type"],
-                category=row["category"],
+                categories=row["categories"],
                 question=row["question"],
                 answer=row["answer"],
                 is_verified=row["is_verified"],
@@ -252,7 +251,7 @@ def get_qas_by_book(book_id: uuid.UUID) -> List[QA]:
         conn = db_connect.get_db_connection()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
         cursor.execute(
-            """SELECT qa.id, qa.type, qa.category, qa.question, qa.answer, qa.is_verified, qa_mcq.options, qa_mcq.justification
+            """SELECT qa.id, qa.type, qa.categories, qa.question, qa.answer, qa.is_verified, qa_mcq.options, qa_mcq.justification
             FROM qa
             LEFT JOIN qa_mcq ON qa.id = qa_mcq.qa_id
             JOIN pages ON qa.id = pages.qa_id
@@ -264,7 +263,7 @@ def get_qas_by_book(book_id: uuid.UUID) -> List[QA]:
             QA(
                 id=row["id"],
                 type=row["type"],
-                category=row["category"],
+                categories=row["categories"],
                 question=row["question"],
                 answer=row["answer"],
                 is_verified=row["is_verified"],
@@ -293,12 +292,12 @@ def get_qas_by_book(book_id: uuid.UUID) -> List[QA]:
             conn.close()
 
 
-def create_qa_open(category: str, question: str, answer: str) -> uuid.UUID:
+def create_qa_open(categories: list[str], question: str, answer: str) -> uuid.UUID:
     """
     Crée une question de type OPEN et retourne son ID.
 
     Args:
-        category: La catégorie de la question.
+        categories: La catégorie de la question.
         question: Le texte de la question.
         answer: La réponse à la question.
 
@@ -314,10 +313,10 @@ def create_qa_open(category: str, question: str, answer: str) -> uuid.UUID:
         qa_id = str(uuid.uuid4())
         cursor.execute(
             """
-            INSERT INTO qa (id, type, category, question, answer, is_verified)
+            INSERT INTO qa (id, type, categories, question, answer, is_verified)
             VALUES (%s, %s, %s, %s, %s, %s)
             """,
-            (qa_id, "OPEN", category, question, answer, False),
+            (qa_id, "OPEN", categories, question, answer, False),
         )
 
         conn.commit()
@@ -340,7 +339,7 @@ def create_qa_open(category: str, question: str, answer: str) -> uuid.UUID:
             conn.close()
 
 
-def create_qa_mcq(category: str, question: str, answer: str, options: str, justification: str) -> uuid.UUID:
+def create_qa_mcq(categories: list[str], question: str, answer: str, options: str, justification: str) -> uuid.UUID:
     """
     Crée une question de type MCQ et retourne son ID.
     """
@@ -351,10 +350,10 @@ def create_qa_mcq(category: str, question: str, answer: str, options: str, justi
 
         cursor.execute(
             """
-            INSERT INTO qa (id, type, category, question, answer, is_verified)
+            INSERT INTO qa (id, type, categories, question, answer, is_verified)
             VALUES (%s, %s, %s, %s, %s, %s)
             """,
-            (qa_id, "MCQ", category,
+            (qa_id, "MCQ", categories,
              question, answer, False),
         )
 

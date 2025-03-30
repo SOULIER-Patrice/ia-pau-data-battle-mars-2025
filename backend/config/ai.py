@@ -1,7 +1,8 @@
-import config.initialization as init
+import config.load_config as init
 from ollama import Client
 import os
 import subprocess
+
 
 def check_model_exists(model_name):
     """Vérifie si le modèle existe localement."""
@@ -35,7 +36,8 @@ def init_ollama_model():
 def get_ollama_client():
     """Initialise le client Ollama et télécharge le modèle si nécessaire."""
 
-    host = init.config['ai'].get('host', 'http://localhost:11434')  # Default host
+    host = init.config['ai'].get(
+        'host', 'http://localhost:11434')  # Default host
     client = Client(host=host)
     print(f"Connexion à Ollama sur {host}")
     return client
@@ -47,9 +49,11 @@ def load_ai_config():
     model = init.config['ai']['model']
     max_output_tokens = init.config['ai']['max_output_tokens']
     model_classification = init.config['ai']['model_classification']
+    remake_classification = init.config['ai']['remake_classification']
     model_rag = init.config['ai']['model_rag']
-    
-    return model, max_output_tokens, model_classification, model_rag
-    
+
+    return model, max_output_tokens, model_classification, remake_classification,  model_rag
+
+
 ollama_client = get_ollama_client()
-model, max_output_tokens, model_classification, model_rag = load_ai_config()
+model, max_output_tokens, model_classification, remake_classification, model_rag = load_ai_config()

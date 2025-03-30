@@ -63,7 +63,7 @@ def get_page(page_id: UUID) -> PageOuput:
                 "history": page.history,
                 "created_at": page.created_at,
                 "qa_id": page.qa_id,
-                "category": qa.category,
+                "categories": qa.categories,
                 "question": qa.question,
                 "options": qa.options,
                 "answer": qa.answer,
@@ -100,7 +100,7 @@ def get_pages(book_id: UUID) -> List[PageOuput]:
                     "history": page.history,
                     "created_at": page.created_at,
                     "qa_id": page.qa_id,
-                    "category": qa.category,
+                    "categories": qa.categories,
                     "question": qa.question,
                     "options": qa.options,
                     "answer": qa.answer,
@@ -121,7 +121,8 @@ def add_page(book_id: UUID, knowledge_vector_db: FAISS) -> PageOuput:
 
     book = get_book(book_id)
     category = random.sample(book.categories, 1)[0]
-    qas_catagory = qa_repository.get_qas_by_category(category, book.type)
+    qas_catagory = qa_repository.get_qas_by_category(
+        category, book.type, is_verified=False)
     qas_in_book = qa_repository.get_qas_by_book(book.id)
     available_qas = [qa for qa in qas_catagory if qa.id not in [
         q.id for q in qas_in_book]]
@@ -131,7 +132,8 @@ def add_page(book_id: UUID, knowledge_vector_db: FAISS) -> PageOuput:
         qa = qa_service.generate_qa(
             category, book.type, knowledge_vector_db)
 
-    page_title = f"{qa.category} - {qa.question[:100]}"
+    page_title = f"{category} - {qa.question[:100]}"
+
     # Créer l'objet PageForCreate
     page_for_create = PageForCreate(
         title=page_title,
@@ -143,42 +145,6 @@ def add_page(book_id: UUID, knowledge_vector_db: FAISS) -> PageOuput:
 
     page = get_page(page_id)
     return page
-
-
-def send_message(page_id: UUID, message: str, knowledge_vector_db: FAISS):
-    try:
-        page = get_page(page_id)
-        if not page:
-            return "Page non trouvée.", []
-
-        history = page.history  # Access history attribute.
-
-        if not history:
-            user_answer = message
-            if page.category == "MCQ":  # access category attribute.
-                # access question and options attribute.
-                question = f"{page.question} {page.options}"
-                # access answer and justification attribute.
-                correct_answer = f"{page.answer} {page.justification}"
-            else:
-                question = page.question  # access question attribute.
-                correct_answer = page.answer  # access answer attribute.
-
-                result = generate_feedback(
-                    question, correct_answer, user_answer, knowledge_vector_db)
-        else:
-            result = chat_with_ai(f"{history}", message, knowledge_vector_db)
-
-        history.append({"user": message})
-        history.append({"ai": result})
-
-        page_repository.update_page_history(page_id, history)
-
-        return result, history
-
-    except Exception as e:
-        print(f"Erreur lors de l'envoi du message : {e}")
-        return "Une erreur est survenue.", []
 
 
 async def send_message_stream(page_id: UUID, message: str, knowledge_vector_db: FAISS) -> AsyncGenerator[str, None]:

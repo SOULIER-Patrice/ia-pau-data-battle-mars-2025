@@ -1,6 +1,7 @@
-import config.initialization as init
+import config.load_config as init
 import psycopg2
 import psycopg2.extras
+
 
 def get_db_connection():
     """
@@ -21,3 +22,6 @@ def get_db_connection():
         database=init.config['db']['database']
     )
     return conn  # Use yield to return the connection
+
+
+reset_db = init.config['db']['reset_db']
