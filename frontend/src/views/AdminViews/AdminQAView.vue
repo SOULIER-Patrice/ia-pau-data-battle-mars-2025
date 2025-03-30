@@ -20,12 +20,28 @@ const selectedCategory = ref('')
 const selectedVerification = ref('')
 const selectedType = ref('')
 
+const categories = [
+  'Filing requirements and formalities',
+  'Priority claims and right of priority',
+  'Divisional applications',
+  'Fees, payment methods, and time limits',
+  'Languages and translations',
+  'Procedural remedies and legal effect',
+  'Pct procedure and entry into the european phase',
+  'Examination, amendments, and grant',
+  'Opposition and appeals',
+  'Substantive patent law: novelty and inventive step',
+  'Entitlement and transfers',
+  'Biotech and sequence listings',
+  'Unity of invention',
+]
+
 // Fonction pour transformer les données QA en Items
 const transformQAToItems = (qas: QA[]): Item[] => {
   return qas.map((qa) => ({
     title: qa.question.slice(0, 100) + (qa.question.length > 100 ? '...' : ''), // Limiter la longueur de la question
     description: `${qa.type} | ${qa.category} | ${qa.answer.slice(0, 100) + (qa.answer.length > 100 ? '...' : '')}`,
-    href: `/qa/${qa.id}`,
+    href: `/admin/qa/${qa.id}`,
     chips: [
       {
         title: qa.is_verified ? 'Verified' : 'Not Verified',
@@ -102,8 +118,9 @@ watch(
       <InputField label="Search" placeholder="Search by question or answer" v-model="searchQuery" />
       <select v-model="selectedCategory">
         <option value="">All Categories</option>
-        <option value="Category1">Category1</option>
-        <option value="Category2">Category2</option>
+        <option v-for="category in categories" :key="category" :value="category">
+          {{ category }}
+        </option>
         <!-- Add more categories as needed -->
       </select>
       <select v-model="selectedVerification">

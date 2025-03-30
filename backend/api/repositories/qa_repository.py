@@ -139,9 +139,7 @@ def update_qa(qa: QA) -> bool:
             cursor.execute(
                 """
                 INSERT INTO qa_mcq (id, qa_id, options, justification)
-                VALUES (%s, %s, %s, %s)
-                ON CONFLICT (qa_id) DO UPDATE
-                SET options = EXCLUDED.options, justification = EXCLUDED.justification
+                VALUES (%s, %s, %s, %s);
                 """,
                 (uuid.uuid4(), qa.id, qa.options, qa.justification),
             )

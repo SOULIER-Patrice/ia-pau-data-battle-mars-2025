@@ -92,6 +92,12 @@ const router = createRouter({
       component: () => import('../views/AdminViews/AdminQAView.vue')
     },
     {
+      path: '/admin/qa/:id',
+      name: 'admin-qa-detail',
+      beforeEnter: adminRequired,
+      component: () => import('../views/AdminViews/AdminQADetailView.vue')
+    },
+    {
       path: '/error',
       name: 'error',
       component: () => import('../views/ErrorView.vue')
