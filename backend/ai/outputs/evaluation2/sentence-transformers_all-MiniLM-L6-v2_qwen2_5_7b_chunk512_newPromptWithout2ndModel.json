@@ -1,0 +1,525 @@
+{
+    "informations": {
+        "total_answer": 29,
+        "correct_answer": 7
+    },
+    "data": [
+        {
+            "filename": "2023_EPAC_mcq.json",
+            "questions": [
+                {
+                    "question": "A European patent was granted to a German company on 4  January 2023. No opposition was filed. Mr Li and Ms Smith were designated as inventors. On 12 October 2023,  the patent proprietor not ices that Ms Smith was erroneously designated as inventor and that Mr Li is the sole inventor.  Which of the following statements is correct?",
+                    "options": [
+                        "A. Ms Smith will be deleted as inventor if the patent proprietor requests this in writing .",
+                        "B. Ms Smith can no longer  be deleted as inventor because no proceedings are pending before the EPO .",
+                        "C. The patent proprietor can request that  Ms Smith be deleted as inventor but needs Mr Li 's consent  for this .",
+                        "D. Ms Smith can only be deleted as inventor with her consent ."
+                    ]
+                },
+                {
+                    "question": "On 10 October 2021, European patent attorney X filed European patent application EP -A with the EPO on the applicant's behalf. Application EP -A was published on 12 April 2023, together  with the extended European search report. On 6  October 2023, the applicant contacts a new European patent attorney  Y to replace X as representative and issues Y with its instructions to reply to the extended European search report. The applicant did not inform X that he would be replaced.  What are the steps necessary to validly appoint representative Y and to avoid any loss of rights for European patent application EP -A?",
+                    "options": [
+                        "A. New representative Y requests a change of representative, files a response to the extended European search report with the EPO by 12 October 2023 at the latest and files in good time an authorisation signed by the applicant .",
+                        "B. New representative Y requests a change of representative and files a response to the extended European search report with  the EPO by 12 October 2023 at the latest .",
+                        "C. New representative Y requests a change of representative and files a response to the extended European search report with the EPO by 23 October 2023 at the latest.",
+                        "D. New representative Y requests a change of representative, files a response to the extended European search report with the EPO by 23 October 2023 at the latest and files in good time an authorisation signed by the applicant ."
+                    ]
+                },
+                {
+                    "question": "EP-1 is a regular European patent application (Euro -direct application) .  Which one of the following missed time limits can be remedied for EP -1 before the EPO by requesting re- establishment of rights ?",
+                    "options": [
+                        "A. T ime limit for pay ing the designation fee",
+                        "B. T ime limit for requesting examination",
+                        "C. T ime limit for filing the application within the priority period",
+                        "D. T ime limit for paying the fee for re- establishment of rights"
+                    ]
+                },
+                {
+                    "question": "Last week Greta validly filed the international patent application PCT -G with the German Patent and Trade mark Office ( DPMA ) and appointed Hassan to represent her. Hassan is entitled to act before the DPMA  but he is not a European patent attorney. Greta and Hassan are resident in Germany.  Which of the following statements is not correct?",
+                    "options": [
+                        "A. Hassan can represent Greta before the EPO acting as the International Searching Authority for PCT -G.",
+                        "B. In order for Hassan to be able to act before the EPO acting as the International Searching Authority , he needs to submit a power of attorney signed by Greta.",
+                        "C. According to the provisions of the PCT, it is mandatory that the d emand for international preliminary examination is signed by Greta or Hassan.",
+                        "D. According to the provisions of the PCT, an international application can only be withdrawn by the applicant or an agent appointed by a power of attorney."
+                    ]
+                },
+                {
+                    "question": "In which of the following cases is the applicant entitled to a reduction of the filing fee  under Rule  6 EPC ? A declaration of such entitlement has  been made by crossing the relevant box on Form  1001.",
+                    "options": [
+                        "A. A Spanish European patent attorney files a European patent application in Spanish for a natural person who is resident in Andorra and of Andorra n nationality .",
+                        "B. A firm whose principal place of business is in Germany and a natural person who is resident in Germany  and of Dutch nationality  jointly file a European patent application in Dutch. The German firm employs 200 people with an annual turnover of EUR 60 million.",
+                        "C. A natural person resident in the USA and of Belgian nationality files a European patent application in French.",
+                        "D. A natural person resident in the USA and of Swiss nationality files a European patent application in Italian."
+                    ]
+                },
+                {
+                    "question": "Mr Van Holland is a Dutch citizen resident in the Netherlands. He filed a European patent application EP -parent in Dutch, together with  a translation into English. Whil e EP-parent was pending, Mr Van Holland filed a divisional application EP -div in Dutch and requested examination in Dutch. He paid all fees due for EP -div. He has not filed an English translation of EP -div. The Receiving Section has now issued a noting of l oss of rights.  Which of the following statements is correct?",
+                    "options": [
+                        "A. The deficiency cannot be remedied.",
+                        "B. Mr Van Holland can remedy the deficiency by filing an English translation of EP -div within two months of notification of the communication  under Rule 112(1) EPC .",
+                        "C. Mr Van Holland needs to file an English translation of EP -div together with a request for f urther processing.",
+                        "D. Mr Van Holland needs to file an English translation of EP -div together with a request for re- establishment of rights."
+                    ]
+                },
+                {
+                    "question": "On 16  November 2020, you filed a European patent application EP -A, which did not claim priority. Today, 12  October 2023, you receive a communication from the EPO entitled \" Decision to grant a European patent pursuant to Article  97(1) EPC \". This communication state s that the mention of the grant You wish to validate the patent in only two contracting states  to the EPC . Which of the following statements is correct?",
+                    "options": [
+                        "A. The renewal fee for the fourth year must be paid centrally to the EPO. The due date is 16 November 2023.",
+                        "B. The renewal fee for the fourth year must be paid centrally to the EPO. The due date is 30 November 2023.",
+                        "C. The renewal fee for the fourth year must be paid separately in each state where the patent is validated. The renewal fee for the fourth year can be validly paid without any additional fee until 9 January 2024 at the latest .",
+                        "D. The renewal fee for the fourth year must be paid separately in each state where the patent is validated. The renewal fee for the fourth year can be validly paid without any additional fee until 16 January 2024 at the latest ."
+                    ]
+                },
+                {
+                    "question": "During oral proceedings, the opposition division decided to maintain the patent in amended form on the basis of a request in which the description contains a paragraph with handwritten amendments.  Which of the following statements is correct ?",
+                    "options": [
+                        "A. Upon request the patent proprietor must  pay the fee for publishing a new specification, file translations of the claims and file a formally compliant version of the entire description.",
+                        "B. If a party files an appeal, the patent proprietor will not be invited to pay the fee for publishing a new specification, file translations of the claims or file a formally compliant version of the amended paragraph  while the appeal proceedings are still pending.",
+                        "C. Together with the interlocutory decision, the patent proprietor will receive an invitation to pay the fee for publishing a new specification, file translations of the claims and file a formally compliant version of the amended paragraph.",
+                        "D. If no appeal is filed, the patent proprietor must, upon request, pay the fee for publishing a new specification, file translations of the claims and file a typed version of the amended paragraph within four months."
+                    ]
+                },
+                {
+                    "question": "Under the PCT, what is the time limit for filing a request for rectification of an obvious mistake made in the international application?",
+                    "options": [
+                        "A. 18 months from the earliest priority date",
+                        "B. 30 months from the earliest priority date",
+                        "C. 22 months from the earliest priority date",
+                        "D. 26 months from the earliest priority date"
+                    ]
+                },
+                {
+                    "question": "After receipt of a negative written opinion issued by the EPO acting as ISA, amendments under Art icle 19 PCT were filed during the international phase. No request for international preliminary examination was filed. Form  1200 was used,  and no further amendments were filed with the EPO upon entry into the regional phase.   What communication under Rules  161/162 EPC will be received in the regional phase?",
+                    "options": [
+                        "A. Form 1226AA ;  if you do not reply to it in time, the application will be deemed to be withdrawn",
+                        "B. Form 1226BB offering the opportunity to comment and file amendments",
+                        "C. Form 1226CC offering the opportunity to file amendments before the supplementary European search report is drawn up",
+                        "D. Form 1226AC stating that the examination has started"
+                    ]
+                },
+                {
+                    "question": "Company M, which has  its principal place of business in Tijuana, Mexico, validly filed an international patent application PCT -M with the Mexican Institute of Industrial Property. The application was filed in Spanish. A few days later, the applicant files an English translati on of the application.  Which of the following statements is correct?",
+                    "options": [
+                        "A. The applicant can choose the EPO as ISA and the USPTO as IPEA.",
+                        "B. The applicant can choose the USPTO as ISA and the EPO as IPEA.",
+                        "C. The applicant can choose the Austrian Patent Offic e as ISA and the",
+                        "EPO as IPEA.",
+                        "D. The applicant can choose the EPO as ISA and the Intellectual Property",
+                        "Office of Singapore as IPEA."
+                    ]
+                },
+                {
+                    "question": "On 20  June 2023, applicant P validly filed an international patent application PCT-P, claiming priority from European patent application EP -I filed on 7 July 2022. Today, 12 October 2023, he discovers that he should also have claimed priority from EP -II filed on 3 July 2022. Can the missing priority claim still be validly added?",
+                    "options": [
+                        "A. Yes, the time  limit for adding the priority claim expires on 3  November 2023.",
+                        "B. Yes, the time limit for adding the priority claim expires on 7  November 2023.",
+                        "C. Yes, the time  limit for adding the priority claim expires on 20 October 2023.",
+                        "D. No, the time  limit for adding the priority claim expired on 3 July 2023."
+                    ]
+                },
+                {
+                    "question": "The opposition division revoked European patent EP -B1. The patent proprietor filed an appeal  in time . The b oard of appeal forwarded a copy of the appeal to the o pponent/ respondent with a communication dated 1 June 2023 giving it an opportunity to file comments within a period of four  months.  The opponent/respondent files comments today, 12 October 2023. What further action has to be taken ?",
+                    "options": [
+                        "A. The opponent/ respondent needs  to request an extension of the period for comment.",
+                        "B. The opponent/respondent needs to pay a fee for further processing.",
+                        "C. The opponent/respondent needs to file a substantiated request for reestablishment of rights and pay the associated fee.",
+                        "D. None of the above."
+                    ]
+                },
+                {
+                    "question": "A European patent application was filed on 20 March 2020. Proceedings were interrupted under  Rule 142 EPC on 10  March 2022. The applicant was informed that proceedings would be resumed today, 12 October 2023. No renewal fee has been paid so far . Which of the following statements is correct?",
+                    "options": [
+                        "A. As no renewal fees have been paid, the application is deemed to be withdrawn .",
+                        "B. The renewal fees for the third and fourth years can be validly paid without any additional fee on 12 October 2023 at the latest .",
+                        "C. The renewal fees for the third and fourth years can be validly paid with an additional  fee by 30  April 2024 at the latest .",
+                        "D. The renewal fees for the third and fourth years can be validly paid without any additional fee by 31  October 2023 at the latest ."
+                    ]
+                }
+            ],
+            "answers": [
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis A n incorrect designation of inventor shall be rectiﬁed upon request and only with the consent of the wrongly designated person and, where such a request is ﬁled by a third party, the consent of the applicant for or proprietor of the patent (R. 21(1) EPC)."
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "Legal basis R epresentative X is a representative according to article 134.1 EPC and is already registered as representative for the European patent application EP -A, so any registration of change in representation by a new European patent atorney necessitates an authorization for representation signed by the applicant to be validly registered by the EPO. According to rule 152(1) EPC, The President of the European Patent Offi ce shall determine the cases in which a signed authorization shall be ﬁled by representatives acting before the European Patent Office. In decision of the President of the EPO of 12.07.2007 on the ﬁling of authorizations (Special edition No. 3, OJ EPO 2 007, L.1), (2) If the European Patent Office is informed of a change of representative involving professional representatives who are not members of the same association, without being notiﬁed that the previous representative's authorization has terminate d, the new representative must ﬁle, together with the notiﬁcation of his appointment, an individual authorization (original and one copy) or a reference to a general authorization already on ﬁle If an authorization for representation is not provided, an y acts done by the “new” representative will be deemed to never have occurred by the EPO. R 152(6) Representative Y shall ﬁle a change in representation with form 5060 to register before the EPO as the new representative, an authorization of representatio n signed by the applicant for the change in representation to be valid and a response to the writen opinion before the EPO before: T ime limit to respond to the negative search opinion: publication  date  of the EESR: 12 April 2023 + 6 months (R 70a(1) + R  70(1) EPC) = 12 October 2023  (Tuesday) 2"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "Legal basis Ac cording to Art. 122 EPC and Rule 136(1) EPC it is possible to obtain re -establishment of rights in respect of the priority period (twelve months according to Art. 87(1)  EPC). A : Rule 136(3) EPC: Further processing is available B: Rule 136(3) EPC: Further processing is available D: Article 122(4) EPC Re -establishment of rights shall be ruled out in respect of the time limit for requesting re-establishment of rights Question 4 : B Legal basis Rule 90.4(d) PCT Subject to paragraph (e), any r eceiving Office,  any International Searching Authorit y, any Authority c ompetent to carry o ut supplementary s earches,  any I nternation al Preliminary Examining Authority a nd the International Bureau may waive the requ irement under paragraph (b) tha t a separate power o f atorney be submited to it, in which case paragraph (c) shall not appl y. Question 5 : D Legal b asis Art. 14(4) EPC: “Natural or legal persons having their residence or princip al place of business within a Contracting State  having a language othe r than English, French or German as an offic ial language, and nationals of that State  who are resident abroad, may ﬁle documents which have to be ﬁled within a time limit in an offic ial language of that State .” Article 14(1) RFees : 30% reduction of the application fee; Rule 6 RFees A-X, 9.2.1; A-X, 9.2.2 A-X, 9.2.1 Conditions - Guidelines for Examinatio n (epo.org) A-X, 9.2.2 Reduction o f the ﬁ ling f ee - Guidelines for Examination (epo.org) Notice from t he EPO date d 10 January 2014 concerning amended Rule  6 EPC an d Article 14(1 ) RFees ( EPO - Notice f rom t he E PO d ated 1 0 January 2014 concerning amended Rule 6 EPC and Article 14(1 ) RFees ) A. Not c orrect ( Andorra i s not an EPC contracting state); A rt. 14(4) E PC relates t o the applicant and not to his representative) 3 B. Not correct (the German company is not considered as SME - R. 6(4)a, R. 6(7) // Notice from the EPO dated 10 January 2014 concerning amended Rule 6 EPC and Art. 14(1) RFEES) C. Not correct (French is an official language of the EPO  Art. 14(1) EPC ) D. Correct (applicant of an EPC contracting state with resident abroad; Italian is official language of Switzerland ; natural person is entitled to the reduction )"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis Rule 90.4(d) PCT Subject to paragraph (e), any receiving Office, any International Searching Authority, any Authority competent to carry out supplementary searches, any International Preliminary Examining Authority and the International Bureau may waive the requirement under paragraph (b) that a separate power of attorney be submitted to it, in which case paragraph (c) shall not apply."
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis Art. 14(4) EPC: “Natural or legal persons having their residence or principal place of business within a Contracting State having a language other than English, French or German as an official language, and nationals of that State who are resident abroad, may file documents which have to be filed within a time limit in an official language of that State.”"
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis R36(2), R135(2) EPC The English translation of the application documents must  be ﬁled within 2 months of ﬁling the DA. If the English translation is not ﬁled: The EPO will issue  a communication pursuant to  Rule 58 EPC seting a time limit of further 2 months for ﬁling the  translation. If the English translation is not ﬁled within the time limit set by the communication pursuant Rule 58 EPC: a loss of rights communication is issued: f urther processing is ruled out for  the missing 2 -month time limit of Rule 58 EPC  -> re-establishment of rights ."
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "Legal basis Art 86 EPC, Rule 51 EPC, Art 141 EPC Due date of the renewal fee: 30 November 2023 = atier grant of the patent renewal fee must be paid to the national offices. Time limit: 2 months of publication of grant in the European Patent Bulletin: 8 January 2014"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis Guidelines D- VI, 7.2.3 A: incorrect because of the entire description B: correct C: incorrect ; the invitation  is not  issued  together  with  the interlocutory  decision , but atier the interlocutory  decision  has become  ﬁnal and can no longer  be appealed D: incorrect: 3 months is correct Rule 82(2)  EPC 4"
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis R 91.2 PCT : the time limit for ﬁling a request for rectiﬁcation of an obvious mistake is 26 months from the earliest priority date"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "(the most correct answer), D (also possible) Legal basis A rt. 121(1) (2), Rule 135(1) and (3) EPC, Art. 2(1), item 12 RFees Guidelines for Examination E -VIII, 2 (Further processing) and E -VIII, 3.1.3 E-IX, 2.3.1 (Representation, address for correspondence) Comment: A good paralegal will perform all acts of C, including  the appointment of the representative. H owever , formally/grammatically D can also be considered as a correct answer to the question,  because the appointment of the professional representative can be done later (if the translation is supplied and the fees are paid, but no professional representative has been appointed, the JP applicant may be invited to appoint a professional representative under R 163(5) EPC. The procedural acts of requesting examination and filing the translation could also be c onsidered as unsigned documents, because the JP applicant is not entitled to sign.   He might receive an invitation under R 50(3) EPC to supply a missing signature, which can be fulfilled by appointing a professional representative."
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis G uide for applicants: PCT procedure before the EPO (Euro -PCT Guide) - 5.4 Amending the application - Rule 161/162 communication G uidelines for examination GL E -IX, 2.1.1 ( 2.1.1 Requirements for entry into the European phase (epo.org) ) E-IX, 3.3.1 ( htps://www.epo.org/law -p ractice/legal- texts/html/guidelines/e/e_ix_3_3_1.htm ) 5 “A reply to the communication under Rule 161(1)  may not be necessary … If the applicant ﬁled amendments according to Art. 19  and/or 34 PCT  in the international phase, and if the EPO prepared the WO -ISA or SISR but no IPER (either because the applicant did not demand PCT Chapter II  or because the IPEA was an office other than the EPO), then these amendments are considered to constitute a response to the WO -ISA or SISR, provided that the applicant has indicated on entry into the European phase that these amendments are maintained…”"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "Legal basis Explanation: Applicant's Guide - MX - Annex C - Receiving Office PCT Applicant's Guide Mexico - Valid as from 13 Apr 2023 (wipo. int) Competent International Searching Authority: AT, CL, EP , ES, KR, SE, SG, US Competent International Preliminary Examining Authority: AT, CL*, EP**, ES, KR, SE, SG*, US* * The Office is competent only if the international search is or has been carried out by that Office. ** The Office is competent only if the international search is or has been carried out by that Office, the Austrian Patent Office, the Spanish Patent and Trademark Office or the Swedish Intellectual Property Office (PRV)."
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "Legal basis PCT Rule 26 bis.1 (a), stating : “The applicant may correct a priority claim or add a priority claim to the request by a notice submited to the receiving Office or the International Bureau within a time limit of 16 months from the priority date or, where the correction or addition would  cause a change in the priority date, 16 months from the priority date as so changed, whichever 16 -month period expires ﬁrst, provided that such a notice may be submited until the expiration of four months from the international ﬁling date.” 6 Questio n 14: D Legal basis A n extension must be requested before expiry of the period for responding not the case here. Further processing is only available to applicants (and thus before grant). The non- observance of the time limit to ﬁle comments does not have the direct consequence demanded for re -establishment of rights in Art 122(1). [see G1/90] Therefore, only D can be correct,  and the Board will exercise its discretion. The Opponent/Respon dent should thus submit reasons for submiting them late."
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis An extension must be requested before expiry of the period for responding not the case here. Further processing is only available to applicants (and thus before grant). The non-observance of the time limit to file comments does not have the direct consequence demanded for re-establishment of rights in Art 122(1). [see G1/90] Therefore, only D can be correct, and the Board will exercise its discretion. The Opponent/Respondent should thus submit reasons for submiting them late."
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis Guidelines, E -Vii.1.5 Concerning renewal fees falling due during the period of interruption, Rule 142(4) has to be interpreted as deferring the due date for their payment until the date the proceedings are resumed (J 902/87). Thus, such renewal fees may be paid without additional fee at the date of resumption and in the amounts applicable on that date. They may also be paid within six months of said date, provided that an additional fee is also paid within said period (Rule 51(2))."
+                }
+            ],
+            "ai_answers": [
+                {
+                    "Answer": "C",
+                    "Justification": "According to Rule 21(1) EPC as stated in one of the legal bases provided, a wrong designation of an inventor can be corrected if requested by the patent proprietor. However, it also states that where the name of the inventor is not the same as recorded in the Register, the formalities officer will inform the patentee of the correct name. In this case, Ms Smith was erroneously designated as an inventor and Mr Li needs to give his consent for her deletion from the record. Therefore, option C is correct.\n\nOption A is incorrect because it does not mention the requirement of obtaining consent from Mr Li. The correction process must involve both the patentee and the person whose name is being corrected.\nOption B is incorrect because there can still be proceedings to correct the inventor's details even if no opposition has been filed against the European patent.\nOption D is incorrect as it suggests that only Ms Smith's consent is required, whereas according to Rule 21(1) EPC, Mr Li needs to give his consent for her deletion.\n\nSources:\nSource: Case Law IV, C.2.2.5, Url: https://www.epo.org/en/legal/case-law/2022/clr_iv_c_2_2_5.html\nSource: 2023_EPAC_mcq_solution.json, Url: N/A\nSource: Guidelines for Examination in the EPO, D-IV, 5.5, Url: https://www.epo.org/en/legal/guidelines-epc/2024/d_iv_5_5.html\nSource: Guidelines for Examination in the EPO, D-IV, 1.2.2.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/d_iv_1_2_2_2.html\nSource: Case Law III, A.3.7, Url: https://www.epo.org/en/legal/case-law/2022/clr_iii_a_3_7.html"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "According to Rule 142(3) (i) from the Guidelines for Examination in the EPO, if Article 133(2) is applicable (mandatory appointment of a representative), the European patent application will be deemed withdrawn or the European patent revoked if information about the new representative is not submitted within two months after this communication. In this scenario, the earliest date to submit the change of representative and response would be on or before 12 October 2023 (two months from 6 October), thus Option A is correct.\n\nOption B is incorrect because it omits the requirement for an authorisation signed by the applicant, which is necessary as per Rule 142(3) (i).\n\nOption C is incorrect because it extends the deadline to 23 October 2023, which is beyond the two-month period specified in Rule 142(3) (i), leading to potential revocation of the application or patent.\n\nOption D is also incorrect for the same reason as Option B - it includes a date that exceeds the allowable time frame and adds an unnecessary step by mentioning 'in good time' which is not explicitly required but could imply exceeding the two-month period.\n\nSources:\nSource: 2023_EPAC_mcq_solution.json, Url: N/A\nSource: EPC Rule 143, Url: https://www.epo.org/en/legal/epc/2020/r143.html\nSource: EPC Rule 151, Url: https://www.epo.org/en/legal/epc/2020/r151.html\nSource: Guidelines for Examination in the EPO, E-VII, 1.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_vii_1_4.html\nSource: Guidelines for Examination in the EPO, E-X, 2.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_x_2_2.html"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "The correct answer is A. According to the provided legal text, an applicant for a European patent can apply to have their rights re-established if they were unable to observe a time limit vis-à-vis the EPO despite taking all due care required by the circumstances (see Guidelines for Examination in the EPO, E-VIII, 3). This includes missed payment deadlines such as the designation fee. The text does not specifically mention that re-establishment of rights can be used for other time limits like requesting examination, filing within the priority period, or paying a fee for re-establishment (options B, C, and D).\n\nOption B is incorrect because the text outlines specific procedures for requesting further processing, which are different from re-establishment of rights. The process for re-establishing rights does not cover missed deadlines for actions like requesting examination.\n\nOption C is incorrect as there is no mention of using re-establishment of rights for filing within the priority period. Generally, such issues would be resolved by re-filing the application or other means, but this specific context in the text does not indicate that re-establishment of rights can be used here.\n\nOption D is incorrect because paying a fee for re-establishment itself cannot be remedied through re-establishment of rights; it’s the missed payment deadline that could potentially be resolved by applying for re-establishment. The process of requesting re-establishment of rights does not involve an additional fee payment.\n\nSources:\nSource: Guidelines for Examination in the EPO, E-VIII, 2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_viii_2.html\nSource: Guidelines for Examination in the EPO, E-VIII, 3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_viii_3.html\nSource: Guidelines for Examination in the EPO, A-II, 4.1.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_ii_4_1_4.html\nSource: Guidelines for Examination in the EPO, A-III, 6.8, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_8.html\nSource: Guidelines for Examination in the EPO, A-III, 11.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_11_3.html"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "According to PCT Article 16 (2), if several International Searching Authorities are involved, each receiving Office should specify the competent International Searching Authority or Authorities. However, it does not mention that a representative appointed for national proceedings can also act as an International Searching Authority. Thus, statement A is incorrect.\n\nStatement B is correct: According to PCT Article 18 (2), a power of attorney from the applicant is required before a representative can act on their behalf at the EPO or any other receiving Office, including in international searches.\n\nRegarding Statement C, according to PCT Article 34(1), an international preliminary examination is initiated by the International Preliminary Examining Authority and must be requested by the applicant (or their agent with a power of attorney). Therefore, it is not mandatory that the demand for international preliminary examination be signed solely by Greta or Hassan.\n\nStatement D is correct: According to PCT Rule 65(1), an application can only be withdrawn by the applicant or an authorized representative acting under a power of attorney. Hence, this statement aligns with the provided legal text.\n\nSources:\nSource: Case Law VI, 3.1, Url: https://www.epo.org/en/legal/case-law/2022/clr_vi_3_1.html\nSource: Case Law VI, 1, Url: https://www.epo.org/en/legal/case-law/2022/clr_vi_1.html\nSource: PCT Article 34, Url: https://www.wipo.int/pct/en/texts//articles/a34.html\nSource: EPC Rule 161, Url: https://www.epo.org/en/legal/epc/2020/r161.html\nSource: PCT Article 16, Url: https://www.wipo.int/pct/en/texts//articles/a16.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "According to Rule 6 EPC, a reduction in filing fees can be granted if the applicant is a resident of a country that provides for such reductions under national law or if they are a firm with at least 20 employees and an annual turnover of at least EUR 3 million. Option B describes a situation where a German firm, which employs over 200 people and has an annual turnover of more than EUR 60 million, files a European patent application in Dutch with a natural person resident in Germany as co-applicant. Both conditions are met, making this the correct scenario for a reduction in filing fees.\n\nOption A is incorrect because while a Spanish European patent attorney can file in Spanish, the applicant's nationality and residence (resident in Andorra and of Andorra nationality) do not qualify for a reduced fee under Rule 6 EPC as there is no specific provision for residents or nationals of Andorra. \n\nOption C is incorrect since a natural person resident in the USA and of Belgian nationality filing in French does not meet any criteria for reduced fees as per Rule 6 EPC.\n\nOption D is similarly incorrect, as a natural person resident in the USA and of Swiss nationality cannot qualify for a reduction under Rule 6 EPC due to neither their residence nor nationality fitting the specified conditions.\n\nSources:\nSource: EPC Article 58, Url: https://www.epo.org/en/legal/epc/2020/a58.html\nSource: EPC Article 75, Url: https://www.epo.org/en/legal/epc/2020/a75.html\nSource: EPC Rule 152, Url: https://www.epo.org/en/legal/epc/2020/r152.html\nSource: Case Law IV, A.4, Url: https://www.epo.org/en/legal/case-law/2022/clr_iv_a_4.html\nSource: Case Law II, E.1.2.3, Url: https://www.epo.org/en/legal/case-law/2022/clr_ii_e_1_2_3.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "The correct answer is B because according to the legal text provided in R.36(2), if a European divisional application is filed and it is not in an official EPO language, then within two months of filing, a translation into the language of the proceedings of the earlier (parent) application must be filed. In this case, since Mr Van Holland's parent application was filed in Dutch, which is an admissible non-EPO language under R.6(3)-(7), he needs to file an English translation of EP-div within two months of notification of the communication under Rule 112(1) EPC (as per B option). \n\nOption A states that the deficiency cannot be remedied, which is incorrect because a remedy exists as outlined in R.36(2).\n\nOption C suggests filing both an English translation and a request for further processing, but this is not necessary according to the legal text provided. Filing the required translation within two months suffices.\n\nOption D proposes filing an English translation and a request for re-establishment of rights. This is incorrect because there is no indication that Mr Van Holland has lost his rights due to non-compliance with language requirements, only that he needs to file the translation as per R.36(2). The process does not involve requesting re-establishment of rights.\n\nSources:\nSource: Guidelines for Examination in the EPO, A-III, 6.8.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_8_3.html\nSource: Guidelines for Examination in the EPO, A-III, 14, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_14.html\nSource: Guidelines for Examination in the EPO, C-V, 1.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/c_v_1_3.html\nSource: Guidelines for Examination in the EPO, A-VII, 1.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_vii_1_3.html\nSource: Case Law III, F.1, Url: https://www.epo.org/en/legal/case-law/2022/clr_iii_f_1.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "The correct answer is B. According to Rule 51(2) of the EPC, if a renewal fee is not paid on the due date, it may still be paid within six months from that date, provided an additional fee is also paid within that period. The legal consequence laid down in Article 86, paragraph 1, will ensue upon expiry of the six-month period.\n\nThe communication states that the decision to grant a European patent was notified on 8 January 2014, which means the fourth year's renewal fee falls due on 30 November 2023 (as per Rule 51(1)). Thus, the renewal fee for the fourth year must be paid centrally to the EPO and the due date is 30 November 2023.\n\nOption A is incorrect because it states the due date is on 16 November 2023, which is not in accordance with Rule 51(1) of the EPC.\n\nOption C is incorrect because although it correctly identifies that the renewal fee must be paid separately in each state where the patent is validated (Article 87 and Article 141 EPC), it incorrectly states that the fourth year's renewal fee can be validly paid until January 9, 2024. According to Rule 51(2) of the EPC, the time limit for paying the additional fee within six months from the due date is 30 May 2024.\n\nOption D is incorrect because it also states the renewal fee can be paid until January 16, 2024. The same reasoning applies as with Option C: according to Rule 51(2) of the EPC, the time limit for paying the additional fee within six months from the due date is 30 May 2024.\n\nSources:\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html\nSource: EPC Rule 51, Url: https://www.epo.org/en/legal/epc/2020/r51.html\nSource: 2023_EPAC_mcq_solution.json, Url: N/A"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "Option C is correct because according to the Guidelines for Examination in the EPO, H-III, 2.3, an invitation should be sent together with the interlocutory decision requesting payment of the fee for publishing a new specification, filing translations of the claims and providing a formally compliant version of the amended paragraph. \n\nOption A is incorrect because it states that the patent proprietor must request these actions upon submission of the request, which contradicts the guideline that an invitation should be sent with the interlocutory decision.\n\nOption B is incorrect since it implies that the patent proprietor would not have to comply during appeal proceedings when in fact, the EPO still requires such compliance even if no appeal is filed. The requirement for payment and submission of a formally compliant version remains regardless of whether there is an ongoing appeal or not as per H-III, 2.3.\n\nOption D is incorrect because it specifies that the deadline to comply should be four months after interlocutory decision, which is consistent with normal practice but contradicts the more specific directive in option C regarding the timing and form of compliance.\n\nSources:\nSource: Guidelines for Examination in the EPO, D-VI, 7.2.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/d_vi_7_2_3.html\nSource: Guidelines for Examination in the EPO, H-III, 2.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/h_iii_2_3.html\nSource: Guidelines for Examination in the EPO, D-VI, 7.2.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/d_vi_7_2_1.html\nSource: Guidelines for Examination in the EPO, D-IV, 5.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/d_iv_5_3.html\nSource: Guidelines for Examination in the EPO, H-IV, 5.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/h_iv_5_3.html"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "According to Rule 52(3) EPC as provided by the PCT legal text, an applicant may correct a declaration of priority within 'sixteen months from the earliest priority date claimed, or, where the correction would cause a change in the earliest priority date claimed, within sixteen months from the correct earliest priority date, whichever sixteen-month period expires first'. However, this rule is subject to the condition that such correction must be submitted until the expiry of four months from the date of filing accorded to the European patent application. Therefore, considering both periods together (16 + 4 = 20), and given that the options provided are all greater than 20 but only one matches the closest lower value in terms of the rule's context, it can be inferred that 'sixteen months' aligns with answer A. Other options B, C, D (30, 22, 26 months) do not match this period and thus are incorrect based on the provided text.\n\nSources:\nSource: 2023_EPAC_mcq_solution.json, Url: N/A\nSource: PCT Rule 17, Url: https://www.wipo.int/pct/en/texts//rules/r17.html\nSource: PCT Rule 26, Url: https://www.wipo.int/pct/en/texts//rules/r26.html\nSource: PCT Rule 64, Url: https://www.wipo.int/pct/en/texts//rules/r64.html\nSource: Case Law IV, A.8.2.3, Url: https://www.epo.org/en/legal/case-law/2022/clr_iv_a_8_2_3.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "According to the provided legal text and context, after receipt of a negative written opinion issued by the EPO acting as ISA (which corresponds with Article 19(1) PCT), amendments were filed during the international phase. Since no request for an International Preliminary Examination was filed and no further amendments were filed upon entry into the regional phase, Form 1226BB will be received in the regional phase. This form offers the opportunity to comment and file further amendments (Rule 161(2), E-IX, 3).\n\nOption A is incorrect because if there were no amendments filed with the EPO upon entry into the regional phase, it would not meet the criteria for a deemed withdrawal due to non-response.\n\nOption C is incorrect as no request for an International Preliminary Examination was filed, so the opportunity to file amendments before the supplementary European search report (Rule 161(2)) does not apply in this scenario. \n\nOption D is incorrect because the examination has not started yet since there are still opportunities for the applicant to provide comments and potentially file further amendments.\n\nSources:\nSource: Guidelines for Examination in the EPO, C-III, 2.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/c_iii_2_2.html\nSource: Guidelines for Examination in the EPO, E-IX, 3.3.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_ix_3_3_1.html\nSource: Guidelines for Examination in the EPO, E-IX, 2.9.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_ix_2_9_1.html\nSource: Guidelines for Examination in the EPO, B-III, 3.3.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/b_iii_3_3_2.html\nSource: 2023_EPAC_mcq_solution.json, Url: N/A"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "According to the provided legal text from the Guidelines for Examination in the EPO, A-VII, 1.3, a European divisional application must be filed in the language of the proceedings of the earlier (parent) application. Alternatively, if the parent application was not in an official EPO language, the divisional application may be filed in the language of the earlier (parent) application and then a translation into the language of the proceedings of the earlier application must be filed within two months. \n\nOption A: The applicant can choose the EPO as ISA (International Searching Authority) and the USPTO as IPEA (International Preliminary Examining Authority). This is possible because both the EPO and the USPTO are recognized international patent offices, allowing an applicant to file their application with either or both.\n\nOption B: The applicant can choose the USPTO as ISA and the EPO as IPEA. This option is also valid for similar reasons mentioned above. \n\nOption C and D: The provided text does not mention any specific conditions that would invalidate options involving Austrian Patent Office, Intellectual Property Office of Singapore or any other office, in relation to the filing requirements of Spanish translations into English under the context given.\n\nTherefore, options B, C, and D are all valid choices based on the information provided. However, since only one option must be selected from A to D as per the question structure, Option A is selected as it directly relates to the EPO being chosen alongside another international office, matching the format of the provided options.\n\nSources:\nSource: Guidelines for Examination in the EPO, A-III, 14, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_14.html\nSource: 2023_EPAC_mcq_solution.json, Url: N/A\nSource: Guidelines for Examination in the EPO, A-III, 4.2.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_4_2_1.html\nSource: Guidelines for Examination in the EPO, A-III, 6.8.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_8_3.html\nSource: Guidelines for Examination in the EPO, A-VII, 1.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_vii_1_3.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "The correct answer is B because under Article 87(4) of the EPC as per the provided legal text, if multiple priorities are claimed for a European patent application, time limits which run from the date of priority will run from the earliest date of priority. In this case, EP-I was filed on July 7, 2022, and EP-II on July 3, 2022, with EP-II being earlier. The applicant originally claimed priority to EP-I in the international application PCT-P on June 20, 2023. According to Rule 19(1) of the EPC, the time limit for claiming a missing priority is two months from the filing date of the original application (in this case, PCT-P), which would end on August 20, 2023.\n\nHowever, since EP-II was filed earlier, the period to claim its priority should run from July 3, 2022. Therefore, the time limit for adding the priority claim expires two months after that date, or by November 3, 2023.\n\nOption A is incorrect because it suggests the period ends on November 3, not considering EP-II's filing date.\nOption C is incorrect as the period would end in August 2023, not October 2023.\nOption D is incorrect since the time limit for adding the priority claim did not expire until two months after July 3, 2023, which was on September 2, 2023. \n\nSources:\nSource: Guidelines for Examination in the EPO, A-III, 6.6, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_6.html\nSource: Case Law IV, A.8.2.3, Url: https://www.epo.org/en/legal/case-law/2022/clr_iv_a_8_2_3.html\nSource: Guidelines for Examination in the EPO, A-III, 6.9, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_9.html\nSource: Guidelines for Examination in the EPO, E-IX, 2.3.5, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_ix_2_3_5.html\nSource: EPC Article 88, Url: https://www.epo.org/en/legal/epc/2020/a88.html"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "According to EPC Rule 100(3), if the applicant fails to reply in due time to an invitation issued by the Board of Appeal, the European patent application is deemed to be withdrawn. In this case, the opponent/ respondent has filed comments beyond the four-month period specified in the communication from the board of appeal. Therefore, they need to request an extension of the period for comment.\n\nOption B (pay a fee for further processing) and Option C (file a substantiated request for reestablishment of rights and pay the associated fee) are incorrect because there is no indication that any procedural error has occurred or that the opponent/ respondent needs to reestablish their rights. The situation calls for an extension of time as per Rule 100(3).\n\nOption D (none of the above) is incorrect because Option A is a valid course of action based on the provided legal text.\n\nSources:\nSource: Guidelines for Examination in the EPO, D-IV, 5.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/d_iv_5_2.html\nSource: EPC Rule 81, Url: https://www.epo.org/en/legal/epc/2020/r81.html\nSource: Guidelines for Examination in the EPO, D-IV, 5.5, Url: https://www.epo.org/en/legal/guidelines-epc/2024/d_iv_5_5.html\nSource: Case Law IV, C.4.3.1, Url: https://www.epo.org/en/legal/case-law/2022/clr_iv_c_4_3_1.html\nSource: EPC Rule 100, Url: https://www.epo.org/en/legal/epc/2020/r100.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Option B is correct because, according to the Guidelines for Examination in the EPO (Section 5.2.4), when a patent application's proceedings are interrupted under Rule 142 EPC and later resumed, the renewal fees for the third and fourth years can be validly paid without any additional fee on or before the due date of the year in which the mention of grant is published. In this case, since no renewal fees have been paid so far, the last day to pay these fees (third and fourth years) would be 31 October 2023 at the latest, which falls within the resumed proceedings period.\n\nSources:\nSource: EPC Rule 51, Url: https://www.epo.org/en/legal/epc/2020/r51.html\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html"
+                }
+            ]
+        },
+        {
+            "filename": "2024_EPAC_mcq.json",
+            "questions": [
+                {
+                    "question": "An international application is published , together  with the search report drawn up by the CNIPA , 18 m onths + 1 day after the filing date (no priority claimed). The application has no more than 35 pages and 15 claims. Which statement reflects all actions the CN  applicant  needs to take for entry into the EP phase 25 months  after the filing date ? A request for early processing has been filed.",
+                    "options": [
+                        "A. Complete and file Form 1200 and pay the filing fee and the search fee",
+                        "B. Complete and file Form 1200 and pay the filing fee, the search fee and the renewal fee for the third year",
+                        "C. Complete and file Form 1200, pay the filing fee and the search fee and appoint a representative",
+                        "D. None of the above statements"
+                    ]
+                },
+                {
+                    "question": "A European patent application was filed on 6 February 2023. The search, filing and designation fees were paid within a month of the date of filing. What is the latest point in time for withdrawing the application, if the applicant wishes to obtain a refund of the designation fee?",
+                    "options": [
+                        "A. Six months after the date of mention of the publication of the European search report",
+                        "B. Date of mention of the publication of the European search report",
+                        "C. The designation fee was validly paid and can no longer be refunded",
+                        "D. Date of the start of substantive examination"
+                    ]
+                },
+                {
+                    "question": "On 10 October 2024, an applicant files a request for entry into the European phase, together with a debit order, according to which the filing fee, the designation fee, the examination fee and the renewal fee for the third year are to be debited from the applicant's deposit account. It is specified that the debit order is to be executed on 18 October 2024. On the evening of 10 October 2024, the applicant notices that the renewal fee is not yet due and should not be debited from the deposit account. What is the latest point in time for revoking the order to debit the renewal fee in Central Fee Payment (CFP)?",
+                    "options": [
+                        "A. 10 October 2024",
+                        "B. 17 October 2024",
+                        "C. 18 October 2024",
+                        "D. A debit order cannot be revoked in part"
+                    ]
+                },
+                {
+                    "question": "The applicant received a communication pursuant to Article 90(3) EPC and Rule  60 EPC, requesting them to file a designation of inventor but missed the time limit for filing a response. After expiry of the time limit, the Receiving Section issued a decision to refuse the European patent application, dated 10  October 2024. What can the applicant do to remedy the situation?",
+                    "options": [
+                        "A. File a notice of appeal against the decision within four months of notification of the decision",
+                        "B. File a request for further processing within two months of notification of the decision",
+                        "C. File, within two months of notification of the decision, a request for re-establishment of rights in respect of the time limit for filing the designation of inventor",
+                        "D. A, B and C are correct"
+                    ]
+                },
+                {
+                    "question": "Which of the following statements about filing third- party observations is correct?",
+                    "options": [
+                        "A. The person that filed third- party observations will be a party to the proceedings before the EPO, and the applicant is obliged to respond to third- party observations",
+                        "B. Third -party observations must be filed in writing and may not be filed anonymously",
+                        "C. Third -party observations are considered by the examining division only if they include a statement of the grounds on which they are based, and an official fee is paid",
+                        "D. Third -party observations can be filed after the publication of a European patent application and must be filed in an official language of the EPO"
+                    ]
+                },
+                {
+                    "question": "You filed an international patent application on 6 June 2024, claiming the priority of a European patent application filed on 7  July 2023. You received a communication dated 25 September 2024 from the EPO acting as International Searching Authority (ISA), stating that the requirement of unity of invention has not been complied with. The ISA identifies three inventions. You are invited to pay two additional search fees. Which of the following statements is correct?",
+                    "options": [
+                        "A. You must pay two additional search fees by 25 October 2024",
+                        "B. You do not need to file a response to the provisional opinion accompanying the partial search results",
+                        "C. If you pay two additional search fees under protest, you must pay two protest fees within the time limit",
+                        "D. If you do not pay any additional search fees within the time limit, the international patent application will be deemed to be withdrawn"
+                    ]
+                },
+                {
+                    "question": "An international patent application filed with the EPO as receiving Office on 10 September 2024, claims the priority of a Luxembourg patent application filed on 11 October 2023. No certified copy of the Luxembourg patent application was filed at the time of filing of the international patent application. Which of the following actions can be taken to file a certified copy of the Luxembourg patent application for this international patent application?",
+                    "options": [
+                        "A. Request the Luxembourg Intellectual Property Office to prepare and send a certified copy of the Luxembourg patent application to the EPO",
+                        "B. Submit a valid DAS code (Digital Access Service) to the International Bureau to enable it to obtain a certified copy of the Luxembourg patent application",
+                        "C. File an electronic certified copy of the Luxembourg patent application with the EPO",
+                        "D. File a certified copy of the Luxembourg patent application with the International Bureau"
+                    ]
+                },
+                {
+                    "question": "Firm A owns a European patent, EP . Firm B filed an opposition against EP, requesting its revocation. Firm B argued that the subject -matter of the granted claims was not new in view of document D1. During the opposition proceedings, firm C filed observations under Art.  115 EPC, arguing that the subject -matter of the granted claims was not new in view of document D2. Firm A requested maintenance of the patent as granted, or maintenance in amended Which of the following statements is correct?",
+                    "options": [
+                        "A. At the end of the opposition proceedings, the opposition division decided to revoke the patent. Firm B is entitled to file an appeal against the opposition division's decision.",
+                        "B. At the end of the opposition proceedings, the opposition division decided to and firm B are entitled to file an appeal against the opposition division's decision.",
+                        "C. At the end of the opposition proceedings, the opposition division decided to maintain the patent as granted. Firm C is entitled to file an appeal against the opposition division's decision.",
+                        "D. During the opposition proceedings, firm B withdrew its opposition. At the end of the opposition proceedings, the opposition division decided to maintain the patent as granted. Firm B is entitled to file an appeal against the opposition division's decision."
+                    ]
+                },
+                {
+                    "question": "European patent application EP -X was filed on 1  October 2020, claiming the priority of a Belgian application filed on 16 October 2019. The mention of the grant of European patent EP -X was published on 2  October 2024. The proprietor filed a request for unitary effect and was informed by communication dated 10  October 2024, that unitary effect had been registered for EP -X-C0 on the same date. Which of the following statements is correct?",
+                    "options": [
+                        "A. A renewal fee still has to be paid by 31 October 2024 in respect of the 5th year for EP -X",
+                        "B. A renewal fee is due on 31 October 2024 in respect of the 5th year for EP -X-C0",
+                        "C. A renewal fee is due on 31 October 2024 in respect of the 6th year for EP -X-C0",
+                        "D. No renewal fee has to be paid on 31 October 2024"
+                    ]
+                },
+                {
+                    "question": "A communication under Article 94(3) EPC, setting a four -month time limit for reply is dated 12 September 2024. The applicant receives the letter on 21 September 2024, as evidenced by the postal receipt signed by him.  What is the last day for replying to the communication?",
+                    "options": [
+                        "A. 13 January 2025",
+                        "B. 12 January 2025",
+                        "C. 22 January 2025",
+                        "D. 14 January 2025"
+                    ]
+                },
+                {
+                    "question": "Which functionalities or services can be accessed directly from MyEPO Portfolio?",
+                    "options": [
+                        "A. A shared area with examiners, European Patent Register, filing via the EPO's online filing software eOLF",
+                        "B. Mailbox, a shared area with examiners, replying to a communication under Article  94(3) EPC",
+                        "C. Mailbox, patent search via publication server, a shared area with examiners",
+                        "D. Filing via the EPO's Online Filing 2.0, patent search via publication server, Mailbox"
+                    ]
+                },
+                {
+                    "question": "In which of the following situations does the EPO recommend using the EPO Contingency Upload Service?",
+                    "options": [
+                        "A. When you submit documents after business hours",
+                        "B. When the EPO filing systems are functioning correctly, but you encounter a technical issue at your end",
+                        "C. When there is a system outage at the EPO that prevents document submission via the standard filing systems",
+                        "D. When the EPO is closed due to an official holiday"
+                    ]
+                },
+                {
+                    "question": "Applicant Korhonen is a Finnish national resident in Finland. He filed a European patent application in Finnish and provided an English translation in time. In response to the extended European search report (EESR), Korhonen wishes to file amended claims t ogether with a request for examination. Which of the following statements is correct?",
+                    "options": [
+                        "A. Korhonen must file the amended claims in Finnish and must then  provide a translation into English, in time",
+                        "B. Korhonen is allowed to file the amended claims in Finnish if he then provides a",
+                        "translation into any official language of the EPO, in time C. Korhonen is allowed to file the amended claims in Finnish if he then provides a translation into English, in time",
+                        "D. Korhonen is not allowed to file the amended claims in Finnish"
+                    ]
+                },
+                {
+                    "question": "Applicants may request processing of their international application under PCT Direct by filing a letter (\"PCT Direct letter\") containing informal comments, aimed at overcoming objections raised in the search opinion established by the EPO for the priority application.  Which of the following statements is NOT  correct?",
+                    "options": [
+                        "A. PCT Direct is available if the priority application is a Belgian application filed in French, which has been searched and the international application is filed in French, using ePCT -Filing",
+                        "B. PCT Direct is available if the priority application is an EP application filed in French, which has been searched and the international application is filed in English, using Online Filing 2.0",
+                        "C. PCT Direct is available if the priority application is an international application filed with the EPO in English, which has been searched by the EPO and the subsequent international application is filed in English, using Online Filing 2.0",
+                        "D. PCT Direct is available on condition that amended claims are filed with the PCT Direct letter, in a single PDF document"
+                    ]
+                },
+                {
+                    "question": "Mr Linguist filed a European patent application in Dutch and used English as language of the proceedings. When requesting unitary effect on 10 October 2024, Mr Linguist must provide a translation of the specification. Mr Linguist would like to obtain immediate registration of the unitary effect. Which of the following statements is correct?",
+                    "options": [
+                        "A. Mr Linguist must provide a translation of the specification into Dutch",
+                        "B. Mr Linguist must provide a translation of the specification into an official language of any of the 18 states to which the unitary effect extends",
+                        "C. Mr Linguist must provide a translation of the specification into an official language of any of the 24 states that have signed the UPCA",
+                        "D. Mr Linguist may provide a translation of the specification into Spanish"
+                    ]
+                }
+            ],
+            "answers": [
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis Rule 159(1) EPC The examination fee and designation fee must also be paid ( six months  after publication of search report ; payment cannot be postponed to 31 m onths  if there is a wish to enter into the European phase at 25 months )."
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis Guidelines for Examination in the EPO, A-X, 5.2.2 “The designation fee falls due upon publication of the mention of the European search report. It may be paid within six months of the mentioned date of publication (Rules 39(1) , 17(3)  and 36(4) ). Where paid before the due date, e.g. upon filing of the application, the designation fee will however be retained by the EPO. These payments will only be considered valid as from the due date, provided that the amount paid corresponds to the amount payable on the due date (…)”"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis OJ EPO  2024, Supplementary Publication 2,  Arrangements for deposit accounts (ADA), 13.2 “13.2: A debit order with a deferred payment date (…) may be revoked in whole or in part in Central Fee Payment until one day before the date specified as the execution date at the latest. ”"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis Articles 106 and 108 EPC ; Article 121(1) EPC ; Guidelines for Examination in the EPO, E-VIII, 2 A notice of appeal could also be filed within two months of  notification of the decision; re-establishment of rights is excluded because further processing is available."
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis Article 115 EPC, R ule 114 EPC ; Guidelines for E xamination in the EPO,  E-VI.3 2 A. Incorrect: a third party filing observations concerning the patentability of an application or patent is not a party to the proceedings; the  applicant may respond to third- party observations but is not obliged to do so B. Incorrect: third- party observations may be filed anonymously C. Incorrect: there is no official fee when filing third- party observations D. Correct"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis Rule 40 PCT A. Incorrect: may be paid but not must be paid B. Correct C. Incorrect: only one protest fee is due (Rule 40.2(e) PCT) D. Incorrect: if the applicant does not pay any additional search fees, the information appearing in the invitation to pay additional fees will be considered to be  the result of the international search and will be included as such in the international search report"
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis PCT Applicant's Guide 5.070. ; Guidelines for Examination in the EPO  A-III, 6.7; PCT Applicant's Guide LU-Luxembourg A. Only available if the priority application and the PCT application are filed with the same p atent office B. Incorrect: the LPTO does not use the DAS  access code C. Incorrect: the LPTO does not issue electronic priority document s D. Correct"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis Article 107 EPC A. Incorrect: B is not adversely a ffected B. Correct: both parties A and B are adversely affected C. Incorrect: third  parties are no t parties to  the proc eedings D. Incorrect:  withdrew its opposition; no longer a party to the proceedings"
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis 3 Guidelines for Examination in the EPO, A- X, 5.2.4 The renewal fee that would have been due on 31 October had to be paid for the decision to grant to be issued (this is one of the warnings in the communication under Rule 71(3)  EPC)."
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis Rule 126(2) EPC The document was delivered to the addressee nine days after the date it bears, so the period expires later by the number of days by which the seven days were exceeded, i.e. 12 January 2025 + two  days. E vidence of late receipt needs to be filed with the response."
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Legal basis https://www.epo.org/en/applying/myepo- services/interact A. Incorrect : it is neither  possible  to access the European Patent Register n or to file using  the EPO's legacy O nline Filing software (eOLF)  via MyEPO Portfolio B. Correct C. Incorrect : it is not possible to access  the European P ublication Server via MyEPO Portfolio D. Incorrect : it is neither  possible to access the European P ublication Server nor to file using the EPO's Online Filing 2.0  via MyEPO Portfolio"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "Legal basis OJ EPO 2023, A50 , point  20; Contingency Upload Service | epo.org"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "Legal basis Guidelines for Examination in the EPO, A-VII, 3.2; Rule 3(2) EPC Since the response with the amendments has to be filed within  a time limit, the Finnish applicant is entitled to file the amended claims  in Finnish. A translation of a document filed in an admissible non- EPO language into an official language of the EPO must be filed within a non- extendable period of one month (Rule  6(2) EPC). This means that a translation of the amended claims must be filed in the language of proceedings , English  in this case  (Rule 3(2) EPC ). 4"
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis PCT-EPO  Guidelines , B-IV, 1.2 . Comment s are required but not amendments."
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "Legal basis Article 6(1) Regulation (EU) No 1260/2012; R ule 6(2)(d) UPR; Unitary Patent Guide, para. 65 The translation may be in any of the 24 official languages of the EU, except English, irrespective of the language in which the application was filed or the geographical extent of the unitary effect."
+                }
+            ],
+            "ai_answers": [
+                {
+                    "Answer": "A",
+                    "Justification": "According to EPC Rule 159(1), the applicant needs to complete and file Form 1200 within thirty-one months from the filing date (or priority date if applicable) of the international application. This includes paying the filing fee under Rule 159(1)(c). Since a request for early processing has been filed, it is implied that the other required actions are being pursued in time.\n\nOption B is incorrect because the renewal fee for the third year (under EPC Article 86, paragraph 1) is only due if the fee has fallen due earlier under Rule 51(1). In this case, since no priority was claimed and the application has not yet reached its third year, this fee does not apply.\n\nOption C is incorrect because appointing a representative (under EPC Article 94) is not a mandatory action for entering the European phase according to the provided rule text. The applicant must only pay the filing fee and search fee, which they are already required to do under Rule 159(1)(c).\n\nOption D is incorrect because Option A accurately reflects all actions that need to be taken as per EPC Rule 159.\n\nSources:\nSource: Guidelines for Examination in the EPO, E-IX, 2.8, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_ix_2_8.html\nSource: Guidelines for Examination in the EPO, E-IX, 2.1.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_ix_2_1_1.html\nSource: Case Law IV, B.1.2.2, Url: https://www.epo.org/en/legal/case-law/2022/clr_iv_b_1_2_2.html\nSource: Guidelines for Examination in the EPO, B-VI, 4.1.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/b_vi_4_1_2.html\nSource: EPC Rule 159, Url: https://www.epo.org/en/legal/epc/2020/r159.html"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "According to EPC Rule 39 and the Guidelines for Examination in the EPO, if the European patent application is withdrawn after the designation fee has been paid within a month of filing but before the date of mention of the publication of the European search report, the applicant can obtain a refund. The latest point in time for withdrawing the application to qualify for a refund would be six months after the date of mention of the publication of the European search report. Therefore, option A is correct.\n\nOption B (Date of mention of the publication of the European search report) is incorrect because at this point, the applicant cannot withdraw the application and obtain a refund as they have already passed the time limit for doing so.\n\nOption C (The designation fee was validly paid and can no longer be refunded) is incorrect because it contradicts the provision in EPC Rule 39 that allows for refunds if the application is withdrawn before the six-month period after the publication of the European search report.\n\nOption D (Date of the start of substantive examination) is incorrect as this event comes after the six months have elapsed, and any withdrawal at this point would not qualify for a refund.\n\nSources:\nSource: EPC Rule 143, Url: https://www.epo.org/en/legal/epc/2020/r143.html\nSource: EPC Rule 56a, Url: https://www.epo.org/en/legal/epc/2020/r56a.html\nSource: EPC Rule 17, Url: https://www.epo.org/en/legal/epc/2020/r17.html\nSource: Guidelines for Examination in the EPO, A-VI, 2.5, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_vi_2_5.html\nSource: Case Law IV, A.7.2.1, Url: https://www.epo.org/en/legal/case-law/2022/clr_iv_a_7_2_1.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "According to the legal text provided under 'Legal basis OJ EPO 2024, Supplementary Publication 2, Arrangements for deposit accounts (ADA)', a debit order with a deferred payment date may be revoked in whole or in part until one day before the date specified as the execution date at the latest. In this case, the specified execution date is 18 October 2024. Therefore, the applicant can revoke the order to debit the renewal fee no later than 17 October 2024, which aligns with option B.\n\nOption A (10 October 2024) is incorrect because the revocation should occur before the specified execution date and not on the same day as filing. Option C (18 October 2024) would be too late according to the provided legal text. Option D states 'A debit order cannot be revoked in part,' which contradicts the ADA's provision that allows for partial revocation of a deferred payment until one day before its execution date.\n\nSources:\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html\nSource: 2024_EPAC_mcq_solution.json, Url: N/A\nSource: Case Law III, U.2.2.7, Url: https://www.epo.org/en/legal/case-law/2022/clr_iii_u_2_2_7.html\nSource: Guidelines for Examination in the EPO, A-X, 4.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_4_3.html\nSource: Guidelines for Examination in the EPO, E-VIII, 1.6.2.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_viii_1_6_2_3.html"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "According to EPC Article 122(1), an applicant who was unable to observe a time limit due to all due care required by the circumstances having been taken can request re-establishment of rights. Since the applicant missed the deadline for filing the designation of inventor, they are eligible to file a request for re-establishment of rights in respect of this time limit under Article 122(3). \n\nOption A (File a notice of appeal) is not applicable because EPC Rule 60 does not provide any provisions for an appeal; it only mentions that if the applicant fails to make the designation within the specified period, the application will be refused. Option B (File a request for further processing) is not mentioned in Article 122 and there are no provisions for such a request under EPC Rule 60 or Article 122. \n\nOption D cannot be correct because it includes option B which is incorrect.\n\nSources:\nSource: Case Law IV, A.9, Url: https://www.epo.org/en/legal/case-law/2022/clr_iv_a_9.html\nSource: Case Law II, F.3.5.5, Url: https://www.epo.org/en/legal/case-law/2022/clr_ii_f_3_5_5.html\nSource: Case Law IV, A.6, Url: https://www.epo.org/en/legal/case-law/2022/clr_iv_a_6.html\nSource: EPC Rule 60, Url: https://www.epo.org/en/legal/epc/2020/r60.html\nSource: EPC Article 122, Url: https://www.epo.org/en/legal/epc/2020/a122.html"
+                },
+                {
+                    "Answer": "D",
+                    "Justification": "The correct statement about filing third-party observations is given by option D: 'Third-party observations can be filed after the publication of a European patent application and must be filed in an official language of the EPO.' This is supported by the text stating, 'any such observations shall be communicated to the applicant or patent proprietor' under Rule 114(2) EPC, which means third-party observations are not a part of the proceedings but can still be filed. The text also mentions that these observations must be in an official language of the EPO.\n\nOption A is incorrect because it states that 'the person that filed third-party observations will be a party to the proceedings before the EPO,' which contradicts the information provided, as third parties are not considered parties but can file observations. Furthermore, while options B and C suggest requirements for filing, the correct statement from D more accurately reflects the provided legal text.\n\nOption B is incorrect because it states that 'third-party observations must be filed in writing and may not be filed anonymously,' whereas the text allows for anonymous filings under certain conditions.\n\nOption C is incorrect as it claims that an official fee needs to be paid. The text does not mention any such requirement, only stating that evidence (like documentary support) can be submitted in a language other than one of the EPO's official languages, which may need translation.\n\n\nSources:\nSource: 2024_EPAC_mcq_solution.json, Url: N/A\nSource: Case Law III, N.1, Url: https://www.epo.org/en/legal/case-law/2022/clr_iii_n_1.html\nSource: EPC Rule 114, Url: https://www.epo.org/en/legal/epc/2020/r114.html\nSource: Guidelines for Examination in the EPO, E-VI, 3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_vi_3.html\nSource: Guidelines for Examination in the EPO, E-VI, 3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_vi_3.html"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "According to EPC Rule 64(1), if the European Patent Office (EPO) acting as International Searching Authority (ISA) considers that an application does not comply with the requirement of unity of invention, a partial search report is drawn up for parts of the application relating to the first mentioned invention. A further search fee must be paid for each additional invention within the two-month period starting from the date of receipt of the ISA's communication. In this case, you received such a communication on 25 September 2024 and have until 25 October 2024 to pay any required additional search fees.\n\n- Option B is incorrect because EPC Rule 64(1) states that the ISA must inform the applicant about the partial search report, which implies that you should respond with a statement or a request for further information if necessary.\n- Option C is incorrect according to EPC Rule 70(2)(b), which does not mention protest fees when paying under protest. Therefore, there's no obligation to pay two protest fees within the time limit as stated in this option.\n- Option D is incorrect because if you do not pay any additional search fees within the time limit, the EPO may issue a report on those parts of your application for which the fee has been paid and continue examination. The application would only be deemed withdrawn if no communication was issued, but here an ISA communication was provided with specific instructions regarding payment.\n\nSources:\nSource: Guidelines for Examination in the EPO, B-VII, 1.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/b_vii_1_2.html\nSource: Guidelines for Examination in the EPO, B-VII, 2.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/b_vii_2_3.html\nSource: EPC Rule 158, Url: https://www.epo.org/en/legal/epc/2020/r158.html\nSource: EPC Rule 164, Url: https://www.epo.org/en/legal/epc/2020/r164.html\nSource: EPC Rule 64, Url: https://www.epo.org/en/legal/epc/2020/r64.html"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "According to the Guidelines for Examination in the EPO (A-XI, 5.2), a request must be made to the office where the previous application was filed for a certified copy of that application on written request. If such request is missing and necessary, the EPO will invite the requester to file it and will supply the certified copy only once this requirement has been fulfilled. Therefore, option A 'Request the Luxembourg Intellectual Property Office to prepare and send a certified copy of the Luxembourg patent application to the EPO' is the correct course of action.\n\n    Option B is incorrect because submitting a valid DAS (Digital Access Service) code enables the International Bureau or EPO to access digital copies of documents, but it does not directly result in receiving a certified copy from the Luxembourg Intellectual Property Office. \n   \n    Option C 'File an electronic certified copy of the Luxembourg patent application with the EPO' is incorrect because according to the guidelines mentioned, the EPO will obtain and provide the certified copy if requested by the applicant from the office where the previous application was filed.\n   \n    Option D 'File a certified copy of the Luxembourg patent application with the International Bureau' would be redundant as the International Bureau typically works through the EPO for such requests. The EPO is responsible for handling claims to priority and obtaining necessary documents, so it should issue an invitation to provide the requested document if needed.\n    \n\nSources:\nSource: Guidelines for Examination in the EPO, A-III, 6.7, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_7.html\nSource: EPC Rule 53, Url: https://www.epo.org/en/legal/epc/2020/r53.html\nSource: Guidelines for Examination in the EPO, A-IV, 2.5, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iv_2_5.html\nSource: Guidelines for Examination in the EPO, A-XI, 5.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_xi_5_2.html\nSource: Guidelines for Examination in the EPO, F-VI, 1.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/f_vi_1_3.html"
+                },
+                {
+                    "Answer": "A",
+                    "Justification": "According to the provided legal text and guidelines, Firm B can file an appeal against the opposition division's decision if it decides to revoke the patent. This is in line with Article 101(3)(a) of the EPC, which allows for appeals from decisions taken by the opposition division.\n\nOption B is incorrect because the text does not mention any specific action or decision made by the opposition division that would allow firm B to file an appeal if it did not originally oppose the patent and then withdrew its opposition before the end of proceedings.\n\nOption C is incorrect as Firm C filed observations under Article 115 EPC but is not mentioned in the text as having a right to appeal. Generally, only parties that have filed oppositions can appeal decisions taken by the opposition division.\n\nOption D is incorrect because it states firm B is entitled to file an appeal when firm B withdrew its opposition and the patent was maintained, which does not align with standard procedural rules for appeals from opposition proceedings.\n\nSources:\nSource: EPC Article 101, Url: https://www.epo.org/en/legal/epc/2020/a101.html\nSource: Case Law III, B.3.3, Url: https://www.epo.org/en/legal/case-law/2022/clr_iii_b_3_3.html\nSource: Case Law III, Q.3.2, Url: https://www.epo.org/en/legal/case-law/2022/clr_iii_q_3_2.html\nSource: Case Law V, A.3.4.5, Url: https://www.epo.org/en/legal/case-law/2022/clr_v_a_3_4_5.html\nSource: Guidelines for Examination in the EPO, D-VIII, 1.4.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/d_viii_1_4_1.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "The correct statement is option B: 'A renewal fee is due on 31 October 2024 in respect of the 5th year for EP -X-C0'. According to the Guidelines for Examination in the EPO, A-IV, 1.4.3, a renewal fee for the divisional application (in this case, EP -X-C0) is due starting from the third year after the filing date of the parent application. Since the divisional application EP -X was filed on October 1, 2020, and considering that it falls under a sequence of divisional applications, the renewal fees for the fifth year (calculated as years 3-7) would be due by October 31, 2024. \n\nOption A is incorrect because the renewal fee for the fifth year would not still have to be paid on October 31, 2024, but it should have been paid by then.\n\nOption C is incorrect because the renewal fee should be for the fifth year (which corresponds to the 6th year of the patent's life), not the sixth year.\n\nOption D is incorrect because a renewal fee must still be paid in respect of the 5th year for EP -X-C0 on October 31, 2024.\n\nSources:\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html\nSource: Guidelines for Examination in the EPO, A-X, 5.2.4, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_5_2_4.html\nSource: EPC Rule 51, Url: https://www.epo.org/en/legal/epc/2020/r51.html\nSource: EPC Rule 71a, Url: https://www.epo.org/en/legal/epc/2020/r71a.html\nSource: Guidelines for Examination in the EPO, A-IV, 1.4.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iv_1_4_3.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "According to Rule 126(2) EPC, where notification is by registered letter, the document is deemed to be delivered to the addressee on the date it bears plus nine days (as the delivery occurred late). Therefore, the four-month time limit starts from 21 September 2024 and ends on 12 January 2025. This is calculated by adding one month to the initial receipt date of 21 September 2024, which brings us to 21 December 2024. Then, we add an additional four days (to cover the extra nine days as per Rule 126(2) EPC), resulting in the last day being 12 January 2025.\n\n    Option A is incorrect because it extends the deadline by one more day than necessary.\n    Option C is incorrect because it adds two additional days beyond what is required based on the late receipt of the document.\n    Option D is incorrect as it overestimates the deadline by three days.\n\nSources:\nSource: Case Law III, S.1.2, Url: https://www.epo.org/en/legal/case-law/2022/clr_iii_s_1_2.html\nSource: Guidelines for Examination in the EPO, E-II, 2.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_ii_2_3.html\nSource: Case Law III, D.1.1, Url: https://www.epo.org/en/legal/case-law/2022/clr_iii_d_1_1.html\nSource: EPC Rule 126, Url: https://www.epo.org/en/legal/epc/2020/r126.html\nSource: 2024_EPAC_mcq_solution.json, Url: N/A"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "The correct functionalities/services that can be accessed directly from MyEPO Portfolio are 'Mailbox' and a shared area with examiners, as stated by the text: \\\n\nSources:\nSource: 2024_EPAC_mcq_solution.json, Url: N/A\nSource: EPC Rule 2, Url: https://www.epo.org/en/legal/epc/2020/r2.html\nSource: Guidelines for Examination in the EPO, A-II, 1.1.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_ii_1_1_1.html\nSource: Guidelines for Examination in the EPO, A-X, 10.2.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_x_10_2_1.html\nSource: Guidelines for Examination in the EPO, A-XI, 2.5, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_xi_2_5.html"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "The EPO Contingency Upload Service is mentioned in the context where it states that priority documents may not be filed using certain services, including the EPO web-form filing service or the EPO Contingency Upload Service. This implies that the use of such a contingency service would be recommended when there is a system outage at the EPO preventing document submission via standard means (option C). \n\nOption A ('When you submit documents after business hours') is incorrect because the EPO Contingency Upload Service is not specifically mentioned as a solution for late submissions.\n\nOption B ('When the EPO filing systems are functioning correctly, but you encounter a technical issue at your end') is also incorrect. The service is meant to be used in situations where there's an outage or when standard services cannot be used due to system issues, not because of personal technical problems.\n\nOption D ('When the EPO is closed due to an official holiday') is irrelevant as the service is designed for use during operational hours and in specific system-related contingencies rather than office closures.\n\n\nSources:\nSource: 2024_EPAC_mcq_solution.json, Url: N/A\nSource: Guidelines for Examination in the EPO, A-III, 6.7, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_7.html\nSource: Guidelines for Examination in the EPO, E-VIII, 7, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_viii_7.html\nSource: Guidelines for Examination in the EPO, C-III, 4.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/c_iii_4_2.html\nSource: Guidelines for Examination in the EPO, A-VIII, 2.5, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_viii_2_5.html"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "Option C is correct according to the provided legal text because it states that if an applicant files a European patent application in a language other than one of the official languages of the EPO, they must provide a translation into any official language of the EPO within four months (Rule 71(3) EPC). In this scenario, Korhonen filed his application in Finnish and provided an English translation in time. When amending claims, he is allowed to file them in the language of the application as long as he provides a translation into any official language of the EPO, such as English, within the specified period (Rule 71(3) EPC). \n\nOption A is incorrect because it suggests that Korhonen must file the amended claims in Finnish and then provide a translation into English. This would not be allowed since he can choose to file the amended claims in any official language of the EPO, as long as they are accompanied by a translation within four months.\n\nOption B is partially correct but misleading because it does not specify that Korhonen must provide a translation into an official language of the EPO. Therefore, option C better reflects the legal text since it requires filing a translation in any of the official languages of the EPO (in this case, English).\n\nOption D is incorrect because it suggests that Korhonen cannot file the amended claims in Finnish at all. The legal context allows for the possibility of amending claims in the language of the application as long as they are accompanied by an appropriate translation.\n\nSources:\nSource: 2024_EPAC_mcq_solution.json, Url: N/A\nSource: Guidelines for Examination in the EPO, A-III, 14, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_14.html\nSource: Case Law III, F.1, Url: https://www.epo.org/en/legal/case-law/2022/clr_iii_f_1.html\nSource: Guidelines for Examination in the EPO, C-V, 1.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/c_v_1_3.html\nSource: Guidelines for Examination in the EPO, A-III, 6.8.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_8_3.html"
+                },
+                {
+                    "Answer": "B",
+                    "Justification": "Option B is incorrect because PCT Direct does not apply when the priority application and the subsequent international application are filed in different languages, even if one of them is an EP application. According to G-VIII, 12.4, 'PCT Direct is available for a single-language application, i.e., where either (a) all national applications under Rule 35(1)(a) EPC were filed with the Receiving Office in the same language or (b) the international application was filed at the EPO and the search opinion was established by the International Searching Authority (ISA). In option B, although both the priority application and the subsequent international application are related to an EP application, they are not filed in the same language, which disqualifies PCT Direct. \n\nOption A is correct because a PCT Direct letter can be used for a Belgian application in French that has been searched by the EPO, as long as the international application is also filed in French.\n\nOption C is correct since it meets the criteria of a single-language application where both the priority and subsequent applications are filed with the same language (English).\n\nOption D is correct because filing amended claims with a PCT Direct letter is a requirement for its utilization.\n\nSources:\nSource: PCT Rule 12, Url: https://www.wipo.int/pct/en/texts//rules/r12.html\nSource: PCT Rule 55, Url: https://www.wipo.int/pct/en/texts//rules/r55.html\nSource: Guidelines for Examination in the EPO, E-IX, 2.3.5.1, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_ix_2_3_5_1.html\nSource: Guidelines for Examination in the EPO, G-IV, 5.2, Url: https://www.epo.org/en/legal/guidelines-epc/2024/g_iv_5_2.html\nSource: Guidelines for Examination in the EPO, E-IX, 2.1.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/e_ix_2_1_3.html"
+                },
+                {
+                    "Answer": "C",
+                    "Justification": "According to the Unitary Patent Guide, paragraph 65, the translation may be in any of the 24 official languages of the EU, except English. Therefore, Mr Linguist can provide a translation into Spanish (an official language of Spain) or another 23 official languages of other EU states that have signed the UPCA.\n\nOption A is incorrect because the application was not originally filed in Dutch but used it as the language of proceedings; thus, there is no obligation to translate back into Dutch.\nOption B is incorrect because the unitary effect extends only to certain member states of the European Union and not necessarily all 18 or more states that have signed the UPCA. \nOption D can be correct depending on which state Mr Linguist aims for immediate registration in, but since the question asks for a general statement and considering Spanish is one of the official EU languages, Option C is a broader and correct answer.\n\nSources:\nSource: 2024_EPAC_mcq_solution.json, Url: N/A\nSource: Guidelines for Examination in the EPO, A-III, 6.8.3, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_6_8_3.html\nSource: EPC Article 70, Url: https://www.epo.org/en/legal/epc/2020/a70.html\nSource: EPC Rule 3, Url: https://www.epo.org/en/legal/epc/2020/r3.html\nSource: Guidelines for Examination in the EPO, A-III, 14, Url: https://www.epo.org/en/legal/guidelines-epc/2024/a_iii_14.html"
+                }
+            ]
+        }
+    ]
+}
