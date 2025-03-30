@@ -124,7 +124,7 @@ const calculateFontSize = (length: number): string => {
             :path="currentBook?.id === book.id ? mdiBookOpenVariantOutline : mdiNotebook"
           />
           <div :style="{ fontSize: calculateFontSize(book.title.length) }">
-            {{ book.title.slice(0, 200) }}{{ book.title.length > 200 ? '...' : '' }}
+            {{ book.title.slice(0, 100) }}{{ book.title.length > 100 ? '...' : '' }}
           </div>
         </div>
       </div>
@@ -138,7 +138,7 @@ const calculateFontSize = (length: number): string => {
         >
           <SvgIcon type="mdi" :path="mdiFileDocumentOutline" />
           <div :style="{ fontSize: calculateFontSize(page.title.length) }">
-            {{ page.title.slice(0, 200) }}{{ page.title.length > 200 ? '...' : '' }}
+            {{ page.title.slice(0, 100) + (page.title.length > 100 ? '...' : '') }}
           </div>
         </div>
       </div>
