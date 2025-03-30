@@ -129,9 +129,29 @@ const sendMessageStream = async (pageId: string, message: string) => {
   })
 
   // Pass the token as a query parameter
-  const response = await fetch(
-    `${apiUrl}/stream/send_message_stream?page_id=${pageId}&message=${encodeURIComponent(message)}&user_id=${userId}&token=${token}`,
-  )
+  // const response = await fetch(
+  //   `${apiUrl}/stream/send_message_stream?page_id=${pageId}&message=${encodeURIComponent(message)}&user_id=${userId}&token=${token}`,
+  // )
+
+  const response = await fetch(`${apiUrl}/books/send_message_stream`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      page_id: pageId,
+      message,
+      user_id: userId,
+    }),
+  })
+
+  if (!response.ok) {
+    console.error('Error sending message:', response.statusText)
+    modelThinking.value = false
+    return
+  }
+
   const reader = response.body?.getReader()
   const decoder = new TextDecoder('utf-8')
   modelThinking.value = false
@@ -266,6 +286,9 @@ const initializeChatVisibility = () => {
   if (page.value?.history.length > 0) {
     chatVisible.value = true
     showResults.value = true
+    if (isQuiz.value && page.value?.history[0].user) {
+      selectedAnswer.value = page.value?.history[0].user
+    }
   }
 }
 
