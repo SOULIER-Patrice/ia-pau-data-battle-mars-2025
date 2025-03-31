@@ -209,9 +209,8 @@ def create_rag_embeddings(model_name, markdown_separators, data_dir, output_dir,
 
     embedding_model = HuggingFaceEmbeddings(
         model_name=model_name,
-        multi_process=True,
         # replace 'cpu' by 'cuda' if you have Nvidia gpu
-        model_kwargs={"device": device},
+        model_kwargs={"device": device, "trust_remote_code":True},
         # Set `True` for cosine similarity
         encode_kwargs={"normalize_embeddings": True},
     )
