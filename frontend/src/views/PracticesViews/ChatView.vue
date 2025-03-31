@@ -337,7 +337,7 @@ const shouldHideFirstMessage = (index: number) => {
     />
 
     <div :class="['chat-container', { 'is-open': isOpen }]">
-      <div class="scroll">
+      <div class="scroll" v-if="page">
         <div class="content-scroll">
           <div v-html="renderMarkdown('Question:\n' + page?.question)"></div>
 

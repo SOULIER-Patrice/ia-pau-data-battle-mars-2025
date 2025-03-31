@@ -522,11 +522,11 @@ async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_
 
 
 async def chat_stream(model, system_prompt: str, user_prompt: str, max_output_tokens: int) -> AsyncGenerator[str, None]:
-    stream = chat(model=model,
-                  messages=[{"role": "system", "content": system_prompt},
-                            {"role": "user", "content": user_prompt}],
-                  options={"num_predict": max_output_tokens},
-                  stream=True)
+    stream = ai.ollama_client.chat(model=model,
+                                   messages=[{"role": "system", "content": system_prompt},
+                                             {"role": "user", "content": user_prompt}],
+                                   options={"num_predict": max_output_tokens},
+                                   stream=True)
 
     for chunk in stream:
         yield chunk["message"]["content"]
