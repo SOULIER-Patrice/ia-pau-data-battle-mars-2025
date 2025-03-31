@@ -11,4 +11,4 @@ ai:
   host: 'http://localhost:11434/'
   model_classification: 'thenlper/gte-small'
   remake_classification: false
-  model_rag: 'thenlper/gte-small'
+  model_rag: 'Alibaba-NLP/gte-large-en-v1.5'
