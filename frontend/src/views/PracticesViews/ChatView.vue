@@ -14,6 +14,7 @@ import type { Book } from '@/types/Book'
 import { marked } from 'marked'
 import router from '@/router'
 import SpinnerLoader from '@/components/Loaders/SpinnerLoader.vue'
+import Chip from '@/components/Chip.vue'
 const authStore = useAuthStore()
 
 const apiUrl = import.meta.env.VITE_BASE_API_URL
@@ -309,6 +310,12 @@ const shouldHideFirstMessage = (index: number) => {
         bgColor="var(--primary-color)"
         color="var(--secondary-text-color)"
       />
+      <Chip
+        :title="page?.isVerified ? 'Verified' : 'Not Verified'"
+        color="white"
+        :bg-color="page?.isVerified ? 'var(--primary-color)' : 'var(--warning-color)'"
+        class="chip"
+      />
     </div>
 
     <SvgIcon
@@ -464,6 +471,11 @@ const shouldHideFirstMessage = (index: number) => {
     .button {
       margin: 5px;
       padding: 5px 10px;
+      font-size: 10px;
+    }
+
+    .chip {
+      margin: 5px;
       font-size: 10px;
     }
 
