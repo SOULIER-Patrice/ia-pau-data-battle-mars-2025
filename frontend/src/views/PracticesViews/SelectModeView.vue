@@ -139,7 +139,7 @@ const mode = ref<string>('')
     left: 5px;
     cursor: pointer;
     margin: 10px;
-    z-index: 1001;
+    z-index: 1010;
     border-radius: 50%;
     padding: 5px;
 

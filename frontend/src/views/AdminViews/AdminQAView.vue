@@ -40,7 +40,7 @@ const categories = [
 const transformQAToItems = (qas: QA[]): Item[] => {
   return qas.map((qa) => ({
     title: qa.question.slice(0, 100) + (qa.question.length > 100 ? '...' : ''), // Limiter la longueur de la question
-    description: `${qa.type} | ${qa.category} | ${qa.answer.slice(0, 100) + (qa.answer.length > 100 ? '...' : '')}`,
+    description: `${qa.type} | ${qa.categories} | ${qa.answer.slice(0, 100) + (qa.answer.length > 100 ? '...' : '')}`,
     href: `/admin/qa/${qa.id}`,
     chips: [
       {
@@ -58,7 +58,8 @@ const filteredQas = computed(() => {
     const matchesSearch =
       qa.question.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       qa.answer.toLowerCase().includes(searchQuery.value.toLowerCase())
-    const matchesCategory = !selectedCategory.value || qa.category === selectedCategory.value
+    const matchesCategory =
+      !selectedCategory.value || qa.categories.includes(selectedCategory.value)
     const matchesVerification =
       !selectedVerification.value ||
       (selectedVerification.value === 'Verified' && qa.is_verified) ||

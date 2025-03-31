@@ -118,7 +118,13 @@ const calculateFontSize = (length: number): string => {
         <SpinnerLoader />
       </div>
       <div v-if="selectedBook === null">
-        <div v-for="book in books" :key="book.title" @click="selectedBook = book" class="item">
+        <div
+          v-if="books.length > 0"
+          v-for="book in books"
+          :key="book.title"
+          @click="selectedBook = book"
+          class="item"
+        >
           <SvgIcon
             type="mdi"
             :path="currentBook?.id === book.id ? mdiBookOpenVariantOutline : mdiNotebook"
@@ -130,7 +136,7 @@ const calculateFontSize = (length: number): string => {
       </div>
       <div v-else>
         <div
-          v-if="selectedBook"
+          v-if="selectedBook && pages.length > 0"
           v-for="page in pages || []"
           :key="page.title"
           @click="router.push(`/practice/${selectedBook.type}?page=${page.id}`)"

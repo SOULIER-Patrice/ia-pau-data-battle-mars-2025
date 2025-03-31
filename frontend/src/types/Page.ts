@@ -4,12 +4,12 @@ export type Page = {
     id: string;
     title: string;
     book_id: string;
-    history: Array<Message>;
+    history: Message[];
     created_at: string;
     qa_id: string;
-    category: string;
+    categories: string[];
     question: string;
-    options: Array<string>;
+    options: string[];
     answer: string;
     justification: string;
     isVerified: boolean;
