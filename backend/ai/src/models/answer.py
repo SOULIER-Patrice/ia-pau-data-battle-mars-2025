@@ -26,7 +26,8 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(retrieved_docs)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
 
     # Build prompt
     system_prompt = f""""You are an AI specialized in answering multiple-choice legal questions based on given legal texts.
@@ -68,15 +69,17 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     while attempt_count < max_attempts:
 
         answer_mcq = ai.ollama_client.chat(model=ai.model,
-                            messages=[{"role":"system", "content":system_prompt},
-                                      {"role":"user","content":user_prompt}],
-                            options = {"num_predict": ai.max_output_tokens}
-                            )
+                                           messages=[{"role": "system", "content": system_prompt},
+                                                     {"role": "user", "content": user_prompt}],
+                                           options={
+                                               "num_predict": ai.max_output_tokens}
+                                           )
 
         # Put answer in correct json format
         try:
             # Regex to get Answer and Justification
-            pattern = re.compile(r"\*\*Answer:\s*([A-D])\*\*\s*\n\s*\*\*Justification:\*\*\s*\n(.*)", re.DOTALL)
+            pattern = re.compile(
+                r"\*\*Answer:\s*([A-D])\*\*\s*\n\s*\*\*Justification:\*\*\s*\n(.*)", re.DOTALL)
             match = pattern.search(answer_mcq['message']['content'])
 
             if match:
@@ -88,11 +91,13 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
                 if match:
                     extracted_answer = match.group()
                 else:
-                    print(f"Erreur Answer is not a letter: Answer={extracted_answer}")
+                    print(
+                        f"Erreur Answer is not a letter: Answer={extracted_answer}")
                     raise ValueError("Answer should be 'A', 'B', 'C' ou 'D'.")
-            
+
                 justification += f'\n\nSources:\n{context_sources}'
-                return {"Answer": extracted_answer, "Justification": justification}  # If valid, return it
+                # If valid, return it
+                return {"Answer": extracted_answer, "Justification": justification}
 
         except ValueError:
             attempt_count += 1  # Increment attempt count
@@ -118,8 +123,9 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content}\nSource: {doc.metadata['ref']}\n' for i,
                        doc in enumerate(retrieved_docs)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
-    
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
+
     # Build prompt
     system_prompt = f"""You are an AI specialized in answering open-ended legal questions based on provided legal texts. Your task is to generate a detailed, accurate, and well-reasoned answer to the given question using the provided legal texts. Every answer must be supported by specific legal sources from the context provided.
     ### Instructions:
@@ -177,10 +183,11 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
 
     # Redact an answer
     answer = ai.ollama_client.chat(model=ai.model,
-                            messages=[{"role":"system", "content":system_prompt},
-                                      {"role":"user","content":user_prompt}],
-                            options = {"num_predict":ai.max_output_tokens}
-                            )
+                                   messages=[{"role": "system", "content": system_prompt},
+                                             {"role": "user", "content": user_prompt}],
+                                   options={
+                                       "num_predict": ai.max_output_tokens}
+                                   )
 
     # Assemble answer and context_sources
     final_answer = f'{answer['message']['content']}\n\nSources:{context_sources}'
@@ -218,8 +225,8 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(all_contexts)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
-
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
 
     # Build prompt
     system_prompt = f"""You are an AI designed to provide feedback on legal answers, both for multiple-choice questions (MCQs) and open-ended responses. When a user answers a question, your task is to explain whether their answer is correct or incorrect, using the legal context and specific sources to support your feedback.
@@ -287,11 +294,11 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
 
     # Redact an answer
     feedback = ai.ollama_client.chat(model=ai.model,
-                            messages=[{"role":"system", "content": system_prompt},
-                                      {"role":"user","content": user_prompt}],
-                            options = {"num_predict": ai.max_output_tokens}
-                            )
-                    
+                                     messages=[{"role": "system", "content": system_prompt},
+                                               {"role": "user", "content": user_prompt}],
+                                     options={
+                                         "num_predict": ai.max_output_tokens}
+                                     )
 
     # Assemble final answer
     final_answer = f'{feedback['message']['content']}\n\nContext:{context_sources}'
@@ -300,23 +307,92 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
 
 
 async def generate_feedback_stream(question: str, correct_answer: str, user_answer: str, knowledge_vector_db: FAISS) -> AsyncGenerator[str, None]:
+    # Convert the question in string, in case the question is a json.
+    question = str(question)
+    correct_answer = str(correct_answer)
+
     # Retrieve context
     question_context = get_context(question, 3, knowledge_vector_db)
     correct_answer_context = get_context(
         correct_answer, 3, knowledge_vector_db)
     user_answer_context = get_context(user_answer, 3, knowledge_vector_db)
+    # Combine all retrieved contexts
     all_contexts = question_context + correct_answer_context + user_answer_context
     context = "\nExtracted documents:\n"
-    context += "".join(
-        [f'Content: {doc.page_content} \nSource: {doc.metadata["ref"]}\n\n' for doc in all_contexts])
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
+                       doc in enumerate(all_contexts)])
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
 
     # Build prompt
-    system_prompt = f"""You are an AI designed to provide feedback on legal answers..."""  # Same as before
-    user_prompt = f"""### Context:\n{context}\n\n### Correct Answer:\n{correct_answer}\n\n### User's Answer:\n{user_answer}\n\n### Legal Question:\n{question}\n\n### Instructions:\n..."""  # Same as before
+    system_prompt = f"""You are an AI designed to provide feedback on legal answers, both for multiple-choice questions (MCQs) and open-ended responses. When a user answers a question, your task is to explain whether their answer is correct or incorrect, using the legal context and specific sources to support your feedback.
+    ### Instructions:
+    - If the user answers a multiple-choice question (MCQ):
+        1. Start by acknowledging the user's chosen answer.
+        2. If the user's answer is correct, explain why it is correct using the legal context and cite relevant legal sources.
+        3. If the user's answer is incorrect, explain why it is wrong, referencing specific legal articles or sections from the context.
+        4. Provide the correct answer and back it up with legal reasoning from the context.
+        5. If the user selected a partially correct answer, explain the distinction and provide clarification on what was missed.
+
+    - If the user answers an open-ended question:
+        1. Acknowledge the user's answer and assess its correctness.
+        2. If the answer is correct, explain why it is correct using relevant legal context and sources.
+        3. If the answer is incorrect or incomplete, explain where it went wrong, citing the legal context and relevant articles or sections.
+        4. Provide the correct explanation and elaborate on any nuances or details the user might have missed.
+        5. If the user is partially correct, explain what is correct and where they need to elaborate or correct their understanding.
+
+    ### Example Response for an MCQ:
+    User Answer: "Answer B."
+
+    If the answer is wrong:
+    - Start with: "Your answer, 'Answer B', is incorrect."
+    - Explain the error: "According to Article 123 of the Civil Code, the correct interpretation is..."
+    - Provide the correct answer: "The correct answer is 'Answer A' because..."
+    - Cite specific legal sources: "As stated in Article 45 of the Civil Code, the situation described aligns with..."
+
+    If the answer is partially correct:
+    - Start with: "Your answer, 'Answer B', is partially correct."
+    - Explain the partial correctness: "You correctly identified that the issue involves Article 123, but the application to the scenario is incomplete."
+    - Clarify the distinction: "The key point is that Article 123 applies in a different context. Therefore, the correct answer is 'Answer A.'"
+
+    ### Example Response for Open-Ended Questions:
+    User Answer: "The law allows the contract to be voided if it was signed under duress."
+
+    If the answer is wrong:
+    - Start with: "Your answer is incorrect."
+    - Explain the error: "While duress may lead to a contract being voidable, it is important to note that the law specifically requires that the duress must have been severe enough to affect the will of the person involved, as outlined in Article 123 of the Civil Code."
+    - Provide the correct explanation: "The contract can only be voided if it meets the specific conditions outlined in Article 123, which states that..."
+
+    If the answer is partially correct:
+    - Start with: "Your answer is partially correct."
+    - Explain the correct parts: "You are right that duress can impact the validity of a contract."
+    - Clarify the missed details: "However, the law also specifies that the duress must have been significant enough to prevent free consent. Therefore, the correct interpretation includes this additional detail."
+    """
+
+    user_prompt = f"""### Context:
+    {context}
+    
+    ### Correct Answer:
+    {correct_answer}
+
+    ### User's Answer:
+    {user_answer}
+
+    ### Legal Question:
+    {question}
+
+    ### Instructions:
+    - Provide feedback on the user's answer (both for multiple-choice and open-ended responses).
+    - If it's an MCQ, explain why the answer is correct or incorrect, using legal context and citing relevant articles.
+    - If it's an open-ended response, assess whether the answer is correct or not, and explain using the legal context and articles.
+    - Provide the correct answer or explanation and back it up with legal sources from the context.
+    """
 
     # Stream response
     async for chunk in chat_stream(model=ai.model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=ai.max_output_tokens):
         yield chunk
+
+    yield f"\n\nSources:\n{context_sources}"
 
 
 def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) -> str:
@@ -340,8 +416,8 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(all_contexts)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
-
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
 
     # Build prompt
     system_prompt = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
@@ -380,10 +456,11 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
 
     # Redact an answer
     answer = ai.ollama_client.chat(model=ai.model,
-                  messages=[{"role": "system", "content": system_prompt},
-                            {"role": "user", "content": user_prompt}],
-                  options={"num_predict": ai.max_output_tokens}
-                  )
+                                   messages=[{"role": "system", "content": system_prompt},
+                                             {"role": "user", "content": user_prompt}],
+                                   options={
+                                       "num_predict": ai.max_output_tokens}
+                                   )
 
     # Assemble answer
     final_answer = f'{answer['message']['content']}\n\nContext:\n{context_sources}'
@@ -400,7 +477,8 @@ async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(all_contexts)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
 
     # Build prompt
     system_prompt = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
@@ -439,6 +517,8 @@ async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_
     # Stream response
     async for chunk in chat_stream(model=ai.model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=ai.max_output_tokens):
         yield chunk
+
+    yield f"\n\nSources:\n{context_sources}"
 
 
 async def chat_stream(model, system_prompt: str, user_prompt: str, max_output_tokens: int) -> AsyncGenerator[str, None]:
