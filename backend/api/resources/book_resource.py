@@ -68,9 +68,6 @@ async def get_books(user_id: UUID, token: str = Depends(oauth2_scheme)) -> list[
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
     books = book_service.get_books(user_id)
-    if not books:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="books not found")
     return books
 
 
