@@ -1,7 +1,7 @@
 export type QA = {
     id: string;
     type: string;
-    category: string;
+    categories: string[];
     question: string;
     answer: string;
     is_verified: boolean;

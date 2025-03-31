@@ -4,7 +4,7 @@ import config.db_connect as db_connect
 import numpy as np
 
 from ai.src.create_embeddings import create_classification_embeddings, create_rag_embeddings, add_classification_question
-from create_tables import create_tables, add_mcq_questions, add_questions_open, create_admin_user
+from create_tables import create_tables, add_mcq_questions, add_questions_open
 
 
 data_dir = os.path.abspath('data')
@@ -64,7 +64,6 @@ question_dir = f"{data_dir}/qa"
 conn = db_connect.get_db_connection()
 if not table_exists(conn, "qa") or db_connect.reset_db:
     create_tables()
-    create_admin_user()
 
     add_mcq_questions(question_dir)
     add_questions_open(question_dir)

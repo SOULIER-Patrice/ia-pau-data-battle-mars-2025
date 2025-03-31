@@ -10,5 +10,5 @@ ai:
   max_output_tokens: 3000
   host: 'http://localhost:11434/'
   model_classification: 'thenlper/gte-small'
-  remake_classification: false
+  remake_classification: true
   model_rag: 'thenlper/gte-small'

@@ -128,11 +128,6 @@ const sendMessageStream = async (pageId: string, message: string) => {
     user: message,
   })
 
-  // Pass the token as a query parameter
-  // const response = await fetch(
-  //   `${apiUrl}/stream/send_message_stream?page_id=${pageId}&message=${encodeURIComponent(message)}&user_id=${userId}&token=${token}`,
-  // )
-
   const response = await fetch(`${apiUrl}/books/send_message_stream`, {
     method: 'POST',
     headers: {
@@ -337,7 +332,7 @@ const shouldHideFirstMessage = (index: number) => {
     <div :class="['chat-container', { 'is-open': isOpen }]">
       <div class="scroll">
         <div class="content-scroll">
-          <div v-html="renderMarkdown('Question: ' + page?.question)"></div>
+          <div v-html="renderMarkdown('Question:\n' + page?.question)"></div>
 
           <!-- Quiz Section -->
           <div v-if="isQuiz" class="answers">
@@ -381,12 +376,12 @@ const shouldHideFirstMessage = (index: number) => {
 
           <!-- True answer for free response -->
           <div class="message" v-if="page && !isQuiz && page?.history.length > 0">
-            <div v-html="renderMarkdown('Answer: ' + page.answer)"></div>
+            <div v-html="renderMarkdown('Answer:\n' + page.answer)"></div>
           </div>
 
           <!-- Justification for quiz -->
           <div class="message" v-if="page && isQuiz && showResults">
-            <div v-html="renderMarkdown('Justification: ' + page.justification)"></div>
+            <div v-html="renderMarkdown('Justification:\n' + page.justification)"></div>
           </div>
 
           <!-- Chat Section -->
