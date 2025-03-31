@@ -19,7 +19,8 @@ def create_user(user: UserForCreate) -> UserOutput:
     user_repository.create_user(user.model_dump(by_alias=True))
 
     # Grant the user to admin if the user is the first user
-    if user_repository.get_users_count() == 1:
+    users = get_users()
+    if len(users) == 1:
         grant_admin(user.id)
     # Get the user with the id
     user_output: UserOutput = find_user_by_id(user.id)

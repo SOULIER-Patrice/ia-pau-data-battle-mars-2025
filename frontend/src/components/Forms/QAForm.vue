@@ -17,7 +17,7 @@ const props = defineProps({
 
 const question = ref(props.qa.question)
 const answer = ref(props.qa.answer)
-const categories = ref(props.qa.category)
+const categories = ref<string[]>(props.qa.categories)
 const is_verified = ref(props.qa.is_verified)
 const options = ref(props.qa.options || [])
 const justification = ref(props.qa.justification)
@@ -51,7 +51,7 @@ const handleSubmit = () => {
     emit('updateQuestion', {
       id: props.qa.id,
       type: props.qa.type,
-      category: categories.value,
+      categories: categories.value,
       question: question.value,
       answer: answer.value,
       is_verified: is_verified.value,
@@ -81,8 +81,8 @@ const removeOption = (index: number) => {
       label="Answer"
       placeholder="A JavaScript framework for building UIs"
     />
-    <label for="categories">Category</label>
-    <select id="categories" v-model="categories">
+    <label for="categories">Categories</label>
+    <select id="categories" v-model="categories" multiple>
       <option v-for="category in categories_list" :key="category" :value="category">
         {{ category }}
       </option>
