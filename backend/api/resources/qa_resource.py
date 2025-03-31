@@ -21,6 +21,7 @@ async def create_qa(create_qa: QAForCreate, token: str = Depends(oauth2_scheme))
     current_user = auth_service.get_current_user(token)
 
     knowledge_vector_db = app_state.get("knowledge_vector_db")
+    ollama_client = app_state.get("ollama_client")
 
     if not current_user:
         raise HTTPException(
@@ -31,7 +32,8 @@ async def create_qa(create_qa: QAForCreate, token: str = Depends(oauth2_scheme))
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden"
         )
     try:
-        qas = qa_service.generate_qas(create_qa, knowledge_vector_db)
+        qas = qa_service.generate_qas(
+            create_qa, knowledge_vector_db, ollama_client)
     except ValueError as ve:  # Attraper l'erreur spécifique attendue
         # Log l'erreur originale pour le débogage côté serveur
         # Remplacez par votre système de logging

@@ -119,11 +119,13 @@ async def get_page(page_id: UUID, user_id: UUID, token: str = Depends(oauth2_sch
 async def add_page(book_id: UUID, user_id: UUID, token: str = Depends(oauth2_scheme)) -> PageOuput:
     current_user = auth_service.get_current_user(token)
     knowledge_vector_db = app_state.get("knowledge_vector_db")
+    ollama_client = app_state.get("ollama_client")
     if current_user.id != user_id and "admin" not in current_user.roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
     try:
-        page = book_service.add_page(book_id, knowledge_vector_db)
+        page = book_service.add_page(
+            book_id, knowledge_vector_db, ollama_client)
     except ValueError as ve:  # Attraper l'erreur spécifique attendue
         # Log l'erreur originale pour le débogage côté serveur
         # Remplacez par votre système de logging
@@ -155,26 +157,6 @@ class Message(BaseModel):
     page_id: UUID
     message: str
     user_id: UUID
-
-
-@router.post("/send_meessage", response_model=str)
-async def send_message(message: Message, token: str = Depends(oauth2_scheme)) -> str:
-
-    current_user = auth_service.get_current_user(token)
-    knowledge_vector_db = app_state.get("knowledge_vector_db")
-
-    if current_user.id != message.user_id and "admin" not in current_user.roles:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
-
-    message, _ = book_service.send_message(
-        message.page_id, message.message, knowledge_vector_db)
-
-    if not message:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Page not found"
-        )
-    return message
 
 
 async def event_stream(page_id: UUID, message: str, knowledge_vector_db) -> StreamingResponse:

@@ -42,7 +42,7 @@ if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 create_rag_embeddings(ai.model_rag, markdown_separators,
-                      data_dir, output_dir, device="cuda")
+                      data_dir, output_dir, device=ai.device)
 
 
 def table_exists(conn, table_name):

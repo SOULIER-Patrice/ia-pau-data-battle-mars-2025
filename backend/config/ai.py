@@ -33,7 +33,7 @@ def init_ollama_model():
             print(f"Le modèle {model_name} a été téléchargé avec succès.")
 
 
-def get_ollama_client():
+def load_ollama_client():
     """Initialise le client Ollama et télécharge le modèle si nécessaire."""
 
     host = init.config['ai'].get(
@@ -51,9 +51,9 @@ def load_ai_config():
     model_classification = init.config['ai']['model_classification']
     remake_classification = init.config['ai']['remake_classification']
     model_rag = init.config['ai']['model_rag']
+    device = init.config['ai']['device']
 
-    return model, max_output_tokens, model_classification, remake_classification,  model_rag
+    return model, max_output_tokens, model_classification, remake_classification,  model_rag, device
 
 
-ollama_client = get_ollama_client()
-model, max_output_tokens, model_classification, remake_classification, model_rag = load_ai_config()
+model, max_output_tokens, model_classification, remake_classification, model_rag, device = load_ai_config()

@@ -5,7 +5,7 @@ from ollama import chat
 import config.ai as ai
 
 
-def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
+def generate_mcq(questions: str, knowledge_vector_db: FAISS, ollama_client) -> dict:
     """
     Generates an MCQ question.
 
@@ -19,7 +19,8 @@ def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
     # Retrieve context
     retrieved_docs = get_context(questions, 3, knowledge_vector_db)
     context = "\nExtracted documents:\n"
-    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(retrieved_docs)])
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
+                       doc in enumerate(retrieved_docs)])
 
     # Build prompt
     system_prompt = f"""
@@ -48,25 +49,27 @@ def generate_mcq(questions: str, knowledge_vector_db: FAISS) -> dict:
     max_attempts = 5  # Limit number of attempts to prevent infinite loops
 
     while attempt_count < max_attempts:
-        question_mcq = ai.ollama_client.chat(model=ai.model,
-                            messages=[{"role":"system", "content":system_prompt},
-                                      {"role":"user","content":user_prompt}],
-                            options = {"num_predict":ai.max_output_tokens}
-                            )
-        
+        question_mcq = ollama_client.chat(model=ai.model,
+                                          messages=[{"role": "system", "content": system_prompt},
+                                                    {"role": "user", "content": user_prompt}],
+                                          options={
+                                              "num_predict": ai.max_output_tokens}
+                                          )
+
         # Put question in correct json format
         try:
-            cleaned_question_mcq = clean_generate_mcq_output(question_mcq['message']['content'], type='question')
+            cleaned_question_mcq = clean_generate_mcq_output(
+                question_mcq['message']['content'], type='question', ollama_client=ollama_client)
             return cleaned_question_mcq  # If valid, return it
         except ValueError:
             attempt_count += 1  # Increment attempt count
             print(f"Attempt {attempt_count} failed. Retrying...")
-    
+
     # If all attempts fail, raise an exception or return None
     raise ValueError("Failed to generate a valid MCQ after multiple attempts.")
 
 
-def generate_open(questions : str, knowledge_vector_db: FAISS) -> str:
+def generate_open(questions: str, knowledge_vector_db: FAISS, ollama_client) -> str:
     """
     Generates an Open question.
 
@@ -79,7 +82,8 @@ def generate_open(questions : str, knowledge_vector_db: FAISS) -> str:
     # Retrieve context
     retrieved_docs = get_context(questions, 5, knowledge_vector_db)
     context = "\nExtracted documents:\n"
-    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i, doc in enumerate(retrieved_docs)])
+    context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
+                       doc in enumerate(retrieved_docs)])
 
     # Build prompt
     system_prompt = f"""You are an AI designed to generate legal questions based on the provided legal context. Your task is to generate a **detailed legal scenario** followed by **three to five structured questions**, ensuring that all questions can be answered using the given legal texts.
@@ -120,10 +124,11 @@ def generate_open(questions : str, knowledge_vector_db: FAISS) -> str:
     """
 
     # Redact an answer
-    question_open = ai.ollama_client.chat(model=ai.model,
-                            messages=[{"role":"system", "content":system_prompt},
-                                      {"role":"user","content":user_prompt}],
-                            options = {"num_predict":ai.max_output_tokens}
-                            )
+    question_open = ollama_client.chat(model=ai.model,
+                                       messages=[{"role": "system", "content": system_prompt},
+                                                 {"role": "user", "content": user_prompt}],
+                                       options={
+                                           "num_predict": ai.max_output_tokens}
+                                       )
 
     return question_open['message']['content']

@@ -7,7 +7,7 @@ from ai.src.models.answer import generate_mcq_answer, generate_open_answer
 import random
 
 
-def generate_qa(category: str, qa_type: str, knowledge_vector_db, attempt=10) -> QA:
+def generate_qa(category: str, qa_type: str, knowledge_vector_db, ollama_client, attempt=10) -> QA:
 
     if qa_type not in ["MCQ", "OPEN"]:
         raise ValueError(f"Unsupported qa_type: {qa_type}")  # Erreur immédiate
@@ -26,9 +26,9 @@ def generate_qa(category: str, qa_type: str, knowledge_vector_db, attempt=10) ->
                 if qa_type == "MCQ":
                     print("Generating MCQ")
                     question_disc = generate_mcq(
-                        formatted_questions, knowledge_vector_db)
+                        formatted_questions, knowledge_vector_db, ollama_client)
                     answer_disc = generate_mcq_answer(
-                        question_disc, knowledge_vector_db)
+                        question_disc, knowledge_vector_db, ollama_client)
 
                     if answer_disc:
                         qa_id = qa_repository.create_qa_mcq(
@@ -40,9 +40,9 @@ def generate_qa(category: str, qa_type: str, knowledge_vector_db, attempt=10) ->
                 elif qa_type == "OPEN":
                     # renvoie un str correspondant a question
                     question = generate_open(
-                        formatted_questions, knowledge_vector_db)
+                        formatted_questions, knowledge_vector_db, ollama_client)
                     answer = generate_open_answer(
-                        question, knowledge_vector_db)
+                        question, knowledge_vector_db, ollama_client)
 
                     if answer:
                         qa_id = qa_repository.create_qa_open(
@@ -65,7 +65,7 @@ def generate_qa(category: str, qa_type: str, knowledge_vector_db, attempt=10) ->
         f"Failed to generate a {qa_type} question/answer for category '{category}' after {attempt} attempts.")
 
 
-def generate_qas(creation_data: QAForCreate, knowledge_vector_db) -> list[QA]:
+def generate_qas(creation_data: QAForCreate, knowledge_vector_db, ollama_client) -> list[QA]:
     """
     Génère un nombre spécifié de paires Question/Réponse.
     """
@@ -78,7 +78,8 @@ def generate_qas(creation_data: QAForCreate, knowledge_vector_db) -> list[QA]:
             new_qa = generate_qa(
                 category,
                 creation_data.type,
-                knowledge_vector_db
+                knowledge_vector_db,
+                ollama_client
             )
             if new_qa:  # Assurez-vous que generate_qa retourne bien quelque chose
                 generated_qas.append(new_qa)
@@ -121,10 +122,3 @@ def update_qa(qa: QA) -> QA:
 
     updated_qa = qa_repository.get_qa(qa.id)
     return updated_qa
-
-
-def delete_qa(qa_id: str) -> bool:
-    """
-    Supprime une QA de la base de données.
-    """
-    return qa_repository.delete_qa(qa_id)

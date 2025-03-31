@@ -9,12 +9,11 @@ from api.repositories import book_repository, page_repository, qa_repository
 from api.services import qa_service
 
 
-from ai.src.models.question import generate_mcq, generate_open
-from ai.src.models.answer import chat_with_ai_stream, generate_feedback_stream, generate_mcq_answer, generate_open_answer, generate_feedback, chat_with_ai
+from ai.src.models.answer import chat_with_ai_stream, generate_feedback_stream
 import random
 
 
-def create_book(book: BookForCreate, knowledge_vector_db: FAISS) -> PageOuput:
+def create_book(book: BookForCreate, knowledge_vector_db: FAISS, ollama_client) -> PageOuput:
     book: Book = Book(
         title=book.title,
         categories=book.categories,
@@ -22,7 +21,7 @@ def create_book(book: BookForCreate, knowledge_vector_db: FAISS) -> PageOuput:
         user_id=book.user_id,
     )
     book_id = book_repository.create_book(book)
-    page = add_page(book_id, knowledge_vector_db)
+    page = add_page(book_id, knowledge_vector_db, ollama_client)
 
     return page
 
@@ -117,7 +116,7 @@ def get_pages(book_id: UUID) -> List[PageOuput]:
         return []
 
 
-def add_page(book_id: UUID, knowledge_vector_db: FAISS) -> PageOuput:
+def add_page(book_id: UUID, knowledge_vector_db: FAISS, ollama_client) -> PageOuput:
 
     book = get_book(book_id)
     category = random.sample(book.categories, 1)[0]
@@ -130,7 +129,7 @@ def add_page(book_id: UUID, knowledge_vector_db: FAISS) -> PageOuput:
         qa = random.sample(available_qas, 1)[0]  # Take the first available QA
     else:
         qa = qa_service.generate_qa(
-            category, book.type, knowledge_vector_db)
+            category, book.type, knowledge_vector_db, ollama_client)
 
     page_title = f"{category} - {qa.question[:100]}"
 

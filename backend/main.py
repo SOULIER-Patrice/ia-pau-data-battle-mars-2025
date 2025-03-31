@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from ai.src.embedding_loader import load_rag_embeddings
-import config.ai as ai 
+import config.ai as ai
 
 from api.resources import auth_resource, user_resource, book_resource, qa_resource
 # Import du state depuis un module séparé
@@ -15,7 +15,12 @@ async def lifespan(app: FastAPI):
     """ Gère le chargement et la libération des embeddings """
     print("🚀 Chargement des embeddings RAG...")
     # Chargement unique
-    app_state["knowledge_vector_db"] = load_rag_embeddings()
+    ai.init_ollama_model()
+
+    app_state["knowledge_vector_db"] = load_rag_embeddings(
+        ai.model_rag, ai.device)
+    app_state["ollama_client"] = ai.load_ollama_client()
+
     yield  # L'application tourne ici
     print("🛑 Libération des ressources...")
     app_state["knowledge_vector_db"] = None  # Nettoyage en mémoire
@@ -65,5 +70,4 @@ app.include_router(qa_resource.router)
 
 if __name__ == "__main__":
     import uvicorn
-    ai.init_ollama_model()
     uvicorn.run(app, host="0.0.0.0", port=8000)

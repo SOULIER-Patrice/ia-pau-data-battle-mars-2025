@@ -1,14 +1,12 @@
 from typing import AsyncGenerator
 from ai.src.get_context import get_context
-from ai.src.clean_output import clean_generate_mcq_output
 from langchain_community.vectorstores import FAISS
-from ollama import chat
 import config.ai as ai
 import re
 
 
 # question, options
-def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
+def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS, ollama_client) -> dict:
     """
     Generates an answer for a MCQ question.
 
@@ -26,7 +24,8 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(retrieved_docs)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
 
     # Build prompt
     system_prompt = f""""You are an AI specialized in answering multiple-choice legal questions based on given legal texts.
@@ -67,16 +66,18 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
 
     while attempt_count < max_attempts:
 
-        answer_mcq = ai.ollama_client.chat(model=ai.model,
-                            messages=[{"role":"system", "content":system_prompt},
-                                      {"role":"user","content":user_prompt}],
-                            options = {"num_predict": ai.max_output_tokens}
-                            )
+        answer_mcq = ollama_client.chat(model=ai.model,
+                                        messages=[{"role": "system", "content": system_prompt},
+                                                  {"role": "user", "content": user_prompt}],
+                                        options={
+                                            "num_predict": ai.max_output_tokens}
+                                        )
 
         # Put answer in correct json format
         try:
             # Regex to get Answer and Justification
-            pattern = re.compile(r"\*\*Answer:\s*([A-D])\*\*\s*\n\s*\*\*Justification:\*\*\s*\n(.*)", re.DOTALL)
+            pattern = re.compile(
+                r"\*\*Answer:\s*([A-D])\*\*\s*\n\s*\*\*Justification:\*\*\s*\n(.*)", re.DOTALL)
             match = pattern.search(answer_mcq['message']['content'])
 
             if match:
@@ -88,11 +89,13 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
                 if match:
                     extracted_answer = match.group()
                 else:
-                    print(f"Erreur Answer is not a letter: Answer={extracted_answer}")
+                    print(
+                        f"Erreur Answer is not a letter: Answer={extracted_answer}")
                     raise ValueError("Answer should be 'A', 'B', 'C' ou 'D'.")
-            
+
                 justification += f'\n\nSources:\n{context_sources}'
-                return {"Answer": extracted_answer, "Justification": justification}  # If valid, return it
+                # If valid, return it
+                return {"Answer": extracted_answer, "Justification": justification}
 
         except ValueError:
             attempt_count += 1  # Increment attempt count
@@ -102,7 +105,7 @@ def generate_mcq_answer(question_mcq: str, knowledge_vector_db: FAISS) -> dict:
     raise ValueError("Failed to generate a valid MCQ after multiple attempts.")
 
 
-def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
+def generate_open_answer(question_open: str, knowledge_vector_db: FAISS, ollama_client) -> str:
     """
     Generates an answer to a given open question.
 
@@ -118,8 +121,9 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content}\nSource: {doc.metadata['ref']}\n' for i,
                        doc in enumerate(retrieved_docs)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
-    
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in retrieved_docs if "url" in doc.metadata])
+
     # Build prompt
     system_prompt = f"""You are an AI specialized in answering open-ended legal questions based on provided legal texts. Your task is to generate a detailed, accurate, and well-reasoned answer to the given question using the provided legal texts. Every answer must be supported by specific legal sources from the context provided.
     ### Instructions:
@@ -176,11 +180,12 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     """
 
     # Redact an answer
-    answer = ai.ollama_client.chat(model=ai.model,
-                            messages=[{"role":"system", "content":system_prompt},
-                                      {"role":"user","content":user_prompt}],
-                            options = {"num_predict":ai.max_output_tokens}
-                            )
+    answer = ollama_client.chat(model=ai.model,
+                                messages=[{"role": "system", "content": system_prompt},
+                                          {"role": "user", "content": user_prompt}],
+                                options={
+                                    "num_predict": ai.max_output_tokens}
+                                )
 
     # Assemble answer and context_sources
     final_answer = f'{answer['message']['content']}\n\nSources:{context_sources}'
@@ -188,7 +193,7 @@ def generate_open_answer(question_open: str, knowledge_vector_db: FAISS) -> str:
     return final_answer
 
 
-def generate_feedback(question: str, correct_answer: str, user_answer: str, knowledge_vector_db: FAISS) -> str:
+def generate_feedback(question: str, correct_answer: str, user_answer: str, knowledge_vector_db: FAISS, ollama_client) -> str:
     """
     Generates an AI-generated feedback on the user_answer. 
     The question and correct_answer were generated before. When we gave an question to an user,
@@ -218,8 +223,8 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(all_contexts)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
-
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
 
     # Build prompt
     system_prompt = f"""You are an AI designed to provide feedback on legal answers, both for multiple-choice questions (MCQs) and open-ended responses. When a user answers a question, your task is to explain whether their answer is correct or incorrect, using the legal context and specific sources to support your feedback.
@@ -286,12 +291,12 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     """
 
     # Redact an answer
-    feedback = ai.ollama_client.chat(model=ai.model,
-                            messages=[{"role":"system", "content": system_prompt},
-                                      {"role":"user","content": user_prompt}],
-                            options = {"num_predict": ai.max_output_tokens}
-                            )
-                    
+    feedback = ollama_client.chat(model=ai.model,
+                                  messages=[{"role": "system", "content": system_prompt},
+                                            {"role": "user", "content": user_prompt}],
+                                  options={
+                                      "num_predict": ai.max_output_tokens}
+                                  )
 
     # Assemble final answer
     final_answer = f'{feedback['message']['content']}\n\nContext:{context_sources}'
@@ -299,7 +304,7 @@ def generate_feedback(question: str, correct_answer: str, user_answer: str, know
     return final_answer
 
 
-async def generate_feedback_stream(question: str, correct_answer: str, user_answer: str, knowledge_vector_db: FAISS) -> AsyncGenerator[str, None]:
+async def generate_feedback_stream(question: str, correct_answer: str, user_answer: str, knowledge_vector_db: FAISS, ollama_client) -> AsyncGenerator[str, None]:
     # Retrieve context
     question_context = get_context(question, 3, knowledge_vector_db)
     correct_answer_context = get_context(
@@ -315,11 +320,11 @@ async def generate_feedback_stream(question: str, correct_answer: str, user_answ
     user_prompt = f"""### Context:\n{context}\n\n### Correct Answer:\n{correct_answer}\n\n### User's Answer:\n{user_answer}\n\n### Legal Question:\n{question}\n\n### Instructions:\n..."""  # Same as before
 
     # Stream response
-    async for chunk in chat_stream(model=ai.model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=ai.max_output_tokens):
+    async for chunk in chat_stream(model=ai.model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=ai.max_output_tokens, ollama_client=ollama_client):
         yield chunk
 
 
-def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) -> str:
+def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS, ollama_client) -> str:
     """
     Based on the history of the conversation, initialy filled with question, user_answer, feedback.
 
@@ -340,8 +345,8 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(all_contexts)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
-
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
 
     # Build prompt
     system_prompt = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
@@ -379,11 +384,12 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     """
 
     # Redact an answer
-    answer = ai.ollama_client.chat(model=ai.model,
-                  messages=[{"role": "system", "content": system_prompt},
-                            {"role": "user", "content": user_prompt}],
-                  options={"num_predict": ai.max_output_tokens}
-                  )
+    answer = ollama_client.chat(model=ai.model,
+                                messages=[{"role": "system", "content": system_prompt},
+                                          {"role": "user", "content": user_prompt}],
+                                options={
+                                    "num_predict": ai.max_output_tokens}
+                                )
 
     # Assemble answer
     final_answer = f'{answer['message']['content']}\n\nContext:\n{context_sources}'
@@ -391,7 +397,7 @@ def chat_with_ai(history: str, user_message: str, knowledge_vector_db: FAISS) ->
     return final_answer
 
 
-async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_db: FAISS) -> AsyncGenerator[str, None]:
+async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_db: FAISS, ollama_client) -> AsyncGenerator[str, None]:
     # Retrieve context
     history_context = get_context(history, 5, knowledge_vector_db)
     user_message_context = get_context(user_message, 3, knowledge_vector_db)
@@ -400,7 +406,8 @@ async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_
     context = "\nExtracted documents:\n"
     context += "".join([f'Content: {doc.page_content} \nSource: {doc.metadata['ref']}\n\n' for i,
                        doc in enumerate(all_contexts)])
-    context_sources = "".join([f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
+    context_sources = "".join(
+        [f'\nSource: {doc.metadata["ref"]}, Url: {doc.metadata["url"]}' for doc in all_contexts if "url" in doc.metadata])
 
     # Build prompt
     system_prompt = f"""You are an AI specialized in helping users understand legal concepts and answer legal questions. The conversation history and legal texts provided are your sources for generating responses. Your role is to engage in an ongoing conversation with the user, answering their questions, explaining legal concepts, and clarifying misunderstandings based on the legal context provided.
@@ -437,16 +444,16 @@ async def chat_with_ai_stream(history: str, user_message: str, knowledge_vector_
     """
 
     # Stream response
-    async for chunk in chat_stream(model=ai.model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=ai.max_output_tokens):
+    async for chunk in chat_stream(model=ai.model, system_prompt=system_prompt, user_prompt=user_prompt, max_output_tokens=ai.max_output_tokens, ollama_client=ollama_client):
         yield chunk
 
 
-async def chat_stream(model, system_prompt: str, user_prompt: str, max_output_tokens: int) -> AsyncGenerator[str, None]:
-    stream = chat(model=model,
-                  messages=[{"role": "system", "content": system_prompt},
-                            {"role": "user", "content": user_prompt}],
-                  options={"num_predict": max_output_tokens},
-                  stream=True)
+async def chat_stream(model, system_prompt: str, user_prompt: str, max_output_tokens: int, ollama_client) -> AsyncGenerator[str, None]:
+    stream = ollama_client.chat(model=model,
+                                messages=[{"role": "system", "content": system_prompt},
+                                          {"role": "user", "content": user_prompt}],
+                                options={"num_predict": max_output_tokens},
+                                stream=True)
 
     for chunk in stream:
         yield chunk["message"]["content"]

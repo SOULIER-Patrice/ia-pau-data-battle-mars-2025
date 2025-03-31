@@ -26,7 +26,7 @@ def validate_json_format_mcq(llm_output, type):
         except json.JSONDecodeError:
             pass
         return None
-    
+
     elif type == 'answer':
         try:
             json_match = re.search(r'\{.*\}', llm_output, re.DOTALL)
@@ -48,7 +48,7 @@ def validate_json_format_mcq(llm_output, type):
         return None
 
 
-def call_formatting_llm_mcq(llm_output, type):
+def call_formatting_llm_mcq(llm_output, type, ollama_client):
     """
     Calls an LLM specialized in formatting text into the correct JSON format.
 
@@ -83,18 +83,18 @@ def call_formatting_llm_mcq(llm_output, type):
         Please convert it into the required JSON format.
         """
 
-    response = ai.ollama_client.chat(model=ai.model, messages=[
+    response = ollama_client.chat(model=ai.model, messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt},
     ])
-    
+
     if type == 'answer':
         return response['message']['content']
     elif type == 'question':
         return validate_json_format_mcq(response['message']['content'], type)
 
 
-def clean_generate_mcq_output(llm_output, type):
+def clean_generate_mcq_output(llm_output, type, ollama_client):
     """
     Cleans and extracts a valid JSON multiple-choice question from the LLM output.
     If the initial output is not valid JSON, a specialized LLM is called to correct it.
@@ -108,10 +108,10 @@ def clean_generate_mcq_output(llm_output, type):
     result = validate_json_format_mcq(llm_output, type)
     if result:
         return result
-    
+
     # If not valid, call formatting LLM
-    formatted_result = call_formatting_llm_mcq(llm_output, type)
+    formatted_result = call_formatting_llm_mcq(llm_output, type, ollama_client)
     if formatted_result:
         return formatted_result
-    
+
     raise ValueError("Failed to convert LLM output into valid JSON format.")
