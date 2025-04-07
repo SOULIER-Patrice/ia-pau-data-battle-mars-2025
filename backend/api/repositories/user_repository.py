@@ -68,7 +68,7 @@ def update_user(user_id: UUID, user: dict):
     return modified_count
 
 
-def grand_role_to_user(user_id: UUID, role: str):
+def grant_role_to_user(user_id: UUID, role: str):
     conn = db_connect.get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(

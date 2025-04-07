@@ -38,7 +38,12 @@ docker compose build
 docker compose up
 ```
 
-5. Open your browser and go to the following URL: [http://localhost:5173](http://localhost:5173)
+5. Pull the LLM model
+```sh
+docker exec ollama ollama pull qwen2.5:7b
+```
+
+6. Open your browser and go to the following URL: [http://localhost:5173](http://localhost:5173)
 
 ## Installation without Docker
 

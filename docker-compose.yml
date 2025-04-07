@@ -24,7 +24,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - VITE_BASE_API_URL=http://backend:8000
+        - VITE_BASE_API_URL=http://localhost:8000
     ports:
       - "5173:5173"
 
@@ -40,7 +40,7 @@ services:
 
   ollama:
     image: ollama/ollama:latest
-    container_name: ollama-data-battle
+    container_name: ollama
     ports:
       - "11434:11434"
     deploy:
