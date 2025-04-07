@@ -122,7 +122,7 @@ def add_page(book_id: UUID, knowledge_vector_db: FAISS) -> PageOuput:
     book = get_book(book_id)
     category = random.sample(book.categories, 1)[0]
     qas_catagory = qa_repository.get_qas_by_category(
-        category, book.type, is_verified=False)
+        category, book.type)
     qas_in_book = qa_repository.get_qas_by_book(book.id)
     available_qas = [qa for qa in qas_catagory if qa.id not in [
         q.id for q in qas_in_book]]
