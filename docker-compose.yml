@@ -7,13 +7,24 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - ./backend/models:/data/models
+    environment:
+      - HF_HOME=/data/models
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - VITE_BASE_API_URL=http://localhost:8000
+        - VITE_BASE_API_URL=http://backend:8000
     ports:
       - "5173:5173"
 
@@ -32,3 +43,10 @@ services:
     container_name: ollama-data-battle
     ports:
       - "11434:11434"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
