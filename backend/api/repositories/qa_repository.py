@@ -167,7 +167,7 @@ def update_qa(qa: QA) -> bool:
             conn.close()
 
 
-def get_qas_by_category(category: str, type: str, is_verified: bool = True) -> List[QA]:
+def get_qas_by_category(category: str, type: str) -> List[QA]:
     """
     Récupère une question/réponse (QA) par sa catégorie, en filtrant par le champ is_verified.
 
@@ -194,8 +194,8 @@ def get_qas_by_category(category: str, type: str, is_verified: bool = True) -> L
                 qa_mcq.options, qa_mcq.justification
             FROM qa
             LEFT JOIN qa_mcq ON qa.id = qa_mcq.qa_id
-            WHERE  %s = ANY(qa.categories) AND qa.type = %s AND qa.is_verified = %s
-        """, (category, type, is_verified))
+            WHERE  %s = ANY(qa.categories) AND qa.type = %s
+        """, (category, type,))
         rows = cursor.fetchall()
 
         # Convertir les résultats en objets QA
